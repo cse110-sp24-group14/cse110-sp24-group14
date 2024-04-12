@@ -1,7 +1,9 @@
 # Kickoff
 
 Location: Zoom
+
 Start time:
+
 End time: 
 
 Team members present: 
