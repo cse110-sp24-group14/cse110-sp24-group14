@@ -1,9 +1,11 @@
 Welcome to our team, Bozosort. 
+
 We value dedication, teamwork, and above all having a fun time. 
+
 TODO(add rest of members and branding)
 Here is our roster:
-Brenton Dunn (Lead): https://github.com/brentonmdunn
-Brenton is a 2nd year Computer Science major. His hobbies include photography and listening to podcasts.
+- Brenton Dunn (Lead): https://github.com/brentonmdunn
+  - Brenton is a 2nd year Computer Science major. His hobbies include photography and listening to podcasts.
 Advaith Modali (Lead): https://github.com/advaithm22
 Advaith is a 2nd year Computer Engineering major. He enjoys playing the guitar as well as watching football and basketball.
 Sujen Kancharla: https://github.com/sujen07
