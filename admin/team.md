@@ -11,7 +11,7 @@ Here is our roster:
 - Advaith Modali (Lead) | [GitHub](https://github.com/advaithm22)
   - 2nd year Computer Engineering major.
   - Hobbies: playing the guitar as well as watching football and basketball
-- Sujen Kancharla | [GitHub](ttps://github.com/sujen07)
+- Sujen Kancharla | [GitHub](https://github.com/sujen07)
   - 3rd year Data Science student
   - Hobbies: likes to play soccer 
 - Dylan Tran | [GitHub](https://github.com/dylantrann)
