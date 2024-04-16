@@ -1,4 +1,4 @@
-# Welcome to team Bozosort
+# Welcome to Team Bozosort
 
 ![team logo](branding/logo.jpg)
 
