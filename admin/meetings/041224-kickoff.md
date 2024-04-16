@@ -79,3 +79,8 @@ Team members not present:
 - Team bonding Monday from 6:30-7:30pm on Zoom
 - Team contract?
   - Nothing on Canvas about this yet
+ # Future Investigation
+ - Team contract
+# Decisions
+- Make sure to film videos by Sunday night
+- Vote on team name by Saturday night 
