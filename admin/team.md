@@ -36,7 +36,7 @@ Things don't always have to be optimal--they just have to work eventually :D
 8. Cindy Lu | [GitHub](https://github.com/HuimengLu)
   - 3rd year Math-CS and Design major
   - Fun fact: fostered two cute litle puppies
-9. Alex Yang | [GitHub](ttps://github.com/OasisAlex)
+9. Alex Yang | [GitHub](https://github.com/OasisAlex)
   - 3rd year CE major
   - Fun fact: has a kitten
 10. Ali Alani | [GitHub](https://github.com/a3alani)
