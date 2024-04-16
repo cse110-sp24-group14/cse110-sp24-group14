@@ -2,7 +2,7 @@ Welcome to our team, Bozosort.
 
 ![team logo](branding/logo.jpg)
 
-We value dedication, teamwork, and above all having a fun time. Things don't always have to be optimal--they just have to work eventually :D
+We value dedication, teamwork, and, above all, having a fun time. Things don't always have to be optimal--they just have to work eventually :D
 
 Here is our roster:
 - Brenton Dunn (Lead): https://github.com/brentonmdunn
