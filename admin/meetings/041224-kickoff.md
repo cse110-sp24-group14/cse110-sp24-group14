@@ -16,6 +16,7 @@ Team members present:
 - Trey Shneour
 - Cindy Lu
 - Dylan Tran
+  
 Team members not present:
 - Advaith Modali
 - Ali Alani
