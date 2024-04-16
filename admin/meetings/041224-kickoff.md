@@ -82,5 +82,4 @@ Team members not present:
  # Future Investigation
  - Team contract
 # Decisions
-- Make sure to film videos by Sunday night
-- Vote on team name by Saturday night 
+- Team name is temporaily Bozosort. A full vote will be put on Slack
