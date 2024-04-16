@@ -2,6 +2,8 @@
 
 Location: Zoom
 
+Date: 04/12/2024
+
 Start time: 4:05 PM
 
 End time: 4:48 PM
