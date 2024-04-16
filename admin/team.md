@@ -1,4 +1,4 @@
-Welcome to our team, Bozosort. 
+# Welcome to team Bozosort
 
 ![team logo](branding/logo.jpg)
 
@@ -11,8 +11,7 @@ We value:
 - Having a fun time
 
 Things don't always have to be optimal--they just have to work eventually :D
-
-Here is our roster:
+# Roster
 1. Brenton Dunn (Lead) | [GitHub](https://github.com/brentonmdunn)
   - 2nd year Computer Science major
   - Hobbies: photography and listening to podcasts
