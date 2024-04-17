@@ -15,6 +15,6 @@
 
 <hr>
 
-This contract will be effective starting Thursday, April 17th, 2024 through Thursday, June 13th, 2024
+This contract will be effective starting Thursday, April 17th, 2024 through Thursday, June 13th, 2024.
 
-x____________________
+X_______________________
