@@ -1,5 +1,9 @@
 # Rules
 
+Primary application for asynchronous communication: Slack
+
+Primary application for synchronous communication: Zoom
+
 ## What is expected
 - Check Slack at least once a day for announcements
 - Answer Slack direct messages within 24 hours
