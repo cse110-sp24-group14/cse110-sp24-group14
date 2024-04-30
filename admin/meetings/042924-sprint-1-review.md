@@ -59,8 +59,10 @@ Team members absent:
 ![Fixed header](screenshots/042924-sprint-1/tada-fixedheader.png)
 
 ### Alex Yang
-- Create original header of website 
+- Create top navbar of website 
 - Styled the original header to align them properly in the center
+
+![Header](screenshots/042924-sprint-1/tada-header.png)
 
 ### Hritik Bharucha
 - spacing and margins for tablet and mobile screens
