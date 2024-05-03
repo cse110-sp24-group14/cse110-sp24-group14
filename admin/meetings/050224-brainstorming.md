@@ -6,8 +6,8 @@ Start time: 7:31 PM
 
 End time: 9:20 PM
 
-Format: Zoom ([recording](https://ucsd.zoom.us/rec/share/V2K-Ikydrx07KYW62jagrsvfmc0KzfRJ4a71AAO6DE7hNS6svoaT4PHkhgjgelcy.Bo6VfoUhLxVFaU88
-Passcode: szUz4WX^) - password: szUz4WX^)
+Format: Zoom ([recording](https://ucsd.zoom.us/rec/share/V2K-Ikydrx07KYW62jagrsvfmc0KzfRJ4a71AAO6DE7hNS6svoaT4PHkhgjgelcy.Bo6VfoUhLxVFaU88)
+Passcode: szUz4WX^)
 
 Members present:
 - Brenton Dunn
