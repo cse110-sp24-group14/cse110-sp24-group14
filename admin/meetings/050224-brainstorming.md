@@ -34,6 +34,8 @@ Members not present:
   - Decision: stick to Vanilla JS not React due to learning curve and relevancy to in-class material
 ## Miro Board
 
+[Link](https://miro.com/app/board/uXjVKMA3kig=/)
+
 ![competition](screenshots/050224-brainstorming/competition.png)
 
 ![audience](screenshots/050224-brainstorming/audience.png)
