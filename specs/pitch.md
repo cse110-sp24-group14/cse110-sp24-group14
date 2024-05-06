@@ -116,6 +116,10 @@ Some features we brainstorted for V1 after MVP inlude:
 - Timeline
 - Markdown converter
 
+### Vision
+
+We are envisioning tasks that are correlated with each day. Along with a task list, there will also be a specific section to free journal that will include prompts such as accomplishments or blockers for the day. Inside of the free journal space, there we will add developer-specific features such as code blocks. We are excluding syntax highlighting because it will be too complicated to parse without an external library.
+
 ## Sketch
 
 Here is a very preliminary sketch of our project interface. Our designer is still working on more detailed sketches which will be shown during the TA standup.
