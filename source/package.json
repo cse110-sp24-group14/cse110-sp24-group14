@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "lint": "eslint source/**/*.js",
+    "lint": "npm run lint:js",
+    "lint:js": "eslint source/**/*.js",
     "lint:fix": "eslint --fix --ext .js ."
   },
   "keywords": [],
