@@ -45,6 +45,5 @@ Things don't always have to be optimal--they just have to work eventually :D
 11. Trey Shneour | [GitHub](https://github.com/tshneour)
   - 2nd year CS major
   - Fun fact: helped make a game that you can play on an arcade machine here at UCSD
-12. Dillon Kim
-  - 3rd year CE major
+
 
