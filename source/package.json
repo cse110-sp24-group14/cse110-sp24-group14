@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "lint": "npm run lint:js",
-    "lint:js": "eslint source/**/*.js",
-    "lint:fix": "eslint --fix --ext .js ."
+    "lint:js": "eslint **/*.js",
+    "lint": "npx eslint .",
+    "lint:fix": "npx eslint . --fix"
   },
   "keywords": [],
   "author": "",
