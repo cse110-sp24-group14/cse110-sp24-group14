@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "lint": "npx eslint \"**/*.js\"",
-    "lint:fix": "npx eslint --fix ."
+    "lint": "npx eslint --no-error-on-unmatched-pattern **/*.js",
+    "lint:fix": "npx eslint --no-error-on-unmatched-pattern --fix ."
   },
   "keywords": [],
   "author": "",
