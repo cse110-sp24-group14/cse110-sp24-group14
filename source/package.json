@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "lint": "npx eslint --no-error-on-unmatched-pattern **/*.js",
+    "lint": "eslint . --ext .js --max-warnings=0",
     "lint:fix": "npx eslint --no-error-on-unmatched-pattern --fix ."
   },
   "keywords": [],
