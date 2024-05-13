@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "lint": "npx eslint --no-error-on-unmatched-pattern **/*.js",
-    "lint:fix": "npx eslint --no-error-on-unmatched-pattern --fix .",
+    "lint": "npx eslint *.js",
+    "lint:fix": "npx eslint --fix *.js",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
   },
   "keywords": [],
