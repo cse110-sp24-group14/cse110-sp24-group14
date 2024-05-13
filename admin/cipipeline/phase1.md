@@ -25,4 +25,4 @@ In Phase 2 of our pipeline, we plan on using code scanning with SonarCloud and i
 
 # Phase 1 Diagram
 
-![diagram](screenshots/phase1.png)
+![diagram](screenshots/diagram.drawio.png)
