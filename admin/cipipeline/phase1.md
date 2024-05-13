@@ -5,7 +5,8 @@ For Phase 1 of our pipeline, the fundamental functional aspects we sought to sta
 - Request structure involves
   - Section titled “Tracking Info” to communicate purpose of PR, particularly referring to which issue is being resolved
   - Section titled “Changes” where the developer details the exact changes made in the code in terms of their functionality relating to the issue
-  - Section titled “Testing” to better understand how thorough the testing of the code was done. -         -This helps the reviewer get a better picture of the code’s impact on a sample.
+  - Section titled “Testing” to better understand how thorough the testing of the code was done.
+    - This helps the reviewer get a better picture of the code’s impact on a sample.
   - Section titled “Confirmation of Change”
    - Consists of multiple screenshots, one corresponding to a failing case and not being able to merge, other corresponding to a passing scenario. Fully visualizes use cases of the code with regards to repo structure
 - ESLint testing during pull request creation
@@ -24,4 +25,4 @@ In Phase 2 of our pipeline, we plan on using code scanning with SonarCloud and i
 
 # Phase 1 Diagram
 
-![diagram](screenhots/phase1.png)
+![diagram](screenshots/phase1.png)
