@@ -8,3 +8,4 @@ console.log('Hello, world!');
 if (1 == '1') {
   console.log('Equality check passed');
 }
+
