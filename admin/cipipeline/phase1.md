@@ -21,7 +21,7 @@ For Phase 1 of our pipeline, the fundamental functional aspects we sought to sta
   - Will leave written feedback if any changes are requested
 
 # Phase 2
-In Phase 2 of our pipeline, we plan on using code scanning with SonarCloud and implementing JSDocs for documentation. We have started both processes but have not fully implemented them yet.
+In Phase 2 of our pipeline, we plan on using code scanning with SonarCloud and implementing JSDocs through Github Pages for documentation. We have started both processes but have not fully implemented them yet.
 
 # Phase 1 Diagram
 
