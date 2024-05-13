@@ -21,9 +21,9 @@ jobs:
           node-version: 18
 
       - name: Install dependencies
-        working-directory: ./source
+        working-directory: source
         run: npm ci
 
       - name: Code Linting
-        working-directory: ./source 
+        working-directory: source 
         run: npm run lint
