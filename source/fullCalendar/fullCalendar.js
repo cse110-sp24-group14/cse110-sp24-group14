@@ -8,7 +8,7 @@ let globalDate = new Date();
  */
 function loadInitial() {
     loadButtons();
-    loadSidebar(globalDate);
+    loadCalendar(globalDate);
     loadMonth(globalDate);
 }
 
@@ -36,13 +36,13 @@ function loadButtons() {
     previousButton.addEventListener("click", () => {
         globalDate = new Date(globalDate.getFullYear(), globalDate.getMonth() - 1, 1);
         loadMonth(globalDate)
-        loadSidebar(globalDate);
+        loadCalendar(globalDate);
     })
 
     afterButton.addEventListener("click", () => {
         globalDate = new Date(globalDate.getFullYear(), globalDate.getMonth() + 1, 1);
         loadMonth(globalDate)
-        loadSidebar(globalDate);
+        loadCalendar(globalDate);
     })
 }
 
@@ -51,7 +51,7 @@ function loadButtons() {
  * 
  * @param {Date} currentDate 
  */
-function loadSidebar(currentDate) {
+function loadCalendar(currentDate) {
     const calendar = document.getElementsByClassName("calendar-display")[0];
 
     calendar.innerHTML = '';
