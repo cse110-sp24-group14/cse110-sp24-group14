@@ -1,0 +1,10 @@
+table {
+    border: 1px dashed #ddd;
+}
+
+td {
+    border-bottom: 1px solid #ddd;
+    padding: 10px;
+}
+
+/* Add more if needed or want */
