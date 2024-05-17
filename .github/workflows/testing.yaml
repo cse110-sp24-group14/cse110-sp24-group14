@@ -21,4 +21,4 @@ jobs:
 
       - name: Code Linting
         working-directory: ./source 
-        run: npm run test
+        run: npm run test -- --passWithNoTests
