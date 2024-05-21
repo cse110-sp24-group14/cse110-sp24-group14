@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -23,6 +24,42 @@
       </div>
    </header>
     <side-calendar></side-calendar>
+
+
+    <table id="tasksTable" border="1">
+      <thead>
+          <tr>
+              <th>Title</th>
+              <th>Description</th>
+              <th>Due Date</th>
+          </tr>
+      </thead>
+      <tbody>
+          <!-- Data will be populated here -->
+      </tbody>
+  </table>
+
+    <script>
+       function fetchTasks() {
+         fetch('/tasks')
+             .then(response => response.json())
+             .then(data => {
+                 const tableBody = document.querySelector('#tasksTable tbody');
+                 tableBody.innerHTML = '';
+                 data.forEach(user => {
+                     const row = document.createElement('tr');
+                     row.innerHTML = `
+                         <td>${user.title}</td>
+                         <td>${user.description}</td>
+                         <td>${user.due_date}</td>
+                     `;
+                     tableBody.appendChild(row);
+                 });
+             })
+             .catch(error => console.error('Error fetching data:', error));
+         }
+         fetchTasks()
+    </script>
   
     <!--text box on the bottom, with the send button-->
      <div class="textbox">
