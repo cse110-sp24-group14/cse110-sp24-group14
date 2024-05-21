@@ -23,10 +23,10 @@ Members not present:
 
 - Sprint review/retrospective
 
-![updates](screenshots/sprint1updates.png)
+![updates](screenshots/proj-sprint-1/sprint1updates.png)
 
-![positive feedback](screenshots/pfeedback.png)
+![positive feedback](screenshots/proj-sprint-1/pfeedback.png)
 
-![constructive criticism](screenshots/cfeedback.png)
+![constructive criticism](screenshots/proj-sprint-1/cfeedback.png)
   
 - Sprint 2 planning + updates
