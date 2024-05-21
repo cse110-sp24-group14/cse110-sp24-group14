@@ -108,23 +108,25 @@ const createRow = (task, completed) => {
     row.appendChild(delete_button);
   }
 
-  description.addEventListener("click", function () {
-    let curr_text = description.innerHTML;
+  if (!completed) {
+    description.addEventListener("click", function () {
+      let curr_text = description.innerHTML;
 
-    let input_element = document.createElement("input");
-    input_element.value = curr_text;
+      let input_element = document.createElement("input");
+      input_element.value = curr_text;
 
-    description.innerHTML = "";
-    description.appendChild(input_element);
+      description.innerHTML = "";
+      description.appendChild(input_element);
 
-    input_element.focus();
+      input_element.focus();
 
-    input_element.addEventListener("blur", function () {
-      let new_value = input_element.value;
+      input_element.addEventListener("blur", function () {
+        let new_value = input_element.value;
 
-      description.innerHTML = new_value;
+        description.innerHTML = new_value;
+      });
     });
-  });
+  }
 
   return row;
 };
