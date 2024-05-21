@@ -32,6 +32,7 @@
               <th>Title</th>
               <th>Description</th>
               <th>Due Date</th>
+              <th>Completed</th>
           </tr>
       </thead>
       <tbody>
@@ -46,12 +47,13 @@
              .then(data => {
                  const tableBody = document.querySelector('#tasksTable tbody');
                  tableBody.innerHTML = '';
-                 data.forEach(user => {
+                 data.forEach(task => {
                      const row = document.createElement('tr');
                      row.innerHTML = `
-                         <td>${user.title}</td>
-                         <td>${user.description}</td>
-                         <td>${user.due_date}</td>
+                         <td>${task.title}</td>
+                         <td>${task.description}</td>
+                         <td>${task.due_date}</td>
+                         <td>${task.completed != 0}</td>
                      `;
                      tableBody.appendChild(row);
                  });
