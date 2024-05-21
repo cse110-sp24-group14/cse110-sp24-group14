@@ -1,0 +1,68 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f0f0f0;
+}
+
+.textbox {
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    position: relative;
+    height: 200px;
+    width: 500px;
+
+}
+
+#taskInput{
+    border: none;
+    padding: 10px;
+    flex-grow: 1;
+    font-size: 16px;
+    outline: none;
+    width: 100%;
+    height: 100%;
+    resize: none;
+    
+}
+
+textarea::placeholder {
+
+    color: #bbb;
+}
+
+.textbox button {
+    background-color: rgb(1, 64, 1);
+    border: none;
+    padding: 5px;
+    cursor: pointer;
+    outline: none;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    border-radius: 10%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.textbox button:hover {
+    background-color: rgb(0, 100, 0); /* Lighter green color */
+}
+
+.textbox button:active {
+    background-color: rgb(0, 128, 0); /* Darker green color for pressed effect */
+    box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.2); /* Pressed down effect */
+}
+
+
+
+
