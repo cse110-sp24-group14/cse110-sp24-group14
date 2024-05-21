@@ -3,48 +3,56 @@
     "id": 1,
     "description": "CSE 110 Lab 1 - VSCode, Markdown, and Git Part 1",
     "due_date": "2024-04-08T23:59",
-    "completed": true
+    "completed": true,
+    "tag": "urgent"
   },
   {
     "id": 2,
     "description": "CSE 110 Lab Week 2 - HTML and DevTools",
     "due_date": "2024-04-16T23:59",
-    "completed": true
+    "completed": true,
+    "tag": ""
   },
   {
     "id": 3,
     "description": "CSE 110 Lab Week 3 - CSS and Agile Intro",
     "due_date": "2024-04-23T23:59",
-    "completed": true
+    "completed": true,
+    "tag": "urgent"
   },
   {
     "id": 4,
     "description": "CSE 110 Lab Week 4 - JS Language Intro, Diagramming and DevTools Part 2",
     "due_date": "2024-04-30T23:59",
-    "completed": false
+    "completed": false,
+    "tag": "urgent"
   },
   {
     "id": 5,
     "description": "CSE 110 Warmup Exercise",
     "due_date": "2024-04-26T23:59",
-    "completed": false
+    "completed": false,
+    "tag": ""
   },
   {
     "id": 6,
     "description": "CSE 110 Management - Group Kickoff, Repo, and Meeting Prep",
     "due_date": "2024-04-15T23:59",
-    "completed": true
+    "completed": true,
+    "tag": ""
   },
   {
     "id": 7,
     "description": "CSE 110 Management - Branding, Group Page, and Video",
     "due_date": "2024-04-15T23:59",
-    "completed": true
+    "completed": true,
+    "tag": "urgent"
   },
   {
     "id": 8,
     "description": "CSE 110 Management - Group Contract",
     "due_date": "2024-04-15T23:59",
-    "completed": true
+    "completed": true,
+    "tag": "urgent"
   }
 ]
