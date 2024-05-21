@@ -1,0 +1,38 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="header/header.css">
+    <script src="sideCalendar/sideCalendar.js"></script>
+     <!--taskbox script and stylesheet -->
+        <link rel="stylesheet_taskbox" href="style.css" />
+        <script src="send_task.js" type="module"></script>
+</head>
+<body>
+   <header class="header">
+      <div class="logo">LOGO</div>
+      <div class="streak">
+         <a href="#">10-day streak! 🎁</a>
+      </div>
+      <div class="menu">
+         <a href="#">Support</a>
+         <a href="#">Settings</a>
+         <div class="profile-icon">👤</div>
+      </div>
+   </header>
+    <side-calendar></side-calendar>
+  
+    <!--text box on the bottom, with the send button-->
+     <div class="textbox">
+        <textarea id="taskInput" placeholder="What would you like to do today?"></textarea>
+        <button class="add-task" type="button" id="sendTask">
+           <svg width = "24" height = "24" viewBox = "0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M2 21L23 12L2 3V10L17 12L2 14V21Z" fill="white" ></path>
+           </svg>
+        </button>
+     </div>
+  
+</body>
+</html>
