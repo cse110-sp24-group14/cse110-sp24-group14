@@ -1,8 +1,9 @@
-import express from 'express';
+// import express from 'express';
 import mysql from 'mysql2';
 import path from 'path';
 import { fileURLToPath } from 'url';
-
+import http from 'http'
+import fs from 'fs'
 // Derive __dirname
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -15,50 +16,70 @@ const connection = mysql.createConnection({
     database: 'Prod' 
 });
 
-connection.connect((err) => {
-    if (err) {
-        console.error('Error connecting to MySQL:', err);
-    } else {
-        console.log('Connected to MySQL');
-    }
-});
-
-const fetchTasks = (callback) => {
+// Query to fetch users data
+const fetchUsers = (callback) => {
     connection.query('SELECT * FROM Tasks', (error, results) => {
         if (error) {
-            console.error('Error fetching tasks:', error);
             callback(error, null);
         } else {
-            console.log('Tasks fetched:', results);
             callback(null, results);
         }
     });
 };
 
-// Initialize Express app
-const app = express();
 
-// Serve static files from the root directory
-app.use(express.static(__dirname));
+// Create an HTTP server
+const server = http.createServer((req, res) => {
+    if (req.url === '/tasks' && req.method === 'GET') {
+        fetchUsers((err, users) => {
+            if (err) {
+                res.writeHead(500, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ error: 'Internal Server Error' }));
+            } else {
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify(users));
+            }
+        });
+   
+    } else if (req.url === '/' && req.method === 'GET') {
+        fs.readFile(path.join(__dirname, 'index.html'), (err, data) => {
+            if (err) {
+                res.writeHead(500, { 'Content-Type': 'text/html' });
+                res.end('<h1>Internal Server Error</h1>');
+            } else {
+                res.writeHead(200, { 'Content-Type': 'text/html' });
+                res.end(data);
+            }
+        });
+    // Update the condition for serving CSS files
+    }else if (req.url.endsWith('.css') && req.method === 'GET') {
+    serveStaticFile(res, req.url.slice(1), 'text/css');
+    
 
-// Endpoint to fetch tasks
-app.get('/tasks', (req, res) => {
-    fetchTasks((err, tasks) => {
+    // Update the condition for serving JavaScript files
+    }else if (req.url.endsWith('.js') && req.method === 'GET') {
+        serveStaticFile(res, req.url.slice(1), 'text/javascript');
+
+    } else {
+        res.writeHead(404, { 'Content-Type': 'text/plain' });
+        res.end('Not Found');
+    }
+});
+
+const serveStaticFile = (res, filename, contentType) => {
+    const filePath = path.join(__dirname, filename);
+    fs.readFile(filePath, (err, data) => {
         if (err) {
-            res.status(500).json({ error: 'Internal Server Error' });
+            res.writeHead(500, { 'Content-Type': 'text/plain' });
+            res.end('Internal Server Error');
         } else {
-            res.json(tasks);
+            res.writeHead(200, { 'Content-Type': contentType });
+            res.end(data);
         }
     });
-});
-
-// Serve the index.html file
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
-});
+};
 
 // Start the server
-const port = process.env.PORT || 3000;
-app.listen(port, () => {
-    console.log(`Server is running on http://localhost:${port}`);
+server.listen(3000, () => {
+    console.log('Server is running on http://localhost:3000');
 });
