@@ -63,13 +63,29 @@ const createRow = (task, completed) => {
 
   // description of task
   const description = document.createElement("td");
-  description.textContent =
-    new Date(task.due_date).toLocaleString(undefined, {
-      month: "numeric",
-      day: "numeric",
-    }) +
-    " | " +
-    task.description;
+  if (task.tag !== "") {
+    let tag = document.createElement("td");
+    tag.innerHTML = task.tag;
+
+    console.log(tag);
+
+    description.innerHTML =
+      tag.innerHTML + " " + 
+      new Date(task.due_date).toLocaleString(undefined, {
+        month: "numeric",
+        day: "numeric",
+      }) +
+      " | " +
+      task.description;
+  } else {
+    description.innerHTML =
+      new Date(task.due_date).toLocaleString(undefined, {
+        month: "numeric",
+        day: "numeric",
+      }) +
+      " | " +
+      task.description;
+  }
 
   // if completed, strikethrough
   if (completed) {
@@ -95,6 +111,7 @@ const createRow = (task, completed) => {
     complete_parent.appendChild(row);
     row.removeChild(complete_button);
     row.removeChild(delete_button);
+    description.removeEventListener("click", thing);
   });
 
   delete_button.addEventListener("click", function () {
@@ -108,8 +125,10 @@ const createRow = (task, completed) => {
     row.appendChild(delete_button);
   }
 
-  if (!completed) {
-    description.addEventListener("click", function () {
+  description.addEventListener("click", thing);
+
+  function thing() {
+    if (!completed) {
       let curr_text = description.innerHTML;
 
       let input_element = document.createElement("input");
@@ -125,8 +144,10 @@ const createRow = (task, completed) => {
 
         description.innerHTML = new_value;
       });
-    });
+    }
   }
+
+  console.log(row);
 
   return row;
 };
