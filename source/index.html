@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -23,6 +24,46 @@
       </div>
    </header>
     <side-calendar></side-calendar>
+
+
+   <!-- 
+      Commented because we will not use this exact code in this table format
+      but we will use this route for the task list
+   -->
+   <!-- <table id="tasksTable" border="1">
+      <thead>
+          <tr>
+              <th>Title</th>
+              <th>Due Date</th>
+              <th>Completed</th>
+          </tr>
+      </thead>
+      <tbody>
+
+      </tbody>
+  </table>
+
+    <script>
+       function fetchTasks() {
+         fetch('/tasks')
+             .then(response => response.json())
+             .then(data => {
+                 const tableBody = document.querySelector('#tasksTable tbody');
+                 tableBody.innerHTML = '';
+                 data.forEach(task => {
+                     const row = document.createElement('tr');
+                     row.innerHTML = `
+                         <td>${task.title}</td>
+                         <td>${task.due_date}</td>
+                         <td>${task.completed != 0}</td>
+                     `;
+                     tableBody.appendChild(row);
+                 });
+             })
+             .catch(error => console.error('Error fetching data:', error));
+         }
+         fetchTasks()
+    </script> -->
   
     <!--text box on the bottom, with the send button-->
      <div class="textbox">
