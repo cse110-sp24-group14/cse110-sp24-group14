@@ -15,7 +15,7 @@ SQL_FILE="starter.sql"
 docker pull mysql
 
 # Run MySQL container
-docker run --name $CONTAINER_NAME -e MYSQL_ROOT_PASSWORD=$MYSQL_PASSWORD -p 3306:3306 -d mysql
+docker run --name $CONTAINER_NAME -e MYSQL_ROOT_PASSWORD=$MYSQL_PASSWORD -p 3307:3306 -d mysql
 
 # Wait for MySQL to start
 echo "Waiting for MySQL to initialize..."
