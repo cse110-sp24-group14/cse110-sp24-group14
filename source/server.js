@@ -59,6 +59,8 @@ const server = http.createServer((req, res) => {
     // Update the condition for serving JavaScript files
     } else if (req.url.endsWith('.js') && req.method === 'GET') {
         serveStaticFile(res, req.url.slice(1), 'text/javascript');
+    } else if (req.url.endsWith('.html') && req.method === 'GET') {
+        serveStaticFile(res, req.url.slice(1), 'text/html');
 
     } else {
         res.writeHead(404, { 'Content-Type': 'text/plain' });
