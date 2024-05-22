@@ -15,8 +15,8 @@ const connection = mysql.createConnection({
     database: 'prod' 
 });
 
-// Query to fetch users data
-const fetchUsers = (callback) => {
+
+const fetchTasks = (callback) => {
     connection.query('SELECT * FROM Tasks', (error, results) => {
         if (error) {
             callback(error, null);
@@ -30,7 +30,7 @@ const fetchUsers = (callback) => {
 // Create an HTTP server
 const server = http.createServer((req, res) => {
     if (req.url === '/tasks' && req.method === 'GET') {
-        fetchUsers((err, users) => {
+        fetchTasks((err, users) => {
             if (err) {
                 res.writeHead(500, { 'Content-Type': 'application/json' });
                 res.end(JSON.stringify({ error: 'Internal Server Error' }));
@@ -51,12 +51,12 @@ const server = http.createServer((req, res) => {
             }
         });
     // Update the condition for serving CSS files
-    }else if (req.url.endsWith('.css') && req.method === 'GET') {
-    serveStaticFile(res, req.url.slice(1), 'text/css');
+    } else if (req.url.endsWith('.css') && req.method === 'GET') {
+        serveStaticFile(res, req.url.slice(1), 'text/css');
 
 
     // Update the condition for serving JavaScript files
-    }else if (req.url.endsWith('.js') && req.method === 'GET') {
+    } else if (req.url.endsWith('.js') && req.method === 'GET') {
         serveStaticFile(res, req.url.slice(1), 'text/javascript');
 
     } else {

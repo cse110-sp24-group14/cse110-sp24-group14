@@ -9,5 +9,8 @@
     "no-unused-vars": "error",
     "no-undef": "error",
     "indent": ["error", 4]
+  },
+  "parserOptions": {
+    "sourceType": "module"
   }
 }
