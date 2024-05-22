@@ -59,3 +59,16 @@ VALUES
 
 -- Task 4: "Plan team meeting" is tagged with "Work"
 (4, 3); -- Work
+
+
+CREATE TABLE SiteVisits (
+    visit_date DATE NOT NULL,
+    PRIMARY KEY (visit_date)
+);
+
+INSERT INTO SiteVisits (visit_date) VALUES
+    ('2024-05-20'),
+    ('2024-05-21'),
+    ('2024-05-22'),
+    ('2024-05-24'),
+    ('2024-05-25');
