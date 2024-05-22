@@ -12,7 +12,7 @@ const connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: 'pw',
-    database: 'Prod' 
+    database: 'prod' 
 });
 
 // Query to fetch users data

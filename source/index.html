@@ -30,7 +30,6 @@
       <thead>
           <tr>
               <th>Title</th>
-              <th>Description</th>
               <th>Due Date</th>
               <th>Completed</th>
           </tr>
@@ -51,7 +50,6 @@
                      const row = document.createElement('tr');
                      row.innerHTML = `
                          <td>${task.title}</td>
-                         <td>${task.description}</td>
                          <td>${task.due_date}</td>
                          <td>${task.completed != 0}</td>
                      `;
