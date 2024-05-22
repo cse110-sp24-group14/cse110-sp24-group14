@@ -33,3 +33,9 @@ Creates link between tasks and tags
 |------------|-----------|---------------|----------|---------------------------|
 | task_id    | INT       |               | yes      |                           |
 | tag_id     | INT       |               | yes      |                           |
+
+## SiteVisits
+Keeps track of all dates in which site is visited
+| Field      | Type      | Default Value | Required | Notes                     |
+|------------|-----------|---------------|----------|---------------------------|
+| visit_date | DATE      |               | yes      | primary key               |
