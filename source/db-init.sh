@@ -25,6 +25,6 @@ sleep 20
 docker cp $SQL_FILE $CONTAINER_NAME:/$SQL_FILE
 
 # Execute SQL script in MySQL container using TCP connection
-docker exec -i $CONTAINER_NAME mysql -u$MYSQL_USERNAME -p$MYSQL_PASSWORD --host=127.0.0.1 --port=3306 < $SQL_FILE
+docker exec -i $CONTAINER_NAME mysql -u$MYSQL_USERNAME -p$MYSQL_PASSWORD --host=localhost --port=3306 < $SQL_FILE
 
 echo "Database setup complete!"
