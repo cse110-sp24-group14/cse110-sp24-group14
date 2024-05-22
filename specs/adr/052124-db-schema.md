@@ -3,6 +3,8 @@
 - Create HTTP route in the HTTP server in `server.js`
 - Create script in `index.html` that fetches route from `server.js`
 
+Can view an example of this on the [db-example branch](https://github.com/cse110-sp24-group14/cse110-sp24-group14/tree/db-example)
+
 # Database Schema
 
 ## Tasks
