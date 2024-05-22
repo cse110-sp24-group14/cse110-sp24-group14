@@ -21,10 +21,12 @@ docker run --name $CONTAINER_NAME -e MYSQL_ROOT_PASSWORD=$MYSQL_PASSWORD -p 3307
 echo "Waiting for MySQL to initialize..."
 sleep 10
 
+
 # Copy SQL file into container
 docker cp $SQL_FILE $CONTAINER_NAME:/$SQL_FILE
 
 # Execute SQL script in MySQL container using TCP connection
 docker exec -i $CONTAINER_NAME mysql -u$MYSQL_USERNAME -p$MYSQL_PASSWORD --host=localhost --port=3306 < $SQL_FILE
+
 
 echo "Database setup complete!"
