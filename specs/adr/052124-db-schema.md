@@ -1,6 +1,12 @@
+# Interacting With Database
+- Create connection query string in `server.js`
+- Create HTTP route in the HTTP server in `server.js`
+- Create script in `index.html` that fetches route from `server.js`
+
 # Database Schema
 
 ## Tasks
+Lists all of the tasks
 | Field      | Type         | Default Value | Required | Notes                     |
 |------------|--------------|---------------|----------|---------------------------|
 | id         | INT          |               | yes      | primary key               |
@@ -11,6 +17,7 @@
 | updated_at | TIMESTAMP    | time updated  | yes      | updated automatically     |
 
 ## Tags
+Lists all of the tags we are using
 | Field      | Type         | Default Value | Required | Notes                     |
 |------------|--------------|---------------|----------|---------------------------|
 | id         | INT          |               | yes      | primary key               |
