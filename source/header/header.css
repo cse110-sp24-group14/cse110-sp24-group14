@@ -26,7 +26,7 @@
     align-items: center;
     gap: 10px;
 
-    padding: 10px;
+    padding: 7.5px 10px;
 }
 
 .stat p {
@@ -46,19 +46,26 @@
 }
 
 .menu {
+    margin-left: 50px;
+
     display: flex;
     align-items: center;
-    gap: 24px;
+    gap: 28px;
+
+    background-color: #F6F6F6;
+
+    padding: 0px 0px 0px 35px;
+
+    border-radius: 400px;
 }
 .menu a {
     text-decoration: none;
-    color: purple;
+    color: black;
 }
 .profile-icon {
-    width: 36px;
-    height: 36px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 16px;
+    background-color: #234654;
+    padding: 12px;
+    border-radius: 50%;
+
+    margin-left: 10px;
 }
