@@ -8,8 +8,8 @@
     <link rel="stylesheet" href="header/header.css">
     <script src="sideCalendar/sideCalendar.js"></script>
      <!--taskbox script and stylesheet -->
-        <link rel="stylesheet_taskbox" href="style.css" />
-        <script src="send_task.js" type="module"></script>
+        <link rel="stylesheet" href="taskBox\taskbox.css" />
+        <script src="taskBox\send_task.js"></script>
 </head>
 <body>
    <header class="header">
@@ -66,14 +66,12 @@
     </script> -->
   
     <!--text box on the bottom, with the send button-->
-     <div class="textbox">
-        <textarea id="taskInput" placeholder="What would you like to do today?"></textarea>
-        <button class="add-task" type="button" id="sendTask">
-           <svg width = "24" height = "24" viewBox = "0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M2 21L23 12L2 3V10L17 12L2 14V21Z" fill="white" ></path>
-           </svg>
-        </button>
-     </div>
+   <div class="taskbox">
+      <textarea id="taskInput" placeholder="What would you like to do today?"></textarea>
+      <button class="add-task" type="button" id="sendTask">
+         <img src="taskBox/sendTask.png" alt="Send" />
+      </button>
+   </div>
   
 </body>
 </html>

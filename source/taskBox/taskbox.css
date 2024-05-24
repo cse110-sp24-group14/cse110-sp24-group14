@@ -1,25 +1,18 @@
-body {
-    font-family: Arial, Helvetica, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-    background-color: #f0f0f0;
-}
 
-.textbox {
+
+.taskbox {
     display: flex;
     align-items: center;
     background-color: #fff;
-    border: 1px solid #ccc;
+    border: 2.5px solid #cccccc92;
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     position: relative;
-    height: 200px;
-    width: 500px;
-
+    width: 90%;
+    box-sizing: border-box;
+    padding: 10px;
+    margin: 10px;
 }
 
 #taskInput{
@@ -29,20 +22,20 @@ body {
     font-size: 16px;
     outline: none;
     width: 100%;
-    height: 100%;
+    height: 100px;
     resize: none;
     
 }
 
 textarea::placeholder {
 
-    color: #bbb;
+    color: #2D2E2E80;
 }
 
-.textbox button {
+.taskbox button {
     background-color: rgb(1, 64, 1);
     border: none;
-    padding: 5px;
+    padding: 3px;
     cursor: pointer;
     outline: none;
     position: absolute;
@@ -54,11 +47,16 @@ textarea::placeholder {
     justify-content: center;
 }
 
-.textbox button:hover {
+.taskbox button img {
+    width: 24px;
+    height: 24px;
+}
+
+.taskbox button:hover {
     background-color: rgb(0, 100, 0); /* Lighter green color */
 }
 
-.textbox button:active {
+.taskbox button:active {
     background-color: rgb(0, 128, 0); /* Darker green color for pressed effect */
     box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.2); /* Pressed down effect */
 }
