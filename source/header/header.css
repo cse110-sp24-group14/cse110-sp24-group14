@@ -1,37 +1,48 @@
 .header {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
-    gap: 10px;
-    padding: 10px;
+    gap: 20px;
+    padding: 10px 20px;
     background-color: #E5C775;
 
     font-family: sans-serif;
 }
-.streak {
+
+.logo {
+    margin-right: 50px;
+    margin-left: 20px;
+}
+
+.stat {
     background-color: #F6F6F6;
     border-radius: 12px;
 
-    width: 400px;
+    width: 350px;
 
     display: flex;
     flex-direction: row;
     justify-content: center;
+    align-items: center;
     gap: 10px;
 
     padding: 10px;
 }
 
-#streak-text p {
+.stat p {
     margin: 0;
 }
 
-#streak-days {
+.header-stat {
     font-weight: bold;
 }
 
-#streak-caption {
+.stat-caption {
     color: #2D2E2EB2
+}
+
+#check {
+    font-size: 24px;
 }
 
 .menu {
