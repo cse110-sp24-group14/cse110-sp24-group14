@@ -19,7 +19,7 @@ docker run --name $CONTAINER_NAME -e MYSQL_ROOT_PASSWORD=$MYSQL_PASSWORD -p 3307
 
 # Wait for MySQL to start
 echo "Waiting for MySQL to initialize..."
-sleep 10
+sleep 20
 
 
 # Copy SQL file into container
