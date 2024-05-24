@@ -2,22 +2,38 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 10px;
     padding: 10px;
-    background-color: #f8f9fa;
+    background-color: #E5C775;
+
+    font-family: sans-serif;
 }
 .streak {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 0;
+    background-color: #F6F6F6;
+    border-radius: 12px;
+
+    width: 400px;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 10px;
+
+    padding: 10px;
 }
-.streak a {
-    text-decoration: none;
-    color: black;
-    padding: 5px;
-    border: 1px solid black;
-    border-radius: 5px;
+
+#streak-text p {
+    margin: 0;
 }
+
+#streak-days {
+    font-weight: bold;
+}
+
+#streak-caption {
+    color: #2D2E2EB2
+}
+
 .menu {
     display: flex;
     align-items: center;
