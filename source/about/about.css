@@ -27,7 +27,6 @@ header {
     align-items: flex-start;
     padding-left: 5rem; /* Add padding to create space from the left edge */
     height: 338px; /* 31.17% */
-    width: 100%;
     color: #FFFFFF;
     background-image: url('background.png');
     background-size: cover;
@@ -94,7 +93,6 @@ header h1 {
 /* Footer */
 footer {
     height: 65px; /* 6.35% */
-    width: 100%;
     background-color: #234654;
     padding: 0 5rem 0 5rem;
     display: flex;
