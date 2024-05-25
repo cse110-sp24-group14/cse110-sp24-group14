@@ -1,10 +1,12 @@
+body {
+    display: grid;
+    margin: 0;
+}
+
 /* Navbar */
 nav {
-    position: fixed;
-    top: 0px;
-    left: 0px;
-    right: 0px;
-    height: 9.38%; /* 96px */
+    height: 96px; /* 9.38% */
+    width: 100%;
 
     background-color: #E5C775;
 }
@@ -16,7 +18,8 @@ nav a {
 
 /* Header */
 header {
-    height: 31.17%; /* 325px */
+    height: 325px; /* 31.17% */
+    width: 100%;
     color: #D9D9D9;
     background-image: url('background.png');
     opacity: 0.5;
@@ -29,11 +32,8 @@ header {
 
 /* Footer */
 footer {
-    position: fixed;
-    bottom: 0px;
-    left: 0px;
-    right: 0px;
-    height: 6.35%; /* 65px */
+    height: 65px; /* 6.35% */
+    width: 100%;
     
     background-color: #234654;
 }
