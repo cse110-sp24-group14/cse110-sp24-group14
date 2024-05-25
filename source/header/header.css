@@ -1,8 +1,9 @@
 .header {
     display: flex;
-    gap: 70px;
+    justify-content: space-around;
+    gap: 60px;
 
-    padding: 15px;
+    padding: 15px 25px;
     background-color: #E5C775;
 
     font-family: sans-serif;
@@ -14,7 +15,7 @@
 
 .header-content {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
     gap: 25px;
 
@@ -24,16 +25,16 @@
 .stat-container {
     display: flex;
     flex-flow: row wrap;
-    flex-basis: 1400px;
+    flex-basis: 1000px;
 
-    gap: 15px;
+    gap: 20px;
 }
 
 .stat {
     background-color: #F6F6F6;
     border-radius: 12px;
 
-    min-width: 300px;
+    min-width: 200px;
     max-width: 700px;
     height: 40px;
 
@@ -45,7 +46,7 @@
 
     padding: 7.5px 0px;
 
-    flex-grow: 1
+    flex: 1 0 0;
 }
 
 .stat p {
@@ -72,8 +73,10 @@
     background-color: #F6F6F6;
     border-radius: 400px;
 
-    flex: 0 1 300px;
+    height: 50px;
     gap: 14px;
+
+    margin-left: 50px;
 }
 
 .menu a {
@@ -88,39 +91,50 @@
 }
 
 /* tablet css */
-@media (max-width: 781px) {
-
-    .logo {
-        height: 60px;
-    }
+@media (max-width: 1025px) {
 
     .header {
         height: 200px;
-        gap: 20px;
+        gap: 0px;
+    }
+
+    .logo {
+        height: 60px;
+
+        position: absolute;
+        left: 10px;
     }
 
     .header-content {
-        display: flex;
+        width: 100%;
+
         flex-direction: column-reverse;
-
         align-items: flex-end;
-
-        gap: 20px;
-
-        padding: 10px;
     }
 
     .stat-container {
-        height: 50px;
-        gap: 10px;
-
-        margin-left: -100px;
+        flex-flow: column nowrap;
+        width: 100%;
     }
 
     .stat {
-        min-width: 375px;
+        min-width: 0px;
+        max-width: none;
+    }
+}
 
-        /* to fill the navbar */
-        max-width: 800px; 
+@media (max-width: 426px) {
+
+    .logo {
+        height: 55px;
+    }
+
+    .menu {
+        gap: 5px;
+        padding-left: 10px;
+    }
+
+    .menu a {
+        margin-left: 5px;
     }
 }
