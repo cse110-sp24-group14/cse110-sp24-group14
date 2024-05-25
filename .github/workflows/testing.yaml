@@ -3,7 +3,8 @@ name: Jest Unit Tests
 on:
   pull_request:
     branches:
-      main
+      - main
+      - staging
 
 jobs: 
   tests: 
