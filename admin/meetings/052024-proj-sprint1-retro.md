@@ -33,5 +33,6 @@ Members not present:
 ## Small section on sprint 2 updates
 - Sprint 2 planning + updates
   - Add features into its own folder (so js and css should be in its own folder)
+  - JSDocs will be incorporated into github actions workflow so documentation will be stressed 
   - Leads will put tasks and you assign it to yourself
     - Can work if pairs or solo
