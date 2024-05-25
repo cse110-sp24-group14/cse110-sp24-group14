@@ -1,5 +1,11 @@
+html {
+    height: 100%;
+}
+
 body {
-    display: grid;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
     margin: 0;
 }
 
@@ -22,7 +28,9 @@ header {
     width: 100%;
     color: #D9D9D9;
     background-image: url('background.png');
-    opacity: 0.5;
+    background-color: #234654A1;
+    background-blend-mode: multiply;
+    opacity: 80%;
 }
 
 /* Body */
@@ -34,7 +42,7 @@ header {
 footer {
     height: 65px; /* 6.35% */
     width: 100%;
-    
+    margin-top: auto;
     background-color: #234654;
 }
 
