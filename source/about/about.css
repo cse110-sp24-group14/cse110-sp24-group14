@@ -140,3 +140,19 @@ footer a {
         gap: 0px;
     }
 }
+
+/* mobile css */
+@media (max-width: 426px) {
+    header { 
+        align-items: center;
+        padding-left: 0;
+    }
+
+    header * {
+        text-align: center;
+    }
+
+    footer {
+        justify-content: center;        
+    }
+}
