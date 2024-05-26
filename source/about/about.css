@@ -2,7 +2,7 @@
 body {
     display: flex;
     flex-direction: column;
-    height: 100%;
+    min-height: 100vh;
     margin: 0;
 }
 
@@ -118,6 +118,7 @@ header h1 {
 footer {
     display: flex;
     align-items: center;
+    margin-top: auto;
     height: 65px; /* 6.35% */
     padding: 0 5rem 0 5rem;
 
