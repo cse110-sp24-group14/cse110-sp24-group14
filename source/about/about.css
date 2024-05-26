@@ -9,7 +9,6 @@ body {
 /* Navbar */
 nav {
     display: flexbox;
-    align-content: center;
 
     padding: 15px;
     background-color: #E5C775;
@@ -17,14 +16,9 @@ nav {
     font-family: sans-serif;
 }
 
-nav img {
-    margin-left: 25px;
-}
-
 nav div { 
     display: flexbox;
     align-content: center;
-    justify-content: space-between;
 
     background-color: #F6F6F6;
     border-radius: 400px;
@@ -36,7 +30,7 @@ nav div {
 nav a {
     text-decoration: none;
     color: #2D2E2E;
-    padding: 20px;
+    padding: 16px;
 }
 
 nav #dashboard{
