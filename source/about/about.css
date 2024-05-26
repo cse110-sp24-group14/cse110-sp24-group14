@@ -8,7 +8,9 @@ body {
 
 /* Navbar */
 nav {
-    display: flexbox;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 
     padding: 15px;
     background-color: #E5C775;
@@ -17,7 +19,7 @@ nav {
 }
 
 nav div { 
-    display: flexbox;
+    display: flex;
     align-content: center;
 
     background-color: #F6F6F6;
