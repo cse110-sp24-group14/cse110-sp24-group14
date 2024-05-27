@@ -1,6 +1,7 @@
 import sqlite3 from 'sqlite3';
 
 describe('Testing the completed statistic SQL query', () => {
+    // sets up the local database in memory
     const db = new sqlite3.Database(':memory:');
 
     /**
@@ -56,18 +57,18 @@ describe('Testing the completed statistic SQL query', () => {
 
     // one uncompleted task
     test('Retrives the count when there is 1 uncompleted task', (done) => {
-        const stmt = db.prepare("INSERT INTO Tasks VALUES (?, ?, ?, ?)");
-        stmt.run(1, 'Uncompleted task', '2024-05-19', false);
-        stmt.finalize();
+        const insert = db.prepare("INSERT INTO Tasks VALUES (?, ?, ?, ?)");
+        insert.run(1, 'Uncompleted task', '2024-05-19', false);
+        insert.finalize();
 
         queryCompletedCount(done, 0)
     })
 
     // one completed and one uncompleted task
     test('Retrives the count when there is 1 uncompleted and 1 completed task', (done) => {
-        const stmt = db.prepare("INSERT INTO Tasks VALUES (?, ?, ?, ?)");
-        stmt.run(2, 'Completed task', '2024-05-19', true);
-        stmt.finalize();
+        const insert = db.prepare("INSERT INTO Tasks VALUES (?, ?, ?, ?)");
+        insert.run(2, 'Completed task', '2024-05-19', true);
+        insert.finalize();
 
         queryCompletedCount(done, 1)
     })
