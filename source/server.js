@@ -33,7 +33,16 @@ const fetchTasks = (callback) => {
  * @param {Function} callback 
  */
 const fetchNumberCompleted = (callback) => {
-    connection.query('SELECT SUM(completed) AS CompletedCount FROM Tasks', (error, results) => {
+
+    const sqlQuery = `
+        SELECT CASE
+                WHEN COUNT(*) > 0 THEN (SELECT SUM(completed) FROM Tasks) 
+                ELSE 0
+            END AS CompletedCount
+        FROM Tasks
+    `
+
+    connection.query(sqlQuery, (error, results) => {
         if (error) {
             callback(error, null);
         } else {
@@ -43,7 +52,7 @@ const fetchNumberCompleted = (callback) => {
 }
 
 // Create an HTTP server
-const server = http.createServer((req, res) => {
+export const server = http.createServer((req, res) => {
     if (req.url === '/tasks' && req.method === 'GET') {
         fetchTasks((err, users) => {
             if (err) {
