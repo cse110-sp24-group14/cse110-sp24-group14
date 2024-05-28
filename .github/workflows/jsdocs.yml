@@ -3,7 +3,7 @@ name: GitHub pages
 on:
   push:
     branches:
-      - main
+      - staging
 
 jobs:
   deploy:
@@ -16,7 +16,7 @@ jobs:
       - name: Build
         uses: andstor/jsdoc-action@v1.2.1
         with:
-          source_dir: ./folder
+          source_dir: ./source
           recurse: true
           output_dir: ./out
       - name: Deploy
