@@ -1,4 +1,4 @@
-.header {
+header {
     display: flex;
     justify-content: space-around;
     gap: 60px;
@@ -93,7 +93,7 @@
 /* tablet css */
 @media (max-width: 1025px) {
 
-    .header {
+    header {
         height: 200px;
         gap: 0px;
     }
