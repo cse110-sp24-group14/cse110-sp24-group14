@@ -19,4 +19,16 @@ function init() {
         }
     
     });
+    const infoButton = document.getElementById('infoButton');
+    const infoContent = document.getElementById('infoContent');
+
+    infoButton.addEventListener('click', function() {
+        if (infoContent.classList.contains('hidden')) {
+            infoContent.classList.remove('hidden');
+            infoContent.classList.add('visible');
+        } else {
+            infoContent.classList.remove('visible');
+            infoContent.classList.add('hidden');
+        }
+    });
 }

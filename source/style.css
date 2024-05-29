@@ -1,16 +1,9 @@
-body {
-    font-family: Arial, Helvetica, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-    background-color: #f0f0f0;
-}
+
 
 .textbox {
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    align-items: flex-start;
     background-color: #fff;
     border: 1px solid #ccc;
     border-radius: 5px;
@@ -19,23 +12,21 @@ body {
     position: relative;
     height: 200px;
     width: 500px;
-
 }
 
-#taskInput{
+#taskInput {
     border: none;
     padding: 10px;
     flex-grow: 1;
     font-size: 16px;
     outline: none;
     width: 100%;
-    height: 100%;
+    height: 100px;
     resize: none;
-    
+    box-sizing: border-box;
 }
 
 textarea::placeholder {
-
     color: #bbb;
 }
 
@@ -64,5 +55,50 @@ textarea::placeholder {
 }
 
 
+.info {
+    font-size: 20px;
+    padding-left: 5px;
+    width: 20px;
+    border-radius: 15px;
+    position: relative;
+}
 
+.info:hover {
+    background-color: #2D2E2E;
+    padding: 0 0 0 5px;
+    width: 200px;
+    text-align: left !important;
+}
+
+.extra-info {
+    display: none;
+    line-height: 30px;
+    font-size: 12px;
+    color: white;
+    position: absolute;
+    top: -5px;
+    right: 15px;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.info:hover .extra-info {
+    display: block;
+}
+
+.icon-info-sign {
+    display: inline-block;
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    text-align: center;
+    border-radius: 50%;
+    background-color: #78ADC1;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+}
 
