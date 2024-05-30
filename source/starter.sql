@@ -19,6 +19,10 @@ VALUES
 ('Fix bug #1234', '2024-05-20'),
 ('Plan team meeting', '2024-05-25');
 
+INSERT INTO Tasks (title, due_date, completed)
+VALUES 
+('Buy groceries', '2024-05-22', TRUE);
+
 
 CREATE TABLE Tags (
     id INT AUTO_INCREMENT PRIMARY KEY,
