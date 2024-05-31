@@ -61,6 +61,11 @@ const server = http.createServer((req, res) => {
         serveStaticFile(res, req.url.slice(1), 'text/javascript');
     } else if (req.url.endsWith('.html') && req.method === 'GET') {
         serveStaticFile(res, req.url.slice(1), 'text/html');
+    // Add conditions for serving image files
+    } else if (req.url.match(/\.(jpg|jpeg|png|gif)$/) && req.method === 'GET') {
+        const ext = path.extname(req.url).slice(1);
+        const contentType = `image/${ext === 'jpg' ? 'jpeg' : ext}`;
+        serveStaticFile(res, req.url.slice(1), contentType);
 
     } else {
         res.writeHead(404, { 'Content-Type': 'text/plain' });
