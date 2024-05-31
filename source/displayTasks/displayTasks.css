@@ -1,0 +1,46 @@
+h1 {
+    text-align: center;
+}
+
+#container {
+    background-color: #F6F6F6;
+    padding: 20px;
+    border-radius: 15px;
+    display: inline-block;
+}
+
+#container > table {
+    border-collapse: collapse;
+}
+
+#container > table > tr {
+    background-color: #e2e2e2;
+    margin: 45px;
+    /* padding: 25px; */
+}
+
+.row-button {
+    background-color: white;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    margin: 10px;
+    vertical-align: middle;
+}
+
+td {
+    padding: 50px;
+}
+
+th, td {
+    border-top: 1px solid #ccc; /* show horizontal border at top */
+    border-bottom: 1px solid #ccc; /* show horizontal border at bottom */
+    border-left: none; /* hide vertical border */
+    border-right: none; /* hide vertical border */
+  }
+
+
+.row-image {
+    margin: 2px;
+    
+}

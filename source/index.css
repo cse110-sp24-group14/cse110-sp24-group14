@@ -1,3 +1,15 @@
 body {
     margin: 0;
 }
+
+.row-button {
+    background-color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.disabled {
+    cursor: not-allowed;
+    background-color: red;
+}

@@ -95,11 +95,32 @@ const createRow = (task, completed) => {
         }
     }
 
+    // let complete_button = document.createElement("button");
+    // let delete_button = document.createElement("button");
+    
+
+    // complete_button.innerHTML = "check";
+    // delete_button.innerHTML = "trash";
+
     let complete_button = document.createElement("button");
     let delete_button = document.createElement("button");
 
-    complete_button.innerHTML = "check";
-    delete_button.innerHTML = "trash";
+    let complete_img = document.createElement("img");
+    complete_img.src = "./Check.png";
+    complete_img.alt = "Complete"; 
+
+    let delete_img = document.createElement("img");
+    delete_img.src = "./TrashSimple.png";
+    delete_img.alt = "Delete"; 
+
+    complete_img.classList.add("row-image");
+    delete_img.classList.add("row-image");
+
+    complete_button.classList.add("row-button");
+    delete_button.classList.add("row-button");
+
+    complete_button.appendChild(complete_img);
+    delete_button.appendChild(delete_img);
 
     let incomplete_parent = document.getElementById("incomplete-table");
     let complete_parent = document.getElementById("complete-table");

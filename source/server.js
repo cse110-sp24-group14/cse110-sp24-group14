@@ -17,8 +17,12 @@ const connection = mysql.createConnection({
 });
 
 
-const fetchTasks = (callback) => {
-    connection.query('SELECT * FROM Tasks', (error, results) => {
+const fetchTasks = (date, callback) => {
+    // const date = new Date().toISOString().slice(0, 10);
+    console.log(date)
+    const query = `SELECT * FROM Tasks WHERE due_date = '${date}'`
+    console.log(query)
+    connection.query(query, (error, results) => {
         if (error) {
             callback(error, null);
         } else {
@@ -53,8 +57,15 @@ const fetchNumberCompleted = (callback) => {
 
 // Create an HTTP server
 export const server = http.createServer((req, res) => {
-    if (req.url === '/tasks' && req.method === 'GET') {
-        fetchTasks((err, users) => {
+
+    // console.log("Running")
+    const parsedUrl = new URL(req.url, `http://${req.headers.host}`);
+    const pathname = parsedUrl.pathname;
+    const query = parsedUrl.searchParams;
+    if (pathname === '/tasks' && req.method === 'GET') {
+        console.log("inside")
+        const date = query.get('date');
+        fetchTasks(date, (err, users) => {
             if (err) {
                 res.writeHead(500, { 'Content-Type': 'application/json' });
                 res.end(JSON.stringify({ error: 'Internal Server Error' }));
@@ -74,6 +85,8 @@ export const server = http.createServer((req, res) => {
                 res.end(JSON.stringify(numCompleted));
             }
         });
+
+    
     } else if (req.url === '/' && req.method === 'GET') {
         fs.readFile(path.join(__dirname, 'index.html'), (err, data) => {
             if (err) {
@@ -92,9 +105,14 @@ export const server = http.createServer((req, res) => {
     // Update the condition for serving JavaScript files
     } else if (req.url.endsWith('.js') && req.method === 'GET') {
         serveStaticFile(res, req.url.slice(1), 'text/javascript');
+    } else if (req.url.endsWith('.json') && req.method === 'GET') {
+        serveStaticFile(res, req.url.slice(1), 'text/json');
     } else if (req.url.endsWith('.html') && req.method === 'GET') {
         serveStaticFile(res, req.url.slice(1), 'text/html');
-
+    } else if (req.url.endsWith('.png') && req.method === 'GET') {
+        serveStaticFile(res, req.url.slice(1), 'image/png');
+    } else if (req.url.endsWith('.svg') && req.method === 'GET') {
+        serveStaticFile(res, req.url.slice(1), 'image/svg');
     } else {
         res.writeHead(404, { 'Content-Type': 'text/plain' });
         res.end('Not Found');

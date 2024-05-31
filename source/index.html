@@ -22,7 +22,7 @@
          
          <div class="stat-container">
             <div class="stat">
-               <img src="header/assets/Fire.svg" alt="Streak fire">
+               <img src="./header/assets/Fire.svg" alt="Streak fire">
                <div class="stat-text">
                   <p class="header-stat" id="streak-days">31 days streak</p>
                   <p class="stat-caption" id="streak-caption">You are on fire!</p>
@@ -57,21 +57,24 @@
       Commented because we will not use this exact code in this table format
       but we will use this route for the task list
    -->
-   <!-- <table id="tasksTable" border="1">
-      <thead>
+   <table id="tasksTable" border="1">
+      <!-- <thead>
           <tr>
               <th>Title</th>
               <th>Due Date</th>
               <th>Completed</th>
           </tr>
-      </thead>
+      </thead> -->
       <tbody>
       </tbody>
   </table>
 
     <script>
-       function fetchTasks() {
-         fetch('/tasks')
+
+       function fetchTasks(date) {
+         console.log(`/tasks?date=${date}`)
+         
+         fetch(`/tasks?date=${date}`)
              .then(response => response.json())
              .then(data => {
                  const tableBody = document.querySelector('#tasksTable tbody');
@@ -83,13 +86,30 @@
                          <td>${task.due_date}</td>
                          <td>${task.completed != 0}</td>
                      `;
+
+                     //  Task completed
+                     if (task.completed != 0) {
+                        row.innerHTML +=  `
+                           <td><button class="row-button disabled" disabled><img src="./displayTasks/Check.png" /></button></td>
+                           <td><button class="row-button disabled" disabled><img src="./displayTasks/TrashSimple.png" /></button></td>
+                        `
+                     // Task not completed
+                     } else {
+                        row.innerHTML += `
+                           <td><button class="row-button"><img src="./displayTasks/Check.png" /></button></td>
+                           <td><button class="row-button"><img src="./displayTasks/TrashSimple.png" /></button></td>
+                        `   
+                     }
+
                      tableBody.appendChild(row);
                  });
              })
              .catch(error => console.error('Error fetching data:', error));
          }
-         fetchTasks()
-    </script> -->
+         let currentDate = new Date().toISOString().slice(0, 10);
+         console.log(`Current date: ${currentDate}`)
+         fetchTasks(currentDate)
+    </script>
   
     <!--text box on the bottom, with the send button-->
    <div class="taskbox">
