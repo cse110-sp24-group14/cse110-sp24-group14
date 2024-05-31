@@ -27,9 +27,32 @@ const fetchTasks = (callback) => {
     });
 };
 
+/**
+ * Gets number of tasks that are completed from backend
+ * 
+ * @param {Function} callback 
+ */
+const fetchNumberCompleted = (callback) => {
+
+    const sqlQuery = `
+        SELECT CASE
+                WHEN COUNT(*) > 0 THEN (SELECT SUM(completed) FROM Tasks) 
+                ELSE 0
+            END AS CompletedCount
+        FROM Tasks
+    `
+
+    connection.query(sqlQuery, (error, results) => {
+        if (error) {
+            callback(error, null);
+        } else {
+            callback(null, results);
+        }
+    })
+}
 
 // Create an HTTP server
-const server = http.createServer((req, res) => {
+export const server = http.createServer((req, res) => {
     if (req.url === '/tasks' && req.method === 'GET') {
         fetchTasks((err, users) => {
             if (err) {
@@ -40,7 +63,17 @@ const server = http.createServer((req, res) => {
                 res.end(JSON.stringify(users));
             }
         });
-
+    } else if (req.url === '/num-completed' && req.method === 'GET') {
+        // fetches number of completed tasks
+        fetchNumberCompleted((err, numCompleted) => {
+            if (err) {
+                res.writeHead(500, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ error: 'Internal Server Error' }));
+            } else {
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify(numCompleted));
+            }
+        });
     } else if (req.url === '/' && req.method === 'GET') {
         fs.readFile(path.join(__dirname, 'index.html'), (err, data) => {
             if (err) {
@@ -62,9 +95,9 @@ const server = http.createServer((req, res) => {
     } else if (req.url.endsWith('.html') && req.method === 'GET') {
         serveStaticFile(res, req.url.slice(1), 'text/html');
     // Add conditions for serving image files
-    } else if (req.url.match(/\.(jpg|jpeg|png|gif)$/) && req.method === 'GET') {
+    } else if (req.url.match(/\.(jpg|jpeg|png|gif|svg)$/) && req.method === 'GET') {
         const ext = path.extname(req.url).slice(1);
-        const contentType = `image/${ext === 'jpg' ? 'jpeg' : ext}`;
+        const contentType = ext === 'svg' ? 'image/svg+xml' : `image/${ext === 'jpg' ? 'jpeg' : ext}`;
         serveStaticFile(res, req.url.slice(1), contentType);
 
     } else {
