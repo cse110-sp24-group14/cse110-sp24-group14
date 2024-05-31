@@ -1,4 +1,5 @@
 #snippet {
+    /* TODO: Remove/change ratios for better tablet/phone implementation when decided */
     display: flex;
     position: fixed;
     top: 11.3%; /* 116px / 1024px */
