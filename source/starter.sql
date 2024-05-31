@@ -7,7 +7,7 @@ CREATE TABLE Tasks (
     id INT AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
     due_date DATE,
-    completed BOOLEAN DEFAULT FALSE,
+    completed BOOLEAN DEFAULT TRUE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
@@ -18,6 +18,10 @@ VALUES
 ('Prepare presentation', '2024-05-19'),
 ('Fix bug #1234', '2024-05-20'),
 ('Plan team meeting', '2024-05-25');
+
+INSERT INTO Tasks (title, due_date, completed)
+VALUES 
+('Buy groceries', '2024-05-22', TRUE);
 
 
 CREATE TABLE Tags (

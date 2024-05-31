@@ -5,7 +5,8 @@ name: Lint files
 on:
   pull_request:
     branches:
-      main
+      - main
+      - staging
 
 jobs:
   linting:
