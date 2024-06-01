@@ -7,7 +7,6 @@ const fetchJson = (date) => {
     fetch(`/tasks?date=${date}`)
         .then((data) => data.json())
         .then((json) => {
-            console.log(json);
             populateTable(json);
         })
         .catch((err) => console.error(err));
