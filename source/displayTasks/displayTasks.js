@@ -4,7 +4,11 @@
  * @param {String} file
  */
 const fetchJson = (file) => {
-    fetch(file)
+
+    let currentDate = new Date(2024, 4, 31).toISOString().slice(0, 10);
+    console.log(`Current date: ${currentDate}`)
+
+    fetch(`/tasks?date=${currentDate}`)
         .then((data) => data.json())
         .then((json) => {
             console.log(json);
@@ -31,7 +35,12 @@ const populateTable = (taskList) => {
         const row = document.createElement("tr");
         const cell = document.createElement("td");
 
-        cell.innerHTML = `${task.due_date} | ${task.title}`;
+
+
+        cell.innerHTML = `${new Date(task.due_date).toLocaleString(undefined, {
+                month: "numeric",
+                day: "numeric",
+            })} | ${task.title}`;
         cell.className = completionClass;
 
         // sets the id for finding task for updating
