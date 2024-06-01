@@ -13,11 +13,13 @@ describe('Testing the delete task SQL query', () => {
      */
     const queryDeleteTask = (id, done, actual) => {
 
+        // deletion query
         const sqlQuery = `
             DELETE FROM Tasks
             WHERE id = ${id}
         `
 
+        // checks if task is deleted
         const sqlExistsQuery = `
             SELECT COUNT(*)
             AS count
@@ -25,9 +27,10 @@ describe('Testing the delete task SQL query', () => {
             WHERE id = ${id}
         `
 
+        // checks length of table rows
         const sqlTotalLengthQuery = `
             SELECT COUNT(*)
-            AS rows
+            AS totalRows
             FROM Tasks
         `
 
@@ -42,7 +45,6 @@ describe('Testing the delete task SQL query', () => {
                         done(err);
                     } else {
                         try {
-                            console.log(row);
                             expect(row.count).toBe(0);
                             done();
                         } catch (error) {
@@ -57,8 +59,7 @@ describe('Testing the delete task SQL query', () => {
                         done(err);
                     } else {
                         try {
-                            console.log(row);
-                            expect(row.rows).toBe(actual);
+                            expect(row.totalRows).toBe(actual);
                             done();
                         } catch (error) {
                             done(error);
@@ -84,43 +85,47 @@ describe('Testing the delete task SQL query', () => {
         });
     })
 
-    // update incomplete task to incomplete
+    // checks deleting a nonexistent task
     test('Deletes nonexistent task', (done) => {
         queryDeleteTask(1, done, 0)
     })
 
-    // update incomplete task to completed
+    // checks deleting an existing task with id 1
     test('Deletes task with id 1', (done) => {
         const insert = db.prepare("INSERT INTO Tasks VALUES (?, ?, ?, ?)");
         insert.run(1, 'New Task', '2024-05-19', false);
         insert.finalize();
         
+        queryDeleteTask(1, done, 0)
+    })
+
+    // checks deleting an existing task with id 2
+    test('Deletes task with id 2', (done) => {
+        const insert = db.prepare("INSERT INTO Tasks VALUES (?, ?, ?, ?)");
+        insert.run(2, 'New Task', '2024-05-19', false);
+        insert.finalize();
+        
+        queryDeleteTask(2, done, 0)
+    })
+
+    // checks deleting an existing task with id 1 when there is another task in the table
+    test('Deletes task with id 1 from a 2 task table', (done) => {
+        const insert = db.prepare("INSERT INTO Tasks VALUES (?, ?, ?, ?)");
+        insert.run(1, 'New Task 1', '2024-05-19', false);
+        insert.run(2, 'New Task 2', '2024-05-19', false);
+        insert.finalize();
+        
         queryDeleteTask(1, done, 1)
     })
 
-    // // update completed task to completed
-    // test('Updates completed task to completed', (done) => {
-    //     queryDeleteTask(1, true, done, 1)
-    // })
-
-    // // update completed task to completed
-    // test('Updates completed task to incomplete', (done) => {
-    //     queryDeleteTask(1, false, done, 0)
-    // })
-
-    // // update second task from incomplete to completed
-    // test('Updates second incomplete task to completed', (done) => {
-    //     const insert = db.prepare("INSERT INTO Tasks VALUES (?, ?, ?, ?)");
-    //     insert.run(2, 'Second task', '2024-05-19', false);
-    //     insert.finalize();
-
-    //     queryDeleteTask(2, true, done, 1)
-    // })
-
-    // // update second task from completed to incomplete
-    // test('Updates second completed task to incomplete', (done) => {
-    //     queryDeleteTask(2, false, done, 0)
-    // })
+    // checks deleting a nonexistent task in a populated table
+    test('Deletes a nonexistent task in a populated table', (done) => {
+        const insert = db.prepare("INSERT INTO Tasks VALUES (?, ?, ?, ?)");
+        insert.run(1, 'New Task 1', '2024-05-19', false);
+        insert.finalize();
+        
+        queryDeleteTask(3, done, 2)
+    })
 
     // close the database
     afterAll(() => {
