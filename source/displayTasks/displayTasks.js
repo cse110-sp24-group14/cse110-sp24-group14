@@ -31,7 +31,7 @@ const populateTable = (taskList) => {
         const row = document.createElement("tr");
         const cell = document.createElement("td");
 
-        cell.innerHTML = task.title;
+        cell.innerHTML = `${task.due_date} | ${task.title}`;
         cell.className = completionClass;
 
         // sets the id for finding task for updating
@@ -47,6 +47,7 @@ const populateTable = (taskList) => {
         if (!task.completed) {
             complete_button.onclick = () => {
                 cell.className = "completed-task"; // adds strikethrough
+                // TODO: update the SQL database
             }
 
             buttonContainer.appendChild(complete_button);
@@ -54,12 +55,17 @@ const populateTable = (taskList) => {
 
         delete_button.onclick = () => {
             table.removeChild(row);
+            // TODO: update the SQL database
         }
 
         buttonContainer.appendChild(delete_button);
         row.appendChild(buttonContainer);
 
-        table.appendChild(row);
+        if (task.completed) {
+            table.appendChild(row);
+        } else {
+            table.prepend(row);
+        }
     });
 };
 
