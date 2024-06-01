@@ -37,7 +37,6 @@ describe('Testing update completed SQL query', () => {
                         done(err);
                     } else {
                         try {
-                            console.log(state);
                             expect(state.completed).toBe(actual);
                             done();
                         } catch (error) {
