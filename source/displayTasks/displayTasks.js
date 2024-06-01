@@ -98,8 +98,8 @@ const populateTable = (taskList) => {
         }
 
         delete_button.onclick = () => {
+            deleteTask(task.id)
             table.removeChild(row);
-            // TODO: update the SQL database
         }
 
         buttonContainer.appendChild(delete_button);
