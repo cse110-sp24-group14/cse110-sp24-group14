@@ -50,20 +50,18 @@ const populateTable = (taskList) => {
     // go through each task and create a row
     taskList.forEach((task) => {
 
-        // add corresponding completion class
-        const completionClass = (task.completed ? "completed" : "incompleted") + "-task";
-
         const row = document.createElement("tr");
         const cell = document.createElement("td");
 
         cell.innerHTML = task.title;
-        cell.className = completionClass;
+        cell.classList.add("task")
+        cell.classList.add(task.completed ? "complete" : "incomplete");
 
         row.appendChild(cell);
 
         const buttonContainer = document.createElement("div");
 
-        [complete_button, delete_button] = addButtons();
+        const [complete_button, delete_button] = addButtons();
 
         // add completion button if incomplete
         if (!task.completed) {
@@ -71,7 +69,8 @@ const populateTable = (taskList) => {
 
                 updateCompleted(task.id, true)
 
-                cell.className = "completed-task"; // adds strikethrough
+                cell.classList.remove("incomplete"); // removes strikethrough
+                cell.classList.add("complete"); // adds strikethrough
 
                 table.removeChild(row)
 
@@ -79,7 +78,7 @@ const populateTable = (taskList) => {
                 let found = false;
                 // loop through the table to find the first element that is completed for insertion
                 for (const child of table.children) {
-                    if (child.children[0].className === "completed-task") {
+                    if (child.children[0].classList[1] === "complete") {
                         table.insertBefore(row, child);
                         found = true;
                         break;

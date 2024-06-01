@@ -49,6 +49,6 @@ th, td {
     
 }
 
-.completed-task {
+.complete {
     text-decoration: line-through;
 }
