@@ -13,22 +13,37 @@ describe('Testing the completed statistic SQL query', () => {
     const queryUpdateCompleted = (id, completed, done, actual) => {
 
         const sqlQuery = `
-        UPDATE Tasks
-        SET completed = ${completed} 
-        WHERE id = ${id}
-    `
+            UPDATE Tasks
+            SET completed = ${completed} 
+            WHERE id = ${id}
+        `
 
-        db.get(sqlQuery, (err, row) => {
+        const sqlCheckingQuery = `
+            SELECT completed
+            FROM Tasks
+            WHERE id = ${id}
+        `
+
+
+        db.get(sqlQuery, (err, _) => {
             if (err) {
                 done(err);
             } else {
 
-                try {
-                    expect(row.completed).toBe(actual);
-                    done();
-                } catch (error) {
-                    done(error);
-                }
+                // gets the task to check its completed
+                db.get(sqlCheckingQuery, (err, state) => {
+                    if (err) {
+                        done(err);
+                    } else {
+                        try {
+                            console.log(state);
+                            expect(state.completed).toBe(actual);
+                            done();
+                        } catch (error) {
+                            done(error);
+                        }
+                    }
+                })
 
             }
         });
@@ -54,32 +69,37 @@ describe('Testing the completed statistic SQL query', () => {
 
     // update incomplete task to incomplete
     test('Updates uncompleted task to uncompleted', (done) => {
-        queryUpdateCompleted(1, false, done, false)
+        queryUpdateCompleted(1, false, done, 0)
     })
 
     // update incomplete task to completed
     test('Updates incomplete task to completed', (done) => {
-        queryUpdateCompleted(1, true, done, true)
+        queryUpdateCompleted(1, true, done, 1)
     })
 
     // update completed task to completed
     test('Updates completed task to completed', (done) => {
-        queryUpdateCompleted(1, true, done, true)
+        queryUpdateCompleted(1, true, done, 1)
     })
 
     // update completed task to completed
     test('Updates completed task to incomplete', (done) => {
-        queryUpdateCompleted(1, false, done, false)
+        queryUpdateCompleted(1, false, done, 0)
     })
 
-    // one completed and one uncompleted task
-    // test('Retrives the count when there is 1 uncompleted and 1 completed task', (done) => {
-    //     const insert = db.prepare("INSERT INTO Tasks VALUES (?, ?, ?, ?)");
-    //     insert.run(2, 'Completed task', '2024-05-19', true);
-    //     insert.finalize();
+    // update second task from incomplete to completed
+    test('Updates second incomplete task to completed', (done) => {
+        const insert = db.prepare("INSERT INTO Tasks VALUES (?, ?, ?, ?)");
+        insert.run(2, 'Second task', '2024-05-19', false);
+        insert.finalize();
 
-    //     queryCompletedCount(done, 1)
-    // })
+        queryUpdateCompleted(2, true, done, 1)
+    })
+
+    // update second task from completed to incomplete
+    test('Updates second completed task to incomplete', (done) => {
+        queryUpdateCompleted(2, false, done, 0)
+    })
 
     // close the database
     afterAll(() => {
