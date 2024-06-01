@@ -137,7 +137,7 @@ export const server = http.createServer((req, res) => {
             }
         });
     } else if (pathname === '/updated-task-completion' && req.method === 'POST') {
-        
+        // updates the completed state of task
         const taskId = query.get('taskId');
         const completed = query.get('completed');
         updateTaskCompletion(taskId, completed, (err, result) => {
@@ -149,8 +149,18 @@ export const server = http.createServer((req, res) => {
                 res.end(JSON.stringify(result));
             }
         })
-
-
+    } else if (pathname === '/delete-task' && req.method === 'DELETE') {
+        // deletes a task
+        const taskId = query.get('taskId');
+        deleteTask(taskId, (err, result) => {
+            if (err) {
+                res.writeHead(500, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ error: 'Internal Server Error' }));
+            } else {
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify(result));
+            }
+        })
     } else if (req.url === '/' && req.method === 'GET') {
         fs.readFile(path.join(__dirname, 'index.html'), (err, data) => {
             if (err) {
