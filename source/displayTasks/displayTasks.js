@@ -31,9 +31,12 @@ const populateTable = (taskList) => {
         const row = document.createElement("tr");
         const cell = document.createElement("td");
 
-        cell.innerHTML = task.description;
+        // change to title for SQL backend
+        cell.innerHTML = task.title;
         cell.className = completionClass;
-        cell.setAttribute("data-id", task.id)
+
+        // sets the id for finding task for updating
+        cell.setAttribute("data-id", task.id);
 
         console.log(cell.dataset.id, cell.innerText);
 
