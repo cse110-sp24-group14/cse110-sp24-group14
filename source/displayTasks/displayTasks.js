@@ -7,6 +7,7 @@ const fetchJson = (file) => {
     fetch(file)
         .then((data) => data.json())
         .then((json) => {
+            console.log(json);
             populateTable(json);
         })
         .catch((err) => console.error(err));
@@ -18,30 +19,55 @@ const fetchJson = (file) => {
  * @param {JSON} taskList
  */
 const populateTable = (taskList) => {
+    
+    const table = document.getElementById("task-table");
+
     // go through each task and create a row
-
-    const taskCount = { incomplete: 0, complete: 0 };
-
     taskList.forEach((task) => {
-        // gets table that the task belongs to
-        const completeBool = task.completed ? "complete" : "incomplete";
 
-        const tableId = `${completeBool}-table`;
-        const table = document.getElementById(tableId);
+        // add corresponding completion class
+        const completionClass = (task.completed ? "completed" : "incompleted") + "-task";
 
-        const row = createRow(task, task.completed);
+        const row = document.createElement("tr");
+        const cell = document.createElement("td");
+
+        cell.innerHTML = task.description;
+        cell.className = completionClass;
+        cell.setAttribute("data-id", task.id)
+
+        console.log(cell.dataset.id, cell.innerText);
+
+        row.appendChild(cell);
         table.appendChild(row);
-
-        // count number of each task
-        taskCount[completeBool] += 1;
     });
-
-    // update the count of both types of tasks
-    for (let count in taskCount) {
-        const title = document.getElementById(`${count}-title`);
-        title.textContent += ` (${taskCount[count]})`;
-    }
 };
+
+
+// const populateTable = (taskList) => {
+//     // go through each task and create a row
+
+//     const taskCount = { incomplete: 0, complete: 0 };
+
+//     taskList.forEach((task) => {
+//         // gets table that the task belongs to
+//         const completeBool = task.completed ? "complete" : "incomplete";
+
+//         const tableId = `${completeBool}-table`;
+//         const table = document.getElementById(tableId);
+
+//         const row = createRow(task, task.completed);
+//         table.appendChild(row);
+
+//         // count number of each task
+//         taskCount[completeBool] += 1;
+//     });
+
+//     // update the count of both types of tasks
+//     for (let count in taskCount) {
+//         const title = document.getElementById(`${count}-title`);
+//         title.textContent += ` (${taskCount[count]})`;
+//     }
+// };
 
 /**
  * Creates a row with the input task's information
