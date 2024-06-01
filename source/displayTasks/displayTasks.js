@@ -1,7 +1,7 @@
 /**
  * Fetch data from json file and add to table
  *
- * @param {String} date - date to fetch tasks from
+ * @param {string} date - date to fetch tasks from
  */
 const fetchJson = (date) => {
     fetch(`/tasks?date=${date}`)
@@ -19,11 +19,23 @@ const fetchJson = (date) => {
  * @param {Object} task - task to update
  * @param {boolean} completion - state of completed to update to
  */
-const updateCompleted = (task, completion) => {
+const updateCompleted = (id, completion) => {
     // update the task to be completed in SQL database
     fetch(
-        `/updated-task-completion?taskId=${task.id}&completed=${completion}`, 
+        `/updated-task-completion?taskId=${id}&completed=${completion}`, 
         { method: 'POST' }
+    );
+}
+
+/**
+ * Calls a DELETE method to delete a task from the SQL database
+ * 
+ * @param {number} id -- id of the task to be deleted 
+ */
+const deleteTask = (id) => {
+    fetch(
+        `/delete-task?taskId=${id}`,
+        { method: 'DELETE' }
     );
 }
 
@@ -58,7 +70,7 @@ const populateTable = (taskList) => {
         if (!task.completed) {
             complete_button.onclick = () => {
 
-                updateCompleted(task, true)
+                updateCompleted(task.id, true)
 
                 cell.className = "completed-task"; // adds strikethrough
 
