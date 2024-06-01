@@ -16,7 +16,9 @@ h1 {
 #container > table > tr {
     background-color: #e2e2e2;
     margin: 45px;
-    /* padding: 25px; */
+
+    display: flex;
+    justify-content: space-between;
 }
 
 .row-button {
@@ -26,6 +28,8 @@ h1 {
     cursor: pointer;
     margin: 10px;
     vertical-align: middle;
+
+    flex-grow: 0;
 }
 
 td {

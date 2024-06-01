@@ -39,27 +39,35 @@ const populateTable = (taskList) => {
 
         row.appendChild(cell);
 
+        const buttonContainer = document.createElement("div");
+
         [complete_button, delete_button] = addButtons();
 
-        // add buttons if incomplete
+        // add completion button if incomplete
         if (!task.completed) {
             complete_button.onclick = () => {
                 cell.className = "completed-task"; // adds strikethrough
             }
 
-            row.appendChild(complete_button);
+            buttonContainer.appendChild(complete_button);
         }
 
         delete_button.onclick = () => {
             table.removeChild(row);
         }
 
-        row.appendChild(delete_button);
+        buttonContainer.appendChild(delete_button);
+        row.appendChild(buttonContainer);
 
         table.appendChild(row);
     });
 };
 
+/**
+ * Creates the complete and delete buttons 
+ * 
+ * @returns [complete_button, delete_button] buttons to add to task
+ */
 const addButtons = () => {
     const complete_button = document.createElement("button");
     const delete_button = document.createElement("button");
