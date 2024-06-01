@@ -5,8 +5,10 @@ describe('Testing the completed statistic SQL query', () => {
     const db = new sqlite3.Database(':memory:');
 
     /**
-     * Queries and tests the number of completed tasks in database
+     * Queries and tests updating the completed state of tasks
      * 
+     * @param {number} int - id of the task to be updated
+     * @param {boolean} completed - state of completed to update to
      * @param {Function} done - callback function to end async tests
      * @param {Number} actual - actual count of completed tasks in database 
      */
@@ -23,7 +25,6 @@ describe('Testing the completed statistic SQL query', () => {
             FROM Tasks
             WHERE id = ${id}
         `
-
 
         db.get(sqlQuery, (err, _) => {
             if (err) {
