@@ -1,6 +1,6 @@
 import sqlite3 from 'sqlite3';
 
-describe('Testing the completed statistic SQL query', () => {
+describe('Testing update completed SQL query', () => {
     // sets up the local database in memory
     const db = new sqlite3.Database(':memory:');
 
