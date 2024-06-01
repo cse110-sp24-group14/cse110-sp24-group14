@@ -55,6 +55,22 @@ const fetchNumberCompleted = (callback) => {
     })
 }
 
+const updateTaskCompletion = (taskId, completed, callback) => {
+    const sqlQuery =`
+        UPDATE Tasks
+        SET completed = ${completed}
+        WHERE id = ${taskId}
+    `
+
+    connection.query(sqlQuery, (err, result) => {
+        if (error) {
+            callback(err, null);
+        } else {
+            callback(null, result);
+        }
+    })
+}
+
 // Create an HTTP server
 export const server = http.createServer((req, res) => {
 
@@ -74,7 +90,7 @@ export const server = http.createServer((req, res) => {
                 res.end(JSON.stringify(users));
             }
         });
-    } else if (req.url === '/num-completed' && req.method === 'GET') {
+    } else if (pathname === '/num-completed' && req.method === 'GET') {
         // fetches number of completed tasks
         fetchNumberCompleted((err, numCompleted) => {
             if (err) {
@@ -85,8 +101,8 @@ export const server = http.createServer((req, res) => {
                 res.end(JSON.stringify(numCompleted));
             }
         });
-
     
+
     } else if (req.url === '/' && req.method === 'GET') {
         fs.readFile(path.join(__dirname, 'index.html'), (err, data) => {
             if (err) {
