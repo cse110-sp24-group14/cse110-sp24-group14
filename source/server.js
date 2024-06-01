@@ -58,16 +58,36 @@ const fetchNumberCompleted = (callback) => {
 /**
  * Updates the completion of a task specified by its id
  * 
- * @param {Number} taskId id of the task to be updated
+ * @param {number} taskId id of the task to be updated
  * @param {boolean} completed state to change the task's completion to
  * @param {Function} callback 
  */
 const updateTaskCompletion = (taskId, completed, callback) => {
-    const sqlQuery =`
+    const sqlQuery = `
         UPDATE Tasks
         SET completed = ${completed}
         WHERE id = ${taskId}
     `;
+
+    connection.query(sqlQuery, (error, result) => {
+        if (error) {
+            callback(err, null);
+        } else {
+            callback(null, result);
+        }
+    })
+}
+
+/**
+ * Deletes a task specified by its id from the SQL database 
+ * 
+ * @param {number} taskId - the id of the task to delete
+ */
+const deleteTask = (taskId) => {
+    const sqlQuery = `
+        DELETE FROM Tasks
+        WHERE id = ${taskId}
+    `
 
     connection.query(sqlQuery, (error, result) => {
         if (error) {
