@@ -54,6 +54,7 @@ const populateTable = (taskList) => {
         const cell = document.createElement("td");
 
         cell.innerHTML = task.title;
+        cell.setAttribute("data-id", task.id);
         cell.classList.add("task")
         cell.classList.add(task.completed ? "complete" : "incomplete");
 
