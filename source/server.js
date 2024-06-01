@@ -16,7 +16,12 @@ const connection = mysql.createConnection({
     port: 3307
 });
 
-
+/**
+ * Fetch all the tasks of for a specified date
+ * 
+ * @param {string} date - date of tasks to fetch
+ * @param {Function} callback - handles the outcome of the fetch
+ */
 const fetchTasks = (date, callback) => {
     // const date = new Date().toISOString().slice(0, 10);
     console.log(date)
@@ -34,7 +39,7 @@ const fetchTasks = (date, callback) => {
 /**
  * Gets number of tasks that are completed from backend
  * 
- * @param {Function} callback 
+ * @param {Function} callback - handles the outcome of the fetch
  */
 const fetchNumberCompleted = (callback) => {
 
@@ -60,7 +65,7 @@ const fetchNumberCompleted = (callback) => {
  * 
  * @param {number} taskId id of the task to be updated
  * @param {boolean} completed state to change the task's completion to
- * @param {Function} callback 
+ * @param {Function} callback - handles the outcome of the fetch
  */
 const updateTaskCompletion = (taskId, completed, callback) => {
     const sqlQuery = `
@@ -82,8 +87,9 @@ const updateTaskCompletion = (taskId, completed, callback) => {
  * Deletes a task specified by its id from the SQL database 
  * 
  * @param {number} taskId - the id of the task to delete
+ * @param {Function} callback - handles the outcome of the fetch
  */
-const deleteTask = (taskId) => {
+const deleteTask = (taskId, callback) => {
     const sqlQuery = `
         DELETE FROM Tasks
         WHERE id = ${taskId}
@@ -98,7 +104,9 @@ const deleteTask = (taskId) => {
     })
 }
 
-// Create an HTTP server
+/**
+ * Starts the server with all the routes
+ */
 export const server = http.createServer((req, res) => {
 
     // console.log("Running")
