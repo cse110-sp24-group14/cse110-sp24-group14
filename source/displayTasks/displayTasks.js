@@ -40,14 +40,22 @@ const populateTable = (taskList) => {
 
         row.appendChild(cell);
 
-        // add buttons
-        addButtons(row);
+        // add buttons if incomplete
+        if (!task.completed) {
+            [complete_button, delete_button] = addButtons();
+
+            complete_button.onclick = () => {
+                cell.className = "completed-task";
+            }
+
+            row.append(complete_button, delete_button);
+        }
 
         table.appendChild(row);
     });
 };
 
-const addButtons = (row) => {
+const addButtons = () => {
     const complete_button = document.createElement("button");
     const delete_button = document.createElement("button");
 
@@ -68,7 +76,7 @@ const addButtons = (row) => {
     complete_button.appendChild(complete_img);
     delete_button.appendChild(delete_img);
 
-    row.append(complete_button, delete_button)
+    return [complete_button, delete_button];
 }
 
 // const populateTable = (taskList) => {
