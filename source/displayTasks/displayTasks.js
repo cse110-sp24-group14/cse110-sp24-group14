@@ -31,7 +31,6 @@ const populateTable = (taskList) => {
         const row = document.createElement("tr");
         const cell = document.createElement("td");
 
-        // change to title for SQL backend
         cell.innerHTML = task.title;
         cell.className = completionClass;
 
@@ -40,16 +39,22 @@ const populateTable = (taskList) => {
 
         row.appendChild(cell);
 
+        [complete_button, delete_button] = addButtons();
+
         // add buttons if incomplete
         if (!task.completed) {
-            [complete_button, delete_button] = addButtons();
-
             complete_button.onclick = () => {
-                cell.className = "completed-task";
+                cell.className = "completed-task"; // adds strikethrough
             }
 
-            row.append(complete_button, delete_button);
+            row.appendChild(complete_button);
         }
+
+        delete_button.onclick = () => {
+            table.removeChild(row);
+        }
+
+        row.appendChild(delete_button);
 
         table.appendChild(row);
     });
@@ -78,32 +83,6 @@ const addButtons = () => {
 
     return [complete_button, delete_button];
 }
-
-// const populateTable = (taskList) => {
-//     // go through each task and create a row
-
-//     const taskCount = { incomplete: 0, complete: 0 };
-
-//     taskList.forEach((task) => {
-//         // gets table that the task belongs to
-//         const completeBool = task.completed ? "complete" : "incomplete";
-
-//         const tableId = `${completeBool}-table`;
-//         const table = document.getElementById(tableId);
-
-//         const row = createRow(task, task.completed);
-//         table.appendChild(row);
-
-//         // count number of each task
-//         taskCount[completeBool] += 1;
-//     });
-
-//     // update the count of both types of tasks
-//     for (let count in taskCount) {
-//         const title = document.getElementById(`${count}-title`);
-//         title.textContent += ` (${taskCount[count]})`;
-//     }
-// };
 
 /**
  * Creates a row with the input task's information
