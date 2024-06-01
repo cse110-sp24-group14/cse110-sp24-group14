@@ -55,14 +55,21 @@ const fetchNumberCompleted = (callback) => {
     })
 }
 
+/**
+ * Updates the completion of a task specified by its id
+ * 
+ * @param {Number} taskId id of the task to be updated
+ * @param {boolean} completed state to change the task's completion to
+ * @param {Function} callback 
+ */
 const updateTaskCompletion = (taskId, completed, callback) => {
     const sqlQuery =`
         UPDATE Tasks
         SET completed = ${completed}
         WHERE id = ${taskId}
-    `
+    `;
 
-    connection.query(sqlQuery, (err, result) => {
+    connection.query(sqlQuery, (error, result) => {
         if (error) {
             callback(err, null);
         } else {
@@ -102,13 +109,16 @@ export const server = http.createServer((req, res) => {
             }
         });
     } else if (pathname === '/updated-task-completion' && req.method === 'POST') {
+        
+        const taskId = query.get('taskId');
+        const completed = query.get('completed');
         updateTaskCompletion(taskId, completed, (err, result) => {
             if (err) {
                 res.writeHead(500, { 'Content-Type': 'application/json' });
                 res.end(JSON.stringify({ error: 'Internal Server Error' }));
             } else {
                 res.writeHead(200, { 'Content-Type': 'application/json' });
-                res.end(JSON.stringify(numCompleted));
+                res.end(JSON.stringify(result));
             }
         })
 
