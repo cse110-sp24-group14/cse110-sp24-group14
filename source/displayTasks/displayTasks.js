@@ -38,13 +38,38 @@ const populateTable = (taskList) => {
         // sets the id for finding task for updating
         cell.setAttribute("data-id", task.id);
 
-        console.log(cell.dataset.id, cell.innerText);
-
         row.appendChild(cell);
+
+        // add buttons
+        addButtons(row);
+
         table.appendChild(row);
     });
 };
 
+const addButtons = (row) => {
+    const complete_button = document.createElement("button");
+    const delete_button = document.createElement("button");
+
+    const complete_img = document.createElement("img");
+    complete_img.src = "./Check.png";
+    complete_img.alt = "Complete"; 
+
+    const delete_img = document.createElement("img");
+    delete_img.src = "./TrashSimple.png";
+    delete_img.alt = "Delete"; 
+
+    complete_img.classList.add("row-image");
+    delete_img.classList.add("row-image");
+
+    complete_button.classList.add("row-button");
+    delete_button.classList.add("row-button");
+
+    complete_button.appendChild(complete_img);
+    delete_button.appendChild(delete_img);
+
+    row.append(complete_button, delete_button)
+}
 
 // const populateTable = (taskList) => {
 //     // go through each task and create a row
