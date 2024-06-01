@@ -47,6 +47,27 @@ const populateTable = (taskList) => {
         if (!task.completed) {
             complete_button.onclick = () => {
                 cell.className = "completed-task"; // adds strikethrough
+                
+                table.removeChild(row)
+
+                // indicates if a completed task was found
+                let found = false;
+                // loop through the table to find the first element that is completed for insertion
+                for (const child of table.children) {
+                    // console.log(child.innerHTML);
+                    if (child.children[0].className === "completed-task") {
+                        console.log(child.children[0].textContent);
+                        table.insertBefore(row, child);
+                        found = true;
+                        break;
+                    }
+                }
+
+                // if didn't find any, add to the end
+                if (!found) {
+                    table.appendChild(row);
+                }
+
                 // TODO: update the SQL database
             }
 
