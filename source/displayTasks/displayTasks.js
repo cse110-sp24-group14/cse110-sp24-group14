@@ -70,7 +70,8 @@ const populateTable = (taskList) => {
         if (!task.completed) {
             complete_button.onclick = () => {
 
-                updateCompleted(task.id, true)
+                updateCompleted(task.id, true) // update database
+                psuedoUpdateCompletedTasks() // update statistics
 
                 row.classList.remove("incomplete"); // removes strikethrough
                 row.classList.add("complete"); // adds strikethrough
@@ -144,6 +145,16 @@ const addButtons = () => {
     delete_button.appendChild(delete_img);
 
     return [complete_button, delete_button];
+}
+
+/**
+ * Adds 1 to the number of completed tasks for the statistics element
+ */
+const psuedoUpdateCompletedTasks = () => {
+    const completeStats = document.querySelector("completed-statistics");
+    const numTasks = completeStats.shadowRoot.getElementById("num-tasks");
+
+    numTasks.innerText = Number(numTasks.innerText) + 1;
 }
 
 try {
