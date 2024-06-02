@@ -1,28 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <link rel="stylesheet" href="index.css">
-    <link rel="stylesheet" href="header/header.css">
-    <script src="sideCalendar/sideCalendar.js"></script>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <script src="taskCompleted/taskCompleted.js"></script>
+   <link rel="stylesheet" href="index.css">
+   <link rel="stylesheet" href="header/header.css">
+   <script src="sideCalendar/sideCalendar.js"></script>
 
-    <script src="displayTasks/displayTasks.js"></script>
-    <link rel="stylesheet" href="displayTasks/displayTasks.css">
+   <script src="taskCompleted/taskCompleted.js"></script>
 
-     <!--taskbox script and stylesheet -->
-        <link rel="stylesheet" href="taskBox\taskbox.css" />
-        <script src="taskBox\send_task.js"></script>
+   <script src="displayTasks/displayTasks.js"></script>
+   <link rel="stylesheet" href="displayTasks/displayTasks.css">
+
+   <!--taskbox script and stylesheet -->
+   <link rel="stylesheet" href="taskBox\taskbox.css" />
+   <script src="taskBox\send_task.js"></script>
 </head>
+
 <body>
    <header class="header">
-      <img src="header/assets/Logo.svg" alt="team logo" class="logo">  
+      <img src="header/assets/Logo.svg" alt="team logo" class="logo">
 
       <div class="header-content">
-         
+
          <div class="stat-container">
             <div class="stat">
                <img src="./header/assets/Fire.svg" alt="Streak fire">
@@ -46,18 +48,30 @@
             <a href="#">Settings</a>
             <img src="header/assets/Account.svg" alt="Person icon" class="profile-icon">
          </div>
-         
+
       </div>
 
    </header>
-   
+
    <main>
       <side-calendar></side-calendar>
-      <div id="container" class="hidden">
-         <h1>Today's Tasks</h1>
-         <table id="task-table"></table>
-       </div>
-      <completed-statistics></completed-statistics>
+      <article>
+         <section>
+            <div id="container" class="hidden">
+               <h1>Today's Tasks</h1>
+               <table id="task-table"></table>
+            </div>
+            <completed-statistics></completed-statistics>
+         </section>
+
+         <!--text box on the bottom, with the send button-->
+         <div class="taskbox">
+            <textarea id="taskInput" placeholder="What would you like to do today?"></textarea>
+            <button class="add-task" type="button" id="sendTask">
+               <img src="taskBox/sendTask.png" alt="Send" />
+            </button>
+         </div>
+      </article>
    </main>
 
    <!-- 
@@ -74,57 +88,49 @@
       </thead> -->
       <tbody>
       </tbody>
-  </table>
+   </table>
 
-    <script>
+   <script>
 
-       function fetchTasks(date) {
+      function fetchTasks(date) {
          console.log(`/tasks?date=${date}`)
-         
+
          fetch(`/tasks?date=${date}`)
-             .then(response => response.json())
-             .then(data => {
-                 const tableBody = document.querySelector('#tasksTable tbody');
-                 tableBody.innerHTML = '';
-                 data.forEach(task => {
-                     const row = document.createElement('tr');
-                     row.innerHTML = `
+            .then(response => response.json())
+            .then(data => {
+               const tableBody = document.querySelector('#tasksTable tbody');
+               tableBody.innerHTML = '';
+               data.forEach(task => {
+                  const row = document.createElement('tr');
+                  row.innerHTML = `
                          <td>${task.title}</td>
                          <td>${task.due_date}</td>
                          <td>${task.completed != 0}</td>
                      `;
 
-                     //  Task completed
-                     if (task.completed != 0) {
-                        row.innerHTML +=  `
+                  //  Task completed
+                  if (task.completed != 0) {
+                     row.innerHTML += `
                            <td><button class="row-button disabled" disabled><img src="./displayTasks/Check.png" /></button></td>
                            <td><button class="row-button disabled" disabled><img src="./displayTasks/TrashSimple.png" /></button></td>
                         `
                      // Task not completed
-                     } else {
-                        row.innerHTML += `
+                  } else {
+                     row.innerHTML += `
                            <td><button class="row-button"><img src="./displayTasks/Check.png" /></button></td>
                            <td><button class="row-button"><img src="./displayTasks/TrashSimple.png" /></button></td>
-                        `   
-                     }
+                        `
+                  }
 
-                     tableBody.appendChild(row);
-                 });
-             })
-             .catch(error => console.error('Error fetching data:', error));
-         }
-         let currentDate = new Date().toISOString().slice(0, 10);
-         console.log(`Current date: ${currentDate}`)
-         fetchTasks(currentDate)
-    </script>
-  
-    <!--text box on the bottom, with the send button-->
-   <div class="taskbox">
-      <textarea id="taskInput" placeholder="What would you like to do today?"></textarea>
-      <button class="add-task" type="button" id="sendTask">
-         <img src="taskBox/sendTask.png" alt="Send" />
-      </button>
-   </div>
-  
+                  tableBody.appendChild(row);
+               });
+            })
+            .catch(error => console.error('Error fetching data:', error));
+      }
+      let currentDate = new Date().toISOString().slice(0, 10);
+      console.log(`Current date: ${currentDate}`)
+      fetchTasks(currentDate)
+   </script>
 </body>
+
 </html>

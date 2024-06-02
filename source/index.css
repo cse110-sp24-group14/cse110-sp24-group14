@@ -18,3 +18,13 @@ main {
     display: flex;
     flex-direction: row;
 }
+
+article {
+    display: flex;
+    flex-direction: column;
+}
+
+section {
+    display: flex;
+    flex-direction: row;
+}
