@@ -41,30 +41,4 @@ h3{
   color: #fff;
 }
 
-.snippet-container {
-  margin-top: 20px;
-  border: 1px solid #ccc;
-  padding: 10px;
-}
 
-.snippet {
-  margin-bottom: 20px;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  background-color: #f9f9f9;
-}
-
-.snippet pre {
-  margin: 0;
-  overflow-x: auto;
-}
-
-.snippet code {
-  font-family: 'Courier New', Courier, monospace;
-}
-
-.snippet p {
-  margin-top: 5px;
-  font-size: 14px;
-}
