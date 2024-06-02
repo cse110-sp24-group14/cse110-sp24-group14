@@ -26,7 +26,7 @@ describe('Testing update completed SQL query', () => {
             WHERE id = ${id}
         `
 
-        db.get(sqlQuery, (err, _) => {
+        db.get(sqlQuery, (err) => {
             if (err) {
                 done(err);
             } else {
