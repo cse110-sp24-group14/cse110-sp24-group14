@@ -13,7 +13,7 @@ const fetchJson = (date) => {
 };
 
 /**
- * Calls a POST method to update the completed column in the SQL database
+ * Calls a PUT method to update the completed column in the SQL database
  * 
  * @param {Object} task - task to update
  * @param {boolean} completion - state of completed to update to
@@ -22,7 +22,7 @@ const updateCompleted = (id, completion) => {
     // update the task to be completed in SQL database
     fetch(
         `/updated-task-completion?taskId=${id}&completed=${completion}`, 
-        { method: 'POST' }
+        { method: 'PUT' }
     );
 }
 
