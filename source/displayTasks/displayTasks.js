@@ -75,6 +75,9 @@ const populateTable = (taskList) => {
 
                 table.removeChild(row)
 
+                // remove completed button
+                buttonContainer.removeChild(complete_button);
+
                 // indicates if a completed task was found
                 let found = false;
                 // loop through the table to find the first element that is completed for insertion
