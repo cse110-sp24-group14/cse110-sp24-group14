@@ -10,6 +10,9 @@
 
     <script src="taskCompleted/taskCompleted.js"></script>
 
+    <script src="displayTasks/displayTasks.js"></script>
+    <link rel="stylesheet" href="displayTasks/displayTasks.css">
+
      <!--taskbox script and stylesheet -->
         <link rel="stylesheet" href="taskBox\taskbox.css" />
         <script src="taskBox\send_task.js"></script>
@@ -47,9 +50,13 @@
       </div>
 
    </header>
-   <side-calendar></side-calendar>
-
+   
    <main>
+      <side-calendar></side-calendar>
+      <div id="container" class="hidden">
+         <h1>Today's Tasks</h1>
+         <table id="task-table"></table>
+       </div>
       <completed-statistics></completed-statistics>
    </main>
 

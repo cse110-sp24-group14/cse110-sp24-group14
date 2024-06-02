@@ -13,3 +13,8 @@ body {
     cursor: not-allowed;
     background-color: red;
 }
+
+main {
+    display: flex;
+    flex-direction: row;
+}

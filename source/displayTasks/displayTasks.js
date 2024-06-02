@@ -125,11 +125,11 @@ const addButtons = () => {
     const delete_button = document.createElement("button");
 
     const complete_img = document.createElement("img");
-    complete_img.src = "./Check.png";
+    complete_img.src = "displayTasks/Check.png";
     complete_img.alt = "Complete"; 
 
     const delete_img = document.createElement("img");
-    delete_img.src = "./TrashSimple.png";
+    delete_img.src = "displayTasks/TrashSimple.png";
     delete_img.alt = "Delete"; 
 
     complete_img.classList.add("row-image");
