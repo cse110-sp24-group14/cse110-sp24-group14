@@ -11,34 +11,3 @@
   left: 70%;
   transform: translateX(-50%); 
 }
-
-h3{
-  color: white;
-  text-align: center;
-  font-size: 30px;
-}
-
-#codeEditorContainer {
-  position: relative;
-  width: 50%;
-  height: 20px;
-  margin-bottom: 20px;
-  border: 1px solid #ce5a5a;
-  border-radius: 5px;
-  overflow: hidden;
-}
-
-#codeEditor {
-  width: 95%;
-  height: 100%;
-  padding: 10px;
-  font-family: monospace;
-  font-size: 14px;
-  resize: none;
-  border: none;
-  outline: none;
-  background-color: #000;
-  color: #fff;
-}
-
-
