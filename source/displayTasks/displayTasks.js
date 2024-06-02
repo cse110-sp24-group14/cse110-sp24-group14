@@ -158,11 +158,9 @@ const psuedoUpdateCompletedTasks = () => {
 }
 
 try {
-    console.log("hi");
     let currentDate = new Date(2024, 4, 31).toISOString().slice(0, 10);
     console.log(`Current date: ${currentDate}`)
     fetchJson(currentDate);
 } catch (error) {
-    console.log("bye");
-    console.log(error);
+    console.error(error);
 }
