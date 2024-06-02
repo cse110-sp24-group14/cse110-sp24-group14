@@ -28,18 +28,17 @@ describe('End to end test to check if task is completed after clicking the compl
             await page.goto('http://localhost:3000/displayTasks/index.html');
 
             // click a task's complete button and returns its new class
-            const taskClass = await page.$$eval("tr", (items) => {
+            const rowClass = await page.$$eval("tr", (items) => {
 
                 for (const tr of items) {
 
-                    const task = tr.children[0];
                     const completeButton = tr.children[1].children[0];
                     let newClass;
 
                     // check for incomplete task
-                    if (task.classList[1] === "incomplete") {
+                    if (tr.classList[1] === "incomplete") {
                         completeButton.click();
-                        newClass = task.classList[1];
+                        newClass = tr.classList[1];
 
                         return newClass;
                     }
@@ -50,8 +49,8 @@ describe('End to end test to check if task is completed after clicking the compl
             try {
 
                 // only checks if we have clicked a task
-                if (taskClass) {
-                    expect(taskClass).toBe("complete")
+                if (rowClass) {
+                    expect(rowClass).toBe("complete")
                 }
                 done();
             } catch (error) {

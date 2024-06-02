@@ -51,16 +51,18 @@ const populateTable = (taskList) => {
     taskList.forEach((task) => {
 
         const row = document.createElement("tr");
+        row.classList.add(task.completed ? "complete" : "incomplete");
+
         const cell = document.createElement("td");
 
         cell.innerHTML = task.title;
         cell.setAttribute("data-id", task.id);
-        cell.classList.add("task")
-        cell.classList.add(task.completed ? "complete" : "incomplete");
+        cell.classList.add("task");
 
         row.appendChild(cell);
 
         const buttonContainer = document.createElement("div");
+        buttonContainer.className = "button-container";
 
         const [complete_button, delete_button] = addButtons();
 
@@ -70,8 +72,8 @@ const populateTable = (taskList) => {
 
                 updateCompleted(task.id, true)
 
-                cell.classList.remove("incomplete"); // removes strikethrough
-                cell.classList.add("complete"); // adds strikethrough
+                row.classList.remove("incomplete"); // removes strikethrough
+                row.classList.add("complete"); // adds strikethrough
 
                 table.removeChild(row)
 
@@ -82,7 +84,7 @@ const populateTable = (taskList) => {
                 let found = false;
                 // loop through the table to find the first element that is completed for insertion
                 for (const child of table.children) {
-                    if (child.children[0].classList[1] === "complete") {
+                    if (child.classList[1] === "complete") {
                         table.insertBefore(row, child);
                         found = true;
                         break;
