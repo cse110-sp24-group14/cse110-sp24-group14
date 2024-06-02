@@ -74,6 +74,20 @@ export const server = http.createServer((req, res) => {
                 res.end(JSON.stringify(numCompleted));
             }
         });
+    } else if (req.url === '/add-snippet' && req.method === 'POST') {
+        // adds a snippet entry
+        const code = query.get('code');
+        const language = query.get('language');
+        addSnippet(code, language, (err, result) => {
+            if (err) {
+                res.writeHead(500, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ error: 'Internal Server Error' }));
+            } else {
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ message: 'Snippet added successfully', result }));
+            }
+        });
+
     } else if (req.url === '/' && req.method === 'GET') {
         fs.readFile(path.join(__dirname, 'index.html'), (err, data) => {
             if (err) {
@@ -84,17 +98,17 @@ export const server = http.createServer((req, res) => {
                 res.end(data);
             }
         });
-    // Update the condition for serving CSS files
+        // Update the condition for serving CSS files
     } else if (req.url.endsWith('.css') && req.method === 'GET') {
         serveStaticFile(res, req.url.slice(1), 'text/css');
 
 
-    // Update the condition for serving JavaScript files
+        // Update the condition for serving JavaScript files
     } else if (req.url.endsWith('.js') && req.method === 'GET') {
         serveStaticFile(res, req.url.slice(1), 'text/javascript');
     } else if (req.url.endsWith('.html') && req.method === 'GET') {
         serveStaticFile(res, req.url.slice(1), 'text/html');
-    // Add conditions for serving image files
+        // Add conditions for serving image files
     } else if (req.url.match(/\.(jpg|jpeg|png|gif|svg)$/) && req.method === 'GET') {
         const ext = path.extname(req.url).slice(1);
         const contentType = ext === 'svg' ? 'image/svg+xml' : `image/${ext === 'jpg' ? 'jpeg' : ext}`;
@@ -118,6 +132,68 @@ const serveStaticFile = (res, filename, contentType) => {
         }
     });
 };
+
+const addSnippet = (code, language, callback) => {
+    const sqlQuery = `INSERT INTO Snippets (code, code_language) VALUES (${code}, ${language})`;
+    connection.query(sqlQuery, (error, results) => {
+        if (error) {
+            callback(error, null);
+        } else {
+            callback(null, results);
+        }
+    });
+};
+
+// Handle add snippet request
+const handleAddSnippet = (req, res) => {
+    let body = '';
+    req.on('data', chunk => {
+        body += chunk.toString();
+    });
+    req.on('end', () => {
+        const parsedBody = querystring.parse(body);
+        const snippet = {
+            create_date: new Date().toISOString().split('T')[0],
+            code: parsedBody.code,
+            language: parsedBody.language
+        };
+        addSnippet(snippet, (err, result) => {
+            if (err) {
+                res.writeHead(500, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ error: 'Internal Server Error' }));
+            } else {
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ message: 'Snippet added successfully', result }));
+            }
+        });
+    });
+};
+
+// Add a new function to fetch snippets
+const fetchSnippets = (callback) => {
+    connection.query('SELECT * FROM Snippets', (error, results) => {
+        if (error) {
+            callback(error, null);
+        } else {
+            callback(null, results);
+        }
+    });
+};
+
+// Handle fetching snippets request
+export const handleFetchSnippets = (req, res) => {
+    fetchSnippets((err, snippets) => {
+        if (err) {
+            res.writeHead(500, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ error: 'Internal Server Error' }));
+        } else {
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify(snippets));
+        }
+    });
+};
+
+
 
 // Start the server
 server.listen(3000, () => {

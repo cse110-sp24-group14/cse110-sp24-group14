@@ -1,0 +1,70 @@
+#snippetForm {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #e5c775;
+  border-radius: 5px;
+  box-shadow: 0 1px 1px rgba(50, 10, 10, 0.1);
+  position: absolute;
+  top: 100px; 
+  left: 70%;
+  transform: translateX(-50%); 
+}
+
+h3{
+  color: white;
+  text-align: center;
+  font-size: 30px;
+}
+
+#codeEditorContainer {
+  position: relative;
+  width: 50%;
+  height: 20px;
+  margin-bottom: 20px;
+  border: 1px solid #ce5a5a;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+#codeEditor {
+  width: 95%;
+  height: 100%;
+  padding: 10px;
+  font-family: monospace;
+  font-size: 14px;
+  resize: none;
+  border: none;
+  outline: none;
+  background-color: #000;
+  color: #fff;
+}
+
+.snippet-container {
+  margin-top: 20px;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+.snippet {
+  margin-bottom: 20px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.snippet pre {
+  margin: 0;
+  overflow-x: auto;
+}
+
+.snippet code {
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.snippet p {
+  margin-top: 5px;
+  font-size: 14px;
+}
