@@ -76,7 +76,7 @@ const updateTaskCompletion = (taskId, completed, callback) => {
 
     connection.query(sqlQuery, (error, result) => {
         if (error) {
-            callback(err, null);
+            callback(error, null);
         } else {
             callback(null, result);
         }
@@ -97,7 +97,7 @@ const deleteTask = (taskId, callback) => {
 
     connection.query(sqlQuery, (error, result) => {
         if (error) {
-            callback(err, null);
+            callback(error, null);
         } else {
             callback(null, result);
         }
@@ -136,7 +136,7 @@ export const server = http.createServer((req, res) => {
                 res.end(JSON.stringify(numCompleted));
             }
         });
-    } else if (pathname === '/updated-task-completion' && req.method === 'POST') {
+    } else if (pathname === '/updated-task-completion' && req.method === 'PUT') {
         // updates the completed state of task
         const taskId = query.get('taskId');
         const completed = query.get('completed');
