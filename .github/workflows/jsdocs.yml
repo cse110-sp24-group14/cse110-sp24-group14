@@ -18,10 +18,8 @@ jobs:
         uses: andstor/jsdoc-action@v1.2.1
         with:
           source_dir: ./source
+          output_dir: ./out
           recurse: true
-          front_page: README.md
-          template: minami
-          config_file: conf.json
       # - name: Deploy
       #   uses: peaceiris/actions-gh-pages@v3
       #   with:
