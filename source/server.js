@@ -28,6 +28,23 @@ const fetchTasks = (callback) => {
 };
 
 /**
+ * Gets all dates of site visits
+ * 
+ * @param {Function} callback 
+ */
+const fetchVisits = (callback) => {
+    connection.query('SELECT * FROM SiteVisits', (error, results) => {
+        if (error) {
+            callback(error, null);
+        } else {
+            console.log(results);
+            callback(null, results);
+        }
+    });
+};
+
+
+/**
  * Gets number of tasks that are completed from backend
  * 
  * @param {Function} callback 
@@ -72,6 +89,17 @@ export const server = http.createServer((req, res) => {
             } else {
                 res.writeHead(200, { 'Content-Type': 'application/json' });
                 res.end(JSON.stringify(numCompleted));
+            }
+        });
+    } else if (req.url === '/streak' && req.method === 'GET') {
+        // fetches streak days of current week
+        fetchVisits((err, daysVisited) => {
+            if (err) {
+                res.writeHead(500, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ error: 'Internal Server Error' }));
+            } else {
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify(daysVisited));
             }
         });
     } else if (req.url === '/' && req.method === 'GET') {

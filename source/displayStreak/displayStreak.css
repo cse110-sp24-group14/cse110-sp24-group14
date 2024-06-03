@@ -1,0 +1,51 @@
+#streak-container{
+    display: flex;
+    flex-direction: column;
+    background-color: #F6F6F6;
+    border-radius: 12px;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+
+    font-family: "verdana", sans-serif;
+    width: 100%;
+    min-width: 100px;
+    max-width: 200px;
+    min-height: 90px;
+    font-size: 12px;
+    padding: 5px 20px 5px 20px;
+
+}
+
+#streak-container > p{
+    margin-bottom: 15px;
+    margin-top: 0px;
+    color: #2D2E2E;
+    font-weight: 600;
+}
+
+#streak-days{
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    
+}
+
+#streak-days > * > *{
+    padding: 0px;
+    margin: 0px;
+    min-height: 20px;
+    max-width: 20px;
+}
+
+#streak-days > * > p{
+    color: #2D2E2E;
+    opacity: 70%;
+}
+
+.not-streak{
+    filter: grayscale(1);
+}
