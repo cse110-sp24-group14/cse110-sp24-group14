@@ -21,6 +21,7 @@ jobs:
           recurse: true
           front_page: README.md
           template: minami
+          config_file: conf.json
       # - name: Deploy
       #   uses: peaceiris/actions-gh-pages@v3
       #   with:
