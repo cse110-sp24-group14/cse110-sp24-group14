@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - staging
+      - edward/add-complete-delete-button-functionalities
 
 jobs:
   deploy:
