@@ -17,6 +17,33 @@ const connection = mysql.createConnection({
     port: 3307
 });
 
+const addStreaks = (callback) => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);  // Set to the start of the day
+    const formattedDate = today.toISOString().split('T')[0];  // Format date as YYYY-MM-DD
+
+    // First, check if there's already a visit for today
+    const checkQuery = 'SELECT * FROM SiteVisits WHERE visit_date = ?';
+    connection.query(checkQuery, [formattedDate], (checkError, checkResults) => {
+        if (checkError) {
+            callback(checkError);
+        } else if (checkResults.length > 0) {
+            // If a record for today exists, do nothing (or handle as needed)
+            callback(null, { message: 'Visit already recorded for today' });
+        } else {
+            // If no record for today exists, insert a new record
+            const insertQuery = 'INSERT INTO SiteVisits (visit_date) VALUES (?)';
+            connection.query(insertQuery, [formattedDate], (insertError, insertResults) => {
+                if (insertError) {
+                    callback(insertError);
+                } else {
+                    callback(null, insertResults);
+                }
+            });
+        }
+    });
+};
+
 
 const fetchTasks = (callback) => {
     connection.query('SELECT * FROM Tasks', (error, results) => {
@@ -136,7 +163,6 @@ export const server = http.createServer((req, res) => {
         serveStaticFile(res, req.url.slice(1), 'text/javascript');
     } else if (req.url.endsWith('.html') && req.method === 'GET') {
         serveStaticFile(res, req.url.slice(1), 'text/html');
-
     // Add conditions for serving image files
     } else if (req.url.match(/\.(jpg|jpeg|png|gif|svg)$/) && req.method === 'GET') {
         const ext = path.extname(req.url).slice(1);
