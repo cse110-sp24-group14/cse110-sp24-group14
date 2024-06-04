@@ -1,0 +1,27 @@
+name: GitHub pages
+
+on:
+  push:
+    branches:
+      - staging
+      - edward/add-complete-delete-button-functionalities
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Debug Source Directory
+        run: |
+          echo "GITHUB_WORKSPACE: $GITHUB_WORKSPACE"
+      - name: Build
+        uses: andstor/jsdoc-action@v1.2.1
+        with:
+          source_dir: ./source
+          output_dir: ./out
+          recurse: true
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          publish_dir: ./out
+          deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
