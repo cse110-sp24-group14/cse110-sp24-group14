@@ -50,7 +50,7 @@ class SideCalendar extends HTMLElement {
             }
 
             #today-cell {
-                background-color: #2d687f;
+                background-color: #045a7c;
             }
         `;
 
