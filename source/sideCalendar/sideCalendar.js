@@ -50,6 +50,7 @@ class SideCalendar extends HTMLElement {
 
         this.createSidebar();
         this.loadSidebar(this.globalDate)
+        this.allowScroll();
     }
 
     /**
@@ -104,6 +105,19 @@ class SideCalendar extends HTMLElement {
         for (let day = 0; day < BAR_LENGTH; day++) {
             HTMLtable[day].innerHTML = `${dayOfWeek[dateList[day].getDay()]} ${dateList[day].getMonth()+1}.${dateList[day].getDate()}`
         }
+    }
+
+    allowScroll() {
+        const table = this.shadowRoot.querySelector('table')
+        table.onwheel = (event) => {
+
+            // detect direction of scrolling
+            if (event.deltaY > 0) { // up
+                console.log("up");
+            } else { // down
+                console.log("down");
+            }
+        };
     }
 }
 
