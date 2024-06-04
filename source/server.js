@@ -3,6 +3,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import http from 'http'
 import fs from 'fs'
+import url from 'url'
 // Derive __dirname
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -16,6 +17,33 @@ const connection = mysql.createConnection({
     port: 3307
 });
 
+const addStreaks = (callback) => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);  // Set to the start of the day
+    const formattedDate = today.toISOString().split('T')[0];  // Format date as YYYY-MM-DD
+
+    // First, check if there's already a visit for today
+    const checkQuery = 'SELECT * FROM SiteVisits WHERE visit_date = ?';
+    connection.query(checkQuery, [formattedDate], (checkError, checkResults) => {
+        if (checkError) {
+            callback(checkError);
+        } else if (checkResults.length > 0) {
+            // If a record for today exists, do nothing (or handle as needed)
+            callback(null, { message: 'Visit already recorded for today' });
+        } else {
+            // If no record for today exists, insert a new record
+            const insertQuery = 'INSERT INTO SiteVisits (visit_date) VALUES (?)';
+            connection.query(insertQuery, [formattedDate], (insertError, insertResults) => {
+                if (insertError) {
+                    callback(insertError);
+                } else {
+                    callback(null, insertResults);
+                }
+            });
+        }
+    });
+};
+
 
 const fetchTasks = (callback) => {
     connection.query('SELECT * FROM Tasks', (error, results) => {
@@ -26,6 +54,7 @@ const fetchTasks = (callback) => {
         }
     });
 };
+
 
 /**
  * Gets all dates of site visits
@@ -43,7 +72,24 @@ const fetchVisits = (callback) => {
     });
 };
 
-
+/**
+ * Gets tasks for the current month you are at
+ * 
+ * @param {year, month, Function} callback 
+ */
+const fetchTasksDue = (year, month, callback) => {
+    const sqlQuery = 'SELECT * FROM Tasks WHERE YEAR(due_date) = ? AND MONTH(due_date) = ?';
+    console.log('Executing query:', sqlQuery, 'with parameters:', year, month);
+    connection.execute(sqlQuery, [year, month], (error, results) => {
+        if (error) {
+            console.error('Error fetching tasks for month:', error);
+            callback(error, null);
+        } else {
+            callback(null, results);
+        }
+    });
+};
+          
 /**
  * Gets number of tasks that are completed from backend
  * 
@@ -70,6 +116,10 @@ const fetchNumberCompleted = (callback) => {
 
 // Create an HTTP server
 export const server = http.createServer((req, res) => {
+    const parsedUrl = url.parse(req.url, true); // Parse the URL
+    const pathname = parsedUrl.pathname;
+    const query = parsedUrl.query;
+
     if (req.url === '/tasks' && req.method === 'GET') {
         fetchTasks((err, users) => {
             if (err) {
@@ -80,6 +130,25 @@ export const server = http.createServer((req, res) => {
                 res.end(JSON.stringify(users));
             }
         });
+    } else if (pathname === '/tasks-this-month' && req.method === 'GET') {
+        const year = parseInt(query.year, 10);
+        const month = parseInt(query.month, 10);
+        console.log('Received request for tasks this month:', year, month);
+        // Ensure year and month are valid
+        if (!isNaN(year) && !isNaN(month)) {
+            fetchTasksDue(year, month, (err, tasks) => {
+                if (err) {
+                    res.writeHead(500, { 'Content-Type': 'application/json' });
+                    res.end(JSON.stringify({ error: 'Internal Server Error' }));
+                } else {
+                    res.writeHead(200, { 'Content-Type': 'application/json' });
+                    res.end(JSON.stringify(tasks));
+                }
+            });
+        } else {
+            res.writeHead(400, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ error: 'Bad Request' }));
+        }
     } else if (req.url === '/num-completed' && req.method === 'GET') {
         // fetches number of completed tasks
         fetchNumberCompleted((err, numCompleted) => {
@@ -127,6 +196,7 @@ export const server = http.createServer((req, res) => {
         const ext = path.extname(req.url).slice(1);
         const contentType = ext === 'svg' ? 'image/svg+xml' : `image/${ext === 'jpg' ? 'jpeg' : ext}`;
         serveStaticFile(res, req.url.slice(1), contentType);
+
 
     } else {
         res.writeHead(404, { 'Content-Type': 'text/plain' });
