@@ -79,5 +79,6 @@ INSERT INTO SiteVisits (visit_date) VALUES
 
 CREATE TABLE Snippets (
     code TEXT NOT NULL,
-    code_language VARCHAR(50) NOT NULL
+    code_language VARCHAR(50) NOT NULL,
+    created_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );

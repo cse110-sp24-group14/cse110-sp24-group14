@@ -159,7 +159,7 @@ const addSnippet = (code, language, callback) => {
 
 // Add a new function to fetch snippets
 const fetchSnippets = (callback) => {
-    connection.query('SELECT * FROM Snippets', (error, results) => {
+    connection.query('SELECT * FROM Snippets ORDER BY created_date DESC', (error, results) => {
         if (error) {
             callback(error, null);
         } else {
