@@ -46,6 +46,7 @@ const deleteTask = (id) => {
 const populateTable = (taskList) => {
     
     const table = document.getElementById("task-table");
+    table.innerHTML = ""
 
     // go through each task and create a row
     taskList.forEach((task) => {
@@ -157,10 +158,22 @@ const psuedoUpdateCompletedTasks = () => {
     numTasks.innerText = Number(numTasks.innerText) + 1;
 }
 
-try {
-    let currentDate = new Date(2024, 4, 31).toISOString().slice(0, 10);
-    console.log(`Current date: ${currentDate}`)
-    fetchJson(currentDate);
-} catch (error) {
-    console.error(error);
-}
+
+window.addEventListener("DOMContentLoaded", () => {
+
+    const sidebar = document.querySelector("side-calendar");
+    
+    const observer = new MutationObserver(() => {
+        try {
+            const currentDate = sidebar.globalDate.toISOString().slice(0, 10);
+            fetchJson(currentDate);
+        } catch (error) {
+            console.error(error);
+        }
+    })
+
+    observer.observe(sidebar.shadowRoot.querySelector("table"), {
+        subtree: true,
+        childList: true,
+    });
+})
