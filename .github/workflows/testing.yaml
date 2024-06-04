@@ -3,7 +3,8 @@ name: Jest Unit Tests
 on:
   pull_request:
     branches:
-      main
+      - main
+      - staging
 
 jobs: 
   tests: 
@@ -19,6 +20,6 @@ jobs:
         working-directory: ./source
         run: npm ci
 
-      - name: Code Linting
+      - name: Unit test
         working-directory: ./source 
         run: npm run test -- --passWithNoTests
