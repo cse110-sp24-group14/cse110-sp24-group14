@@ -163,6 +163,7 @@ export const server = http.createServer((req, res) => {
         serveStaticFile(res, req.url.slice(1), 'text/javascript');
     } else if (req.url.endsWith('.html') && req.method === 'GET') {
         serveStaticFile(res, req.url.slice(1), 'text/html');
+
     // Add conditions for serving image files
     } else if (req.url.match(/\.(jpg|jpeg|png|gif|svg)$/) && req.method === 'GET') {
         const ext = path.extname(req.url).slice(1);
