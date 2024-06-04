@@ -1,7 +1,8 @@
 class SideCalendar extends HTMLElement {
     constructor() { 
         super(); 
-        this.globalDate = new Date();
+        this.todayDate = new Date(); // today's date
+        this.globalDate = new Date(); // shown selected date
         this.attachShadow({ mode: "open" });
     }
 
@@ -110,13 +111,15 @@ class SideCalendar extends HTMLElement {
     allowScroll() {
         const table = this.shadowRoot.querySelector('table')
         table.onwheel = (event) => {
-
             // detect direction of scrolling
             if (event.deltaY > 0) { // up
                 console.log("up");
+                this.globalDate.setDate(this.globalDate.getDate() + 1);
             } else { // down
                 console.log("down");
+                this.globalDate.setDate(this.globalDate.getDate() - 1);
             }
+            this.loadSidebar(this.globalDate);
         };
     }
 }
