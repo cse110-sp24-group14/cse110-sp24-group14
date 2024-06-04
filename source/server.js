@@ -24,9 +24,7 @@ const connection = mysql.createConnection({
  */
 const fetchTasks = (date, callback) => {
     // const date = new Date().toISOString().slice(0, 10);
-    console.log(date)
     const query = `SELECT * FROM Tasks WHERE due_date = '${date}'`
-    console.log(query)
     connection.query(query, (error, results) => {
         if (error) {
             callback(error, null);
@@ -109,12 +107,10 @@ const deleteTask = (taskId, callback) => {
  */
 export const server = http.createServer((req, res) => {
 
-    // console.log("Running")
     const parsedUrl = new URL(req.url, `http://${req.headers.host}`);
     const pathname = parsedUrl.pathname;
     const query = parsedUrl.searchParams;
     if (pathname === '/tasks' && req.method === 'GET') {
-        console.log("inside")
         const date = query.get('date');
         fetchTasks(date, (err, users) => {
             if (err) {
