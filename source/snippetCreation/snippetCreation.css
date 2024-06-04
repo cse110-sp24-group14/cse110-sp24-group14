@@ -1,6 +1,7 @@
+/* Snippet Container */
+/* TODO: Remove/change ratios for better tablet/phone implementation */
 #snippet {
-  /* TODO: Remove/change ratios for better tablet/phone implementation when decided */
-  display: flex;
+  display: block;
   position: absolute;
   top: 105px; /* CURRENT: header + 20px = 105px; PREV: 116px / 1024px */
   right: 1.4%; /* 20px / 1440px */
@@ -15,14 +16,31 @@
   background-color: #F6F6F6;
 } 
 
-#snippet p {
-  /* TODO: 
-  - add global font-family
-  - make weight and size dynamic (currently static from Figma) */
+/* Snippet Title */
+/* TODO: 
+- add global font-family
+- make weight and size dynamic (currently static from Figma) */
+#snippet h1 {
+  display: flex;
+  justify-content: center;
   font-weight: 400;
   font-size: 24px; 
 }
 
+/* Code Snippets */
+#snippet ul {
+  list-style-type: none;
+  justify-content: center;
+  margin: 0px;
+  padding: 0px;
+}
+
+#snippet-box {
+  display: grid;
+  flex-direction: column;
+}
+
+/* Snippet Submission Form */
 #snippet form {
   width: 100%;
   background-color: #e5c775;
