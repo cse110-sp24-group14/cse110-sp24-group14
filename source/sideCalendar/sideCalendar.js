@@ -128,7 +128,8 @@ class SideCalendar extends HTMLElement {
 
             // allows switching to selecting date when clicked
             HTMLtable[day].addEventListener('click', () => {
-                this.loadSidebar(dateList[day]);
+                this.globalDate = dateList[day];
+                this.loadSidebar(this.globalDate);
             });
         }
     }
