@@ -1,4 +1,7 @@
 class SideCalendar extends HTMLElement {
+    /**
+     * Constructor to define date attributes and shadow root
+     */
     constructor() { 
         super(); 
         this.todayDate = new Date(); // today's date
@@ -6,6 +9,9 @@ class SideCalendar extends HTMLElement {
         this.attachShadow({ mode: "open" });
     }
 
+    /**
+     * Creates elements when loaded
+     */
     connectedCallback() {
         // attach styling
         const styles = document.createElement('style');
@@ -141,6 +147,15 @@ class SideCalendar extends HTMLElement {
             }
             this.loadSidebar(this.globalDate);
         };
+    }
+
+    /**
+     * Getter method for accessing selecting dates
+     * 
+     * @returns {Date} 
+     */
+    getSelectedDate() {
+        return this.globalDate;
     }
 }
 
