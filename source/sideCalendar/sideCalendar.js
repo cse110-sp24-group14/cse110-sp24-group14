@@ -148,15 +148,6 @@ class SideCalendar extends HTMLElement {
             this.loadSidebar(this.globalDate);
         };
     }
-
-    /**
-     * Getter method for accessing selecting dates
-     * 
-     * @returns {Date} 
-     */
-    getSelectedDate() {
-        return this.globalDate;
-    }
 }
 
 customElements.define("side-calendar", SideCalendar);
