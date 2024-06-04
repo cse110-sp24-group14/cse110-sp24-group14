@@ -105,18 +105,23 @@ class SideCalendar extends HTMLElement {
         let HTMLtable = this.shadowRoot.querySelectorAll(".date-cell");
         for (let day = 0; day < BAR_LENGTH; day++) {
             HTMLtable[day].innerHTML = `${dayOfWeek[dateList[day].getDay()]} ${dateList[day].getMonth()+1}.${dateList[day].getDate()}`
+
+            HTMLtable[day].addEventListener('click', () => {
+                this.loadSidebar(dateList[day]);
+            });
         }
     }
 
+    /**
+     * Allows the user to scroll through the sidebar
+     */
     allowScroll() {
         const table = this.shadowRoot.querySelector('table')
         table.onwheel = (event) => {
             // detect direction of scrolling
             if (event.deltaY > 0) { // up
-                console.log("up");
                 this.globalDate.setDate(this.globalDate.getDate() + 1);
-            } else { // down
-                console.log("down");
+            } else if (event.deltaY < 0) { // down
                 this.globalDate.setDate(this.globalDate.getDate() - 1);
             }
             this.loadSidebar(this.globalDate);
