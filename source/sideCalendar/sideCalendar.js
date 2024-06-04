@@ -39,11 +39,18 @@ class SideCalendar extends HTMLElement {
             
                 height: 50px;
                 width: 120px;
+
+                cursor: pointer;
+
+                border-radius: 10px;
             }
             
-            #today-cell {
+            .selected-cell {
                 border: 1px solid white;
-                border-radius: 10px;
+            }
+
+            #today-cell {
+                background-color: #2d687f;
             }
         `;
 
@@ -70,7 +77,7 @@ class SideCalendar extends HTMLElement {
 
             // if current date
             if (row == 3) {
-                dateCell.id = "today-cell";
+                dateCell.classList.add("selected-cell");
             }
 
             dateRow.appendChild(dateCell);
@@ -106,6 +113,14 @@ class SideCalendar extends HTMLElement {
         for (let day = 0; day < BAR_LENGTH; day++) {
             HTMLtable[day].innerHTML = `${dayOfWeek[dateList[day].getDay()]} ${dateList[day].getMonth()+1}.${dateList[day].getDate()}`
 
+            // highlighting for the today's date
+            if (dateList[day].valueOf() == this.todayDate.valueOf()) {
+                HTMLtable[day].id = "today-cell"
+            } else {
+                HTMLtable[day].removeAttribute("id")
+            }
+
+            // allows switching to selecting date when clicked
             HTMLtable[day].addEventListener('click', () => {
                 this.loadSidebar(dateList[day]);
             });
