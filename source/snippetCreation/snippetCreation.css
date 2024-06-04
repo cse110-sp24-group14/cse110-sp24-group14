@@ -35,9 +35,16 @@
   padding: 0px;
 }
 
-#snippet-box {
-  display: grid;
-  flex-direction: column;
+.snippet-box {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  
+  margin: 5px;
+}
+
+.snippet-box p {
+  margin: 0;
 }
 
 /* Snippet Submission Form */
