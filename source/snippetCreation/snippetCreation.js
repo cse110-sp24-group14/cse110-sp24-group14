@@ -32,6 +32,7 @@ async function fetchSnippets() {
         return [];
     }
 }
+
 // displays the snippets in the top half of the 'Snippets' grey box
 function displaySnippets(snippets) {
     const container = document.getElementById('snippet-container');
@@ -44,13 +45,17 @@ function displaySnippets(snippets) {
         const snippetText = document.createElement('p');
         snippetText.textContent = snippet.code;
 
+        const snippetType = document.createElement('p');
+        snippetType.textContent = snippet.code_language;
+
         const snippetDate = document.createElement('p');
         snippetDate.className = 'snippet-date';
         const date = new Date(snippet.created_date);
         console.log('Parsed date:', date);
-        snippetDate.textContent = `Created on: ${date.toLocaleDateString()}`;
+        snippetDate.textContent = `${date.toLocaleDateString()}`;
 
         snippetBox.appendChild(snippetText);
+        snippetBox.appendChild(snippetType);
         snippetBox.appendChild(snippetDate);
 
         container.appendChild(snippetBox);
