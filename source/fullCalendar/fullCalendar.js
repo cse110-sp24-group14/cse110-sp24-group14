@@ -209,7 +209,7 @@ class FullCalendar extends HTMLElement {
      * Updates the calendar with tasks for the current month
      */
     updateCalendarWithTasks() {
-        const calendar = this.shadowRoot.getElementById("calendar-display");
+        // const calendar = this.shadowRoot.getElementById("calendar-display");
         this.tasks.forEach(task => {
             const taskDate = new Date(task.due_date).toLocaleDateString();
             const dayCell = this.shadowRoot.getElementById(taskDate);
