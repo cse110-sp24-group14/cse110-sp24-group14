@@ -158,13 +158,13 @@ const psuedoUpdateCompletedTasks = () => {
     numTasks.innerText = Number(numTasks.innerText) + 1;
 }
 
-
 window.addEventListener("DOMContentLoaded", () => {
 
     const sidebar = document.querySelector("side-calendar");
     
     const observer = new MutationObserver(() => {
         try {
+            // gets selected date from sidebar
             const currentDate = sidebar.globalDate.toISOString().slice(0, 10);
             fetchJson(currentDate);
         } catch (error) {
@@ -172,6 +172,7 @@ window.addEventListener("DOMContentLoaded", () => {
         }
     })
 
+    // listens for changes from the side calendar table
     observer.observe(sidebar.shadowRoot.querySelector("table"), {
         subtree: true,
         childList: true,
