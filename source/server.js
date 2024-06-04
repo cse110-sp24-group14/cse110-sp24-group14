@@ -3,6 +3,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import http from 'http'
 import fs from 'fs'
+import url from 'url'
 // Derive __dirname
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -20,6 +21,24 @@ const connection = mysql.createConnection({
 const fetchTasks = (callback) => {
     connection.query('SELECT * FROM Tasks', (error, results) => {
         if (error) {
+            callback(error, null);
+        } else {
+            callback(null, results);
+        }
+    });
+};
+
+/**
+ * Gets tasks for the current month you are at
+ * 
+ * @param {year, month, Function} callback 
+ */
+const fetchTasksDue = (year, month, callback) => {
+    const sqlQuery = 'SELECT * FROM Tasks WHERE YEAR(due_date) = ? AND MONTH(due_date) = ?';
+    console.log('Executing query:', sqlQuery, 'with parameters:', year, month);
+    connection.execute(sqlQuery, [year, month], (error, results) => {
+        if (error) {
+            console.error('Error fetching tasks for month:', error);
             callback(error, null);
         } else {
             callback(null, results);
@@ -53,6 +72,10 @@ const fetchNumberCompleted = (callback) => {
 
 // Create an HTTP server
 export const server = http.createServer((req, res) => {
+    const parsedUrl = url.parse(req.url, true); // Parse the URL
+    const pathname = parsedUrl.pathname;
+    const query = parsedUrl.query;
+
     if (req.url === '/tasks' && req.method === 'GET') {
         fetchTasks((err, users) => {
             if (err) {
@@ -63,6 +86,25 @@ export const server = http.createServer((req, res) => {
                 res.end(JSON.stringify(users));
             }
         });
+    } else if (pathname === '/tasks-this-month' && req.method === 'GET') {
+        const year = parseInt(query.year, 10);
+        const month = parseInt(query.month, 10);
+        console.log('Received request for tasks this month:', year, month);
+        // Ensure year and month are valid
+        if (!isNaN(year) && !isNaN(month)) {
+            fetchTasksDue(year, month, (err, tasks) => {
+                if (err) {
+                    res.writeHead(500, { 'Content-Type': 'application/json' });
+                    res.end(JSON.stringify({ error: 'Internal Server Error' }));
+                } else {
+                    res.writeHead(200, { 'Content-Type': 'application/json' });
+                    res.end(JSON.stringify(tasks));
+                }
+            });
+        } else {
+            res.writeHead(400, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ error: 'Bad Request' }));
+        }
     } else if (req.url === '/num-completed' && req.method === 'GET') {
         // fetches number of completed tasks
         fetchNumberCompleted((err, numCompleted) => {
@@ -94,6 +136,7 @@ export const server = http.createServer((req, res) => {
         serveStaticFile(res, req.url.slice(1), 'text/javascript');
     } else if (req.url.endsWith('.html') && req.method === 'GET') {
         serveStaticFile(res, req.url.slice(1), 'text/html');
+
     // Add conditions for serving image files
     } else if (req.url.match(/\.(jpg|jpeg|png|gif|svg)$/) && req.method === 'GET') {
         const ext = path.extname(req.url).slice(1);
