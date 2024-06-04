@@ -1,10 +1,10 @@
 // event listener to handle DOM Content load first upon which requests can be made
 document.addEventListener('DOMContentLoaded', () => {
-    const snippetForm = document.getElementById('snippetForm');
+    const snippetForm = document.getElementById('snippet-form');
     snippetForm.addEventListener('submit', (event) => {
         event.preventDefault();
-        const code = document.getElementById('codeInput').value;
-        const language = document.getElementById('languageSelect').value;
+        const code = document.getElementById('code-input').value;
+        const language = document.getElementById('language-select').value;
         snippetCompleted(code, language);
     });
     retrieve();
@@ -34,7 +34,7 @@ async function fetchSnippets() {
 }
 // displays the snippets in the top half of the 'Snippets' grey box
 function displaySnippets(snippets) {
-    const container = document.getElementById('snippets-container');
+    const container = document.getElementById('snippet-container');
     container.innerHTML = '';
 
     snippets.forEach(snippet => {
