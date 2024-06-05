@@ -12,12 +12,12 @@ class SideCalendar extends HTMLElement {
         this.attachShadow({ mode: "open" });
     }
 
-    // Method to add an observer to the list
+    // add an observer to the list
     addObserver(observer) {
         this.observers.push(observer);
     }
 
-    // Method to remove an observer from the list
+    // remove an observer from the list
     removeObserver(observer) {
         this.observers = this.observers.filter(obs => obs !== observer);
     }

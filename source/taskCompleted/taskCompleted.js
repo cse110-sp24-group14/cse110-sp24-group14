@@ -23,7 +23,7 @@ class CompletedStatistics extends HTMLElement {
 
         this.loadStyles();
         this.loadSVG();
-        // this.fetchNumCompleted();
+        this.update(new Date()) // initial load date
 
         const sidebar = document.querySelector('side-calendar');
         sidebar.addObserver(this)

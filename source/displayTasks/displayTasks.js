@@ -117,6 +117,10 @@ const populateTable = (taskList) => {
             table.prepend(row);
         }
     });
+
+    if (taskList.length === 0) {
+        table.innerHTML = "No tasks. Add a task for the day!"
+    }
 };
 
 /**
@@ -169,6 +173,8 @@ window.addEventListener("DOMContentLoaded", () => {
             }
         }
     }();
+
+    taskObserver.update(new Date()); // initial load date
 
     const sidebar = document.querySelector("side-calendar");
     sidebar.addObserver(taskObserver);
