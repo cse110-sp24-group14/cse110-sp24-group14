@@ -5,7 +5,6 @@ class CompletedStatistics extends HTMLElement {
     }
 
     connectedCallback() {
-
         const statisticDiv = document.createElement('div')
         statisticDiv.id = "statistics-div"
         this.shadowRoot.appendChild(statisticDiv);
@@ -24,7 +23,10 @@ class CompletedStatistics extends HTMLElement {
 
         this.loadStyles();
         this.loadSVG();
-        this.fetchNumCompleted();
+        // this.fetchNumCompleted();
+
+        const sidebar = document.querySelector('side-calendar');
+        sidebar.addObserver(this)
     }
 
     loadStyles() {
@@ -99,15 +101,15 @@ class CompletedStatistics extends HTMLElement {
         `;
     }
 
-    fetchNumCompleted() {
-        fetch('/num-completed')
+    update(date) {
+        fetch(`/num-completed?date=${date.toISOString().slice(0, 10)}`)
             .then(response => response.json())
             .then(data => {
                 const paragraph = this.shadowRoot.getElementById("num-tasks");
                 paragraph.innerHTML = data[0].CompletedCount;
             })
             .catch(error => console.error('Error fetching number of tasks completed:', error));
-    }    
+    }
 }
 
 customElements.define("completed-statistics", CompletedStatistics)

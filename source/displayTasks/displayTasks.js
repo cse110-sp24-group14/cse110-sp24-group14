@@ -21,7 +21,7 @@ const fetchJson = (date) => {
 const updateCompleted = (id, completion) => {
     // update the task to be completed in SQL database
     fetch(
-        `/updated-task-completion?taskId=${id}&completed=${completion}`, 
+        `/updated-task-completion?taskId=${id}&completed=${completion}`,
         { method: 'PUT' }
     );
 }
@@ -44,7 +44,7 @@ const deleteTask = (id) => {
  * @param {JSON} taskList - list of today's fetched tasks
  */
 const populateTable = (taskList) => {
-    
+
     const table = document.getElementById("task-table");
     table.innerHTML = ""
 
@@ -130,11 +130,11 @@ const addButtons = () => {
 
     const complete_img = document.createElement("img");
     complete_img.src = "displayTasks/Check.png";
-    complete_img.alt = "Complete"; 
+    complete_img.alt = "Complete";
 
     const delete_img = document.createElement("img");
     delete_img.src = "displayTasks/TrashSimple.png";
-    delete_img.alt = "Delete"; 
+    delete_img.alt = "Delete";
 
     complete_img.classList.add("row-image");
     delete_img.classList.add("row-image");
@@ -159,22 +159,17 @@ const psuedoUpdateCompletedTasks = () => {
 }
 
 window.addEventListener("DOMContentLoaded", () => {
+    // class to allow observing of global selected date
+    const taskObserver = new class {
+        update(date) {
+            try {
+                fetchJson(date.toISOString().slice(0, 10));
+            } catch (error) {
+                console.error(error);
+            }
+        }
+    }();
 
     const sidebar = document.querySelector("side-calendar");
-    
-    const observer = new MutationObserver(() => {
-        try {
-            // gets selected date from sidebar
-            const currentDate = sidebar.globalDate.toISOString().slice(0, 10);
-            fetchJson(currentDate);
-        } catch (error) {
-            console.error(error);
-        }
-    })
-
-    // listens for changes from the side calendar table
-    observer.observe(sidebar.shadowRoot.querySelector("table"), {
-        subtree: true,
-        childList: true,
-    });
+    sidebar.addObserver(taskObserver);
 })
