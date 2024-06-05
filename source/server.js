@@ -41,14 +41,15 @@ const fetchTasks = (date, callback) => {
  * 
  * @param {Function} callback - handles the outcome of the fetch
  */
-const fetchNumberCompleted = (callback) => {
+const fetchNumberCompleted = (date, callback) => {
 
     const sqlQuery = `
         SELECT CASE
-                WHEN COUNT(*) > 0 THEN (SELECT SUM(completed) FROM Tasks) 
+                WHEN COUNT(*) > 0 THEN SUM(completed) 
                 ELSE 0
             END AS CompletedCount
         FROM Tasks
+        WHERE due_date = '${date}'
     `
 
     connection.query(sqlQuery, (error, results) => {
@@ -127,7 +128,8 @@ export const server = http.createServer((req, res) => {
         });
     } else if (pathname === '/num-completed' && req.method === 'GET') {
         // fetches number of completed tasks
-        fetchNumberCompleted((err, numCompleted) => {
+        const date = query.get('date');
+        fetchNumberCompleted(date, (err, numCompleted) => {
             if (err) {
                 res.writeHead(500, { 'Content-Type': 'application/json' });
                 res.end(JSON.stringify({ error: 'Internal Server Error' }));
