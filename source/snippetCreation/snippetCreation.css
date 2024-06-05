@@ -1,0 +1,101 @@
+/* Snippets Container */
+#snippet {
+  display: block;
+  position: absolute;
+  top: 105px; /* CURRENT: header + 20px = 105px; PREV: 116px / 1024px */
+  right: 1.4%; /* 20px / 1440px */
+
+  height: 52.54%; /* 538px / 1024px */
+  width: 57.91%; /* 834px / 1440px */ 
+  border-radius: 12px;
+
+  justify-content: center;
+
+  color: #2D2E2EB2;
+  background-color: #F6F6F6;
+} 
+
+/* Container Title */
+#snippet h1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  height: 15%;
+  margin: 0;
+
+  font-weight: 400;
+  font-size: 24px; 
+}
+
+/* Snippets List */
+#snippet ul {
+  list-style-type: none;
+  justify-content: center;
+  height: 70%;
+  overflow-y: auto;
+
+  margin: 0px;
+  padding: 0px;
+}
+
+/* Individual Entries */
+.snippet-box {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+
+  margin: 5px;
+}
+
+/* Language */
+.snippet-box .snippet-type {
+  width: 15%;
+  margin: 0 10px 0 5px;
+}
+
+/* Code */
+.snippet-box p {
+  width: 85%;
+  margin: 0 5px 0 10px;
+}
+
+/* Snippet Form */
+#snippet form {
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+  height: 15%;
+  
+  display: flex;
+  align-items: center;
+
+  border-radius: 0 0 12px 12px;
+  background-color: #e5c775;
+}
+
+#code-area {
+  display: flex;
+  align-items: center;
+  margin: 5px;
+  width: 60%;
+}
+
+#code-area label {
+  margin: 5px;
+}
+
+#code-area textarea {
+  box-sizing: border-box;
+  width: 80%;
+  height: 90%;
+  resize: none;
+}
+
+#language-area {
+  width: 25%;
+}
+
+#snippet-form button {
+  margin: 10px;
+}
