@@ -2,11 +2,43 @@ class SideCalendar extends HTMLElement {
     /**
      * Constructor to define date attributes and shadow root
      */
-    constructor() { 
-        super(); 
+    constructor() {
+        super();
         this.todayDate = new Date(); // today's date
-        this.globalDate = new Date(); // shown selected date
+        this.globalDate; // shown selected date
+
+        this.observers = []
+
         this.attachShadow({ mode: "open" });
+    }
+
+    // Method to add an observer to the list
+    addObserver(observer) {
+        this.observers.push(observer);
+    }
+
+    // Method to remove an observer from the list
+    removeObserver(observer) {
+        this.observers = this.observers.filter(obs => obs !== observer);
+    }
+
+    setGlobalDate(date) {
+        this.globalDate = date;
+
+        // removes the old table if exists to load update one
+        const table = this.shadowRoot.querySelector('table')
+        if (table !== null) { 
+            this.shadowRoot.removeChild(table);
+        }
+
+        this.createSidebar();
+        this.loadSidebar(this.globalDate)
+        this.allowScroll();
+
+        // update each observer for new global date
+        this.observers.forEach(observer => {
+            observer.update(this.globalDate);
+        });
     }
 
     /**
@@ -62,9 +94,7 @@ class SideCalendar extends HTMLElement {
 
         this.shadowRoot.appendChild(styles);
 
-        this.createSidebar();
-        this.loadSidebar(this.globalDate)
-        this.allowScroll();
+        this.setGlobalDate(new Date);
     }
 
     /**
@@ -72,7 +102,7 @@ class SideCalendar extends HTMLElement {
      */
     createSidebar() {
         const sidebar = document.createElement("table");
-        
+
         // Creates each row and cell
         for (let row = 0; row < 7; row++) {
 
@@ -102,7 +132,7 @@ class SideCalendar extends HTMLElement {
         const dayOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"] // names of days of the week
         const BAR_LENGTH = 7                                                // adjust the number of entries in the sidebar
         let dateList = []                                                   // to hold sidebar's date values
-        
+
         // get today's date
         let currDate = new Date(today);
 
@@ -113,11 +143,11 @@ class SideCalendar extends HTMLElement {
             dateList.push(new Date(currDate));
             currDate.setDate(currDate.getDate() + 1)
         }
-            
+
         /* HTML: sidebar dates */
-        let HTMLtable = this.shadowRoot.querySelectorAll(".date-cell");
+        const HTMLtable = this.shadowRoot.querySelectorAll(".date-cell");
         for (let day = 0; day < BAR_LENGTH; day++) {
-            HTMLtable[day].innerHTML = `${dayOfWeek[dateList[day].getDay()]} ${dateList[day].getMonth()+1}.${dateList[day].getDate()}`
+            HTMLtable[day].innerHTML = `${dayOfWeek[dateList[day].getDay()]} ${dateList[day].getMonth() + 1}.${dateList[day].getDate()}`
 
             // highlighting for the today's date
             if (dateList[day].valueOf() == this.todayDate.valueOf()) {
@@ -128,8 +158,7 @@ class SideCalendar extends HTMLElement {
 
             // allows switching to selecting date when clicked
             HTMLtable[day].addEventListener('click', () => {
-                this.globalDate = dateList[day];
-                this.loadSidebar(this.globalDate);
+                this.setGlobalDate(dateList[day]);
             });
         }
     }
@@ -140,13 +169,16 @@ class SideCalendar extends HTMLElement {
     allowScroll() {
         const table = this.shadowRoot.querySelector('table')
         table.onwheel = (event) => {
+
+            const dateTemp = new Date(this.globalDate);
+
             // detect direction of scrolling
             if (event.deltaY > 0) { // up
-                this.globalDate.setDate(this.globalDate.getDate() + 1);
+                dateTemp.setDate(dateTemp.getDate() + 1);
             } else if (event.deltaY < 0) { // down
-                this.globalDate.setDate(this.globalDate.getDate() - 1);
+                dateTemp.setDate(dateTemp.getDate() - 1);
             }
-            this.loadSidebar(this.globalDate);
+            this.setGlobalDate(dateTemp);
         };
     }
 }
