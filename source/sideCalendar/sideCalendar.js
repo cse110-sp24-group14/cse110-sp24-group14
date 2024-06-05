@@ -12,16 +12,39 @@ class SideCalendar extends HTMLElement {
         this.attachShadow({ mode: "open" });
     }
 
-    // add an observer to the list
+    /**
+     * Takes in an object to add an observer to allow listening
+     * 
+     * @param {object} observer 
+     */
     addObserver(observer) {
         this.observers.push(observer);
     }
 
-    // remove an observer from the list
+    /**
+     * Removes an object from the observer list to stop listening
+     * 
+     * @param {object} observer 
+     */
     removeObserver(observer) {
         this.observers = this.observers.filter(obs => obs !== observer);
     }
 
+    /**
+     * Update each observer for new global date
+     */
+    notifyObservers() {
+        // update each observer for new global date
+        this.observers.forEach(observer => {
+            observer.update(this.globalDate);
+        });
+    }
+
+    /**
+     * Sets the global date, updates the side calendar, and broadcast change to observer
+     * 
+     * @param {Date} date 
+     */
     setGlobalDate(date) {
         this.globalDate = date;
 
@@ -35,10 +58,7 @@ class SideCalendar extends HTMLElement {
         this.loadSidebar(this.globalDate)
         this.allowScroll();
 
-        // update each observer for new global date
-        this.observers.forEach(observer => {
-            observer.update(this.globalDate);
-        });
+        this.notifyObservers();
     }
 
     /**

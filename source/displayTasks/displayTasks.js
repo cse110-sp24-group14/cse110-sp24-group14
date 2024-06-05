@@ -69,7 +69,7 @@ const populateTable = (taskList) => {
 
         // add completion button if incomplete
         if (!task.completed) {
-            complete_button.onclick = () => {
+            complete_button.addEventListener("click",() => {
 
                 updateCompleted(task.id, true) // update database
                 psuedoUpdateCompletedTasks() // update statistics
@@ -98,12 +98,12 @@ const populateTable = (taskList) => {
                     table.appendChild(row);
                 }
 
-            }
+            });
 
             buttonContainer.appendChild(complete_button);
         }
 
-        delete_button.onclick = () => {
+        delete_button.addEventListener("click", () => {
             deleteTask(task.id)
             table.removeChild(row);
 
@@ -111,7 +111,7 @@ const populateTable = (taskList) => {
             if (task.completed) {
                 psuedoUpdateDelete();
             }
-        }
+        });
 
         buttonContainer.appendChild(delete_button);
         row.appendChild(buttonContainer);
@@ -123,6 +123,7 @@ const populateTable = (taskList) => {
         }
     });
 
+    // No task message
     if (taskList.length === 0) {
         table.innerHTML = "No tasks. Add a task for the day!"
     }
@@ -167,6 +168,9 @@ const psuedoUpdateCompletedTasks = () => {
     numTasks.innerText = Number(numTasks.innerText) + 1;
 }
 
+/**
+ * Decrements 1 from number of completed tasks for the statistics element
+ */
 const psuedoUpdateDelete = () => {
     const completeStats = document.querySelector("completed-statistics");
     const numTasks = completeStats.shadowRoot.getElementById("num-tasks");
