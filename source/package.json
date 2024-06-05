@@ -6,7 +6,8 @@
   "scripts": {
     "lint": "npx eslint --no-error-on-unmatched-pattern **/*.js",
     "lint:fix": "npx eslint --no-error-on-unmatched-pattern --fix .",
-    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "docs": "jsdoc -c jsdoc.conf.json"
   },
   "keywords": [],
   "author": "",
@@ -24,6 +25,7 @@
     "verbose": true
   },
   "dependencies": {
+    "jsdoc": "^4.0.3",
     "mysql2": "^3.9.7",
     "puppeteer": "^22.10.0",
     "sqlite3": "^5.1.7"
