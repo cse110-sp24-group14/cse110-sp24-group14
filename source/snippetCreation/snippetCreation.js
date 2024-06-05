@@ -42,9 +42,6 @@ function displaySnippets(snippets) {
         // External conatiner for entire snippet
         const snippetBox = document.createElement('div');
         snippetBox.className = 'snippet-box';
-        // Sub-container for necessary info (lang and date)
-        const snippetInfo = document.createElement('div');
-        snippetInfo.className = 'snippet-info';
 
         // Code Snippet
         const snippetText = document.createElement('p');
@@ -53,20 +50,10 @@ function displaySnippets(snippets) {
         const snippetType = document.createElement('p');
         snippetType.className = 'snippet-type';
         snippetType.textContent = snippet.code_language;
-        // Date
-        const snippetDate = document.createElement('p');
-        snippetDate.className = 'snippet-date';
-        const date = new Date(snippet.created_date);
-        // TESTING: console.log('Parsed date:', date);
-        snippetDate.textContent = `${date.toLocaleDateString()}`;
 
-        // Add lang and date to info
-        snippetInfo.appendChild(snippetType);
-        snippetInfo.appendChild(snippetDate);
-        // Add snippet and info to box
-        snippetBox.appendChild(snippetText);
-        snippetBox.appendChild(snippetInfo);    
         // Add box to container
+        snippetBox.appendChild(snippetText);
+        snippetBox.appendChild(snippetType);    
         container.appendChild(snippetBox);
     });
 }
