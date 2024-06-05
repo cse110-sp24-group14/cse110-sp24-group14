@@ -37,18 +37,14 @@ const populateStreak = (siteVisits) => {
     startOfWeek.setDate(currentDate.getDate() - currentDate.getDay());
     startOfWeek.setHours(0, 0, 0, 0);
 
-    // Commented out in case we want to highlight days visited rather than streak days
-
-    // const filteredDates = days.filter(date => {
-    //     // Convert the current date to a Date object
-    //     const dateObj = new Date(date);
-    
-    //     // Compare the date with the given date
-    //     return dateObj >= startOfWeek;
-    // });
-
-    let streakCounter = streakAmt;
+    /* 
+    - Since we are appending the days in order, we need to calculate the first 
+    day of the streak
+    - streakStart is the first day of the streak, startCounter is the end
+    - (Mon-Sun interpreted as 0-6)
+    */
     let startCounter = currentDate.getDay();
+    let streakStart = (streakAmt > startCounter) ? startCounter : streakAmt;
 
     // Construct container for each day of the week
     for (let i = 0; i < daysName.length; i++){
@@ -61,10 +57,10 @@ const populateStreak = (siteVisits) => {
         dayImg.src = 'Fire.svg';
         
         // Identify non-streak days for styling
-        if (streakCounter != 0 && i <= startCounter){
+        if (streakAmt > 0 && i >= startCounter - streakStart && i <= 
+            startCounter){
 
             dayImg.classList.add("streak");
-            streakCounter--;
             
         } else {
             dayImg.classList.add("not-streak");
@@ -106,6 +102,7 @@ const countStreak = (daysArr) => {
     return consecutiveDays;
 };
 
+// Fetch site visits from database and build streak container
 try {
     fetchJson();
 } catch (error) {
