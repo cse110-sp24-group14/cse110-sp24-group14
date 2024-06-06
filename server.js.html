@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: server.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: server.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import mysql from 'mysql2';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import http from 'http'
+import fs from 'fs'
+import url from 'url'
+// Derive __dirname
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// MySQL connection setup
+const connection = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password: 'pw',
+    database: 'prod',
+    port: 3307
+});
+
+const addStreaks = (callback) => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);  // Set to the start of the day
+    const formattedDate = today.toISOString().split('T')[0];  // Format date as YYYY-MM-DD
+
+    // First, check if there's already a visit for today
+    const checkQuery = 'SELECT * FROM SiteVisits WHERE visit_date = ?';
+    connection.query(checkQuery, [formattedDate], (checkError, checkResults) => {
+        if (checkError) {
+            callback(checkError);
+        } else if (checkResults.length > 0) {
+            // If a record for today exists, do nothing (or handle as needed)
+            callback(null, { message: 'Visit already recorded for today' });
+        } else {
+            // If no record for today exists, insert a new record
+            const insertQuery = 'INSERT INTO SiteVisits (visit_date) VALUES (?)';
+            connection.query(insertQuery, [formattedDate], (insertError, insertResults) => {
+                if (insertError) {
+                    callback(insertError);
+                } else {
+                    callback(null, insertResults);
+                }
+            });
+        }
+    });
+};
+
+
+const fetchTasks = (callback) => {
+    connection.query('SELECT * FROM Tasks', (error, results) => {
+        if (error) {
+            callback(error, null);
+        } else {
+            callback(null, results);
+        }
+    });
+};
+
+/**
+ * Gets tasks for the current month you are at
+ * 
+ * @param {number} year - callback
+ * @param {number} month - callback
+ * @param {Function} callback - callback
+ */
+const fetchTasksDue = (year, month, callback) => {
+    const sqlQuery = 'SELECT * FROM Tasks WHERE YEAR(due_date) = ? AND MONTH(due_date) = ?';
+    console.log('Executing query:', sqlQuery, 'with parameters:', year, month);
+    connection.execute(sqlQuery, [year, month], (error, results) => {
+        if (error) {
+            console.error('Error fetching tasks for month:', error);
+            callback(error, null);
+        } else {
+            callback(null, results);
+        }
+    });
+};
+
+/**
+ * Gets number of tasks that are completed from backend
+ * 
+ * @param {Function} callback 
+ */
+const fetchNumberCompleted = (callback) => {
+
+    const sqlQuery = `
+        SELECT CASE
+                WHEN COUNT(*) > 0 THEN (SELECT SUM(completed) FROM Tasks) 
+                ELSE 0
+            END AS CompletedCount
+        FROM Tasks
+    `
+
+    connection.query(sqlQuery, (error, results) => {
+        if (error) {
+            callback(error, null);
+        } else {
+            callback(null, results);
+        }
+    })
+}
+
+// Create an HTTP server
+export const server = http.createServer((req, res) => {
+    const parsedUrl = url.parse(req.url, true); // Parse the URL
+    const pathname = parsedUrl.pathname;
+    const query = parsedUrl.query;
+
+    if (req.url === '/tasks' &amp;&amp; req.method === 'GET') {
+        fetchTasks((err, users) => {
+            if (err) {
+                res.writeHead(500, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ error: 'Internal Server Error' }));
+            } else {
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify(users));
+            }
+        });
+    } else if (pathname === '/tasks-this-month' &amp;&amp; req.method === 'GET') {
+        const year = parseInt(query.year, 10);
+        const month = parseInt(query.month, 10);
+        console.log('Received request for tasks this month:', year, month);
+        // Ensure year and month are valid
+        if (!isNaN(year) &amp;&amp; !isNaN(month)) {
+            fetchTasksDue(year, month, (err, tasks) => {
+                if (err) {
+                    res.writeHead(500, { 'Content-Type': 'application/json' });
+                    res.end(JSON.stringify({ error: 'Internal Server Error' }));
+                } else {
+                    res.writeHead(200, { 'Content-Type': 'application/json' });
+                    res.end(JSON.stringify(tasks));
+                }
+            });
+        } else {
+            res.writeHead(400, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ error: 'Bad Request' }));
+        }
+    } else if (req.url === '/num-completed' &amp;&amp; req.method === 'GET') {
+        // fetches number of completed tasks
+        fetchNumberCompleted((err, numCompleted) => {
+            if (err) {
+                res.writeHead(500, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ error: 'Internal Server Error' }));
+            } else {
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify(numCompleted));
+            }
+        });
+    } else if (req.url === '/' &amp;&amp; req.method === 'GET') {
+        fs.readFile(path.join(__dirname, 'index.html'), (err, data) => {
+            if (err) {
+                res.writeHead(500, { 'Content-Type': 'text/html' });
+                res.end('&lt;h1>Internal Server Error&lt;/h1>');
+            } else {
+                res.writeHead(200, { 'Content-Type': 'text/html' });
+                res.end(data);
+            }
+        });
+    // Update the condition for serving CSS files
+    } else if (req.url.endsWith('.css') &amp;&amp; req.method === 'GET') {
+        serveStaticFile(res, req.url.slice(1), 'text/css');
+
+
+    // Update the condition for serving JavaScript files
+    } else if (req.url.endsWith('.js') &amp;&amp; req.method === 'GET') {
+        serveStaticFile(res, req.url.slice(1), 'text/javascript');
+    } else if (req.url.endsWith('.html') &amp;&amp; req.method === 'GET') {
+        serveStaticFile(res, req.url.slice(1), 'text/html');
+
+    // Add conditions for serving image files
+    } else if (req.url.match(/\.(jpg|jpeg|png|gif|svg)$/) &amp;&amp; req.method === 'GET') {
+        const ext = path.extname(req.url).slice(1);
+        const contentType = ext === 'svg' ? 'image/svg+xml' : `image/${ext === 'jpg' ? 'jpeg' : ext}`;
+        serveStaticFile(res, req.url.slice(1), contentType);
+
+
+    } else {
+        res.writeHead(404, { 'Content-Type': 'text/plain' });
+        res.end('Not Found');
+    }
+});
+
+const serveStaticFile = (res, filename, contentType) => {
+    const filePath = path.join(__dirname, filename);
+    fs.readFile(filePath, (err, data) => {
+        if (err) {
+            res.writeHead(500, { 'Content-Type': 'text/plain' });
+            res.end('Internal Server Error');
+        } else {
+            res.writeHead(200, { 'Content-Type': contentType });
+            res.end(data);
+        }
+    });
+};
+
+// Start the server
+server.listen(3000, () => {
+    console.log('Server is running on http://localhost:3000');
+});</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#createRow">createRow</a></li><li><a href="global.html#fetchJson">fetchJson</a></li><li><a href="global.html#fetchNumberCompleted">fetchNumberCompleted</a></li><li><a href="global.html#fetchTasksDue">fetchTasksDue</a></li><li><a href="global.html#populateTable">populateTable</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Thu Jun 06 2024 20:59:00 GMT+0000 (Coordinated Universal Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
