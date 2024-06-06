@@ -83,3 +83,9 @@ INSERT INTO SiteVisits (visit_date) VALUES
     ('2024-05-22'),
     ('2024-05-24'),
     ('2024-05-25');
+
+CREATE TABLE Snippets (
+    code TEXT NOT NULL,
+    code_language VARCHAR(50) NOT NULL,
+    created_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);

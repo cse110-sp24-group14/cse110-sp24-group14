@@ -105,6 +105,11 @@ const populateTable = (taskList) => {
         delete_button.onclick = () => {
             deleteTask(task.id)
             table.removeChild(row);
+
+            // decrement complete statistic ONLY if completed
+            if (task.completed) {
+                psuedoUpdateDelete();
+            }
         }
 
         buttonContainer.appendChild(delete_button);
@@ -155,6 +160,16 @@ const psuedoUpdateCompletedTasks = () => {
     const numTasks = completeStats.shadowRoot.getElementById("num-tasks");
 
     numTasks.innerText = Number(numTasks.innerText) + 1;
+}
+
+/**
+ * Decrements 1 from number of completed tasks for the statistics element
+ */
+const psuedoUpdateDelete = () => {
+    const completeStats = document.querySelector("completed-statistics");
+    const numTasks = completeStats.shadowRoot.getElementById("num-tasks");
+
+    numTasks.innerText = Number(numTasks.innerText) - 1;
 }
 
 try {

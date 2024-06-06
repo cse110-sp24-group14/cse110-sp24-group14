@@ -7,8 +7,9 @@
 
    <link rel="stylesheet" href="index.css">
    <link rel="stylesheet" href="header/header.css">
+    <link rel="stylesheet" href="snippetCreation/snippetCreation.css">
    <script src="sideCalendar/sideCalendar.js"></script>
-
+    <script src="snippetCreation/snippetCreation.js"></script>
    <script src="taskCompleted/taskCompleted.js"></script>
 
    <script src="displayTasks/displayTasks.js"></script>
@@ -20,8 +21,8 @@
 </head>
 
 <body>
-   <header class="header">
-      <img src="header/assets/Logo.svg" alt="team logo" class="logo">
+   <header>
+      <img src="header/assets/Logo.svg" alt="team logo" class="logo">  
 
       <div class="header-content">
 
@@ -73,64 +74,45 @@
          </div>
       </article>
    </main>
+  
+    <!--text box on the bottom, with the send button-->
+     <div class="taskbox">
+      <div class="info">
+         <span class="icon-info-sign">i</span>
+         <span class="extra-info">Add any tasks using the /task tag</span>
+      </div>
+        <textarea id="taskInput" placeholder="What would you like to do today?"></textarea>
+        <button class="add-task" type="button" id="sendTask">
+           <svg width = "24" height = "24" viewBox = "0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M2 21L23 12L2 3V10L17 12L2 14V21Z" fill="white" ></path>
+           </svg>
+        </button>
+     </div>
 
-   <!-- 
-      Commented because we will not use this exact code in this table format
-      but we will use this route for the task list
-   -->
-   <table id="tasksTable" border="1">
-      <!-- <thead>
-          <tr>
-              <th>Title</th>
-              <th>Due Date</th>
-              <th>Completed</th>
-          </tr>
-      </thead> -->
-      <tbody>
-      </tbody>
-   </table>
+   <div id="snippet">
+      <h1>Snippets</h1>
+      <ul id="snippet-container"></ul>
+      <form id="snippet-form">
+         <div id="code-area">
+            <label for="code-input">Code:</label>
+            <textarea id="code-input" name="code" required></textarea>
+         </div>
 
-   <script>
+         <div id="language-area">
+            <label for="language-select">Language:</label>
+            <select id="language-select" name="language" required>
+               <option value="">Select Language</option>
+               <option value="JavaScript">JavaScript</option>
+               <option value="HTML">HTML</option>
+               <option value="CSS">CSS</option>
+            </select>
+         </div>
 
-      function fetchTasks(date) {
-         console.log(`/tasks?date=${date}`)
+         <button type="submit">Add Snippet</button>
+      </form>
+   </div>
 
-         fetch(`/tasks?date=${date}`)
-            .then(response => response.json())
-            .then(data => {
-               const tableBody = document.querySelector('#tasksTable tbody');
-               tableBody.innerHTML = '';
-               data.forEach(task => {
-                  const row = document.createElement('tr');
-                  row.innerHTML = `
-                         <td>${task.title}</td>
-                         <td>${task.due_date}</td>
-                         <td>${task.completed != 0}</td>
-                     `;
-
-                  //  Task completed
-                  if (task.completed != 0) {
-                     row.innerHTML += `
-                           <td><button class="row-button disabled" disabled><img src="./displayTasks/Check.png" /></button></td>
-                           <td><button class="row-button disabled" disabled><img src="./displayTasks/TrashSimple.png" /></button></td>
-                        `
-                     // Task not completed
-                  } else {
-                     row.innerHTML += `
-                           <td><button class="row-button"><img src="./displayTasks/Check.png" /></button></td>
-                           <td><button class="row-button"><img src="./displayTasks/TrashSimple.png" /></button></td>
-                        `
-                  }
-
-                  tableBody.appendChild(row);
-               });
-            })
-            .catch(error => console.error('Error fetching data:', error));
-      }
-      let currentDate = new Date().toISOString().slice(0, 10);
-      console.log(`Current date: ${currentDate}`)
-      fetchTasks(currentDate)
-   </script>
+   <div id="alert"></div>
 </body>
 
 </html>
