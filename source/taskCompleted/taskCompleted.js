@@ -23,7 +23,7 @@ class CompletedStatistics extends HTMLElement {
         caption.id = "task-caption"
         caption.innerText = "Total tasks completed";
 
-        statisticDiv.append(svgDiv, numTasks, numIncompleteTasks, caption);
+        statisticDiv.append(svgDiv, numTasks, caption);
 
         this.loadStyles();
         this.loadSVG();
@@ -118,8 +118,6 @@ class CompletedStatistics extends HTMLElement {
         fetch('/num-incomplete-tasks')
             .then(response => response.json())
             .then(data => {
-                const p = this.shadowRoot.getElementById("num-incomplete-tasks");
-                p.innerHTML = data[0].incomplete;
                 const tasksLeft = document.getElementById("tasks-to-go");
                 console.log(data[0].incomplete);
                 tasksLeft.innerHTML = data[0].incomplete + " more to go!";
