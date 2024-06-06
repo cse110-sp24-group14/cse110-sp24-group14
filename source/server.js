@@ -3,11 +3,9 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import http from 'http'
 import fs from 'fs'
-import url from 'url'
 // Derive __dirname
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-
 // MySQL connection setup
 const connection = mysql.createConnection({
     host: 'localhost',
@@ -17,6 +15,11 @@ const connection = mysql.createConnection({
     port: 3307
 });
 
+/**
+* Adds to the streak based on the site visits or new streak if no record exists
+*
+* @param {function} callback - function that handles the error and results of call
+*/
 const addStreaks = (callback) => {
     const today = new Date();
     today.setHours(0, 0, 0, 0);  // Set to the start of the day
@@ -44,7 +47,11 @@ const addStreaks = (callback) => {
     });
 };
 
-
+/**
+* Fetches all tasks from the backend
+*
+* @param {function} callback - function that handles the error and results of call
+*/
 const fetchTasks = (callback) => {
     connection.query('SELECT * FROM Tasks', (error, results) => {
         if (error) {
@@ -56,10 +63,12 @@ const fetchTasks = (callback) => {
 };
 
 /**
- * Gets tasks for the current month you are at
- * 
- * @param {year, month, Function} callback 
- */
+* Gets tasks for the current month you are at
+*
+* @param {number} year - year of the task fetched
+* @param {number} month - month of the task fetched
+* @param {function} callback - function that handles the error and results of call
+*/
 const fetchTasksDue = (year, month, callback) => {
     const sqlQuery = 'SELECT * FROM Tasks WHERE YEAR(due_date) = ? AND MONTH(due_date) = ?';
     console.log('Executing query:', sqlQuery, 'with parameters:', year, month);
@@ -74,10 +83,10 @@ const fetchTasksDue = (year, month, callback) => {
 };
 
 /**
- * Gets number of tasks that are completed from backend
- * 
- * @param {Function} callback 
- */
+* Gets number of tasks that are completed from backend
+*
+* @param {function} callback - function that handles the error and results of call
+*/
 const fetchNumberCompleted = (callback) => {
 
     const sqlQuery = `
@@ -97,19 +106,52 @@ const fetchNumberCompleted = (callback) => {
     })
 }
 
+/**
+ * Adds user's code snippet into the database
+ * 
+ * @param {string} code - code snippet value
+ * @param {string} language - language of code snippet
+ * @param {function} callback - function that handles the error and results of call 
+ */
+const addSnippet = (code, language, callback) => {
+    const sqlQuery = `INSERT INTO Snippets (code, code_language) VALUES ('${code}', '${language}')`;
+    connection.query(sqlQuery, (error, results) => {
+        if (error) {
+            callback(error, null);
+        } else {
+            callback(null, results);
+        }
+    });
+};
+
+/**
+ * Fetches all code snippets from the database
+ * 
+ * @param {function} callback - function that handles the error and results of call 
+ */
+const fetchSnippets = (callback) => {
+    connection.query('SELECT * FROM Snippets ORDER BY created_date DESC', (error, results) => {
+        if (error) {
+            callback(error, null);
+        } else {
+            callback(null, results);
+        }
+    });
+};
+
 // Create an HTTP server
 export const server = http.createServer((req, res) => {
     const parsedUrl = new URL(req.url, `http://${req.headers.host}`);
     const pathname = parsedUrl.pathname;
     const query = parsedUrl.searchParams;
     if (pathname === '/tasks' && req.method === 'GET') {
-        fetchTasks((err, users) => {
+        fetchTasks((err, tasks) => {
             if (err) {
                 res.writeHead(500, { 'Content-Type': 'application/json' });
                 res.end(JSON.stringify({ error: 'Internal Server Error' }));
             } else {
                 res.writeHead(200, { 'Content-Type': 'application/json' });
-                res.end(JSON.stringify(users));
+                res.end(JSON.stringify(tasks));
             }
         });
     } else if (pathname === '/tasks-this-month' && req.method === 'GET') {
@@ -179,8 +221,6 @@ export const server = http.createServer((req, res) => {
         // Update the condition for serving CSS files
     } else if (pathname.endsWith('.css') && req.method === 'GET') {
         serveStaticFile(res, req.url.slice(1), 'text/css');
-
-
         // Update the condition for serving JavaScript files
     } else if (pathname.endsWith('.js') && req.method === 'GET') {
         serveStaticFile(res, req.url.slice(1), 'text/javascript');
@@ -199,6 +239,13 @@ export const server = http.createServer((req, res) => {
     }
 });
 
+/**
+* Serves static files (html, js, html, images)
+*
+* @param {object} res - result of the call
+* @param {string} filename - name of file
+* @param {string} contentType - type of content (html, js, etc.)
+*/
 const serveStaticFile = (res, filename, contentType) => {
     const filePath = path.join(__dirname, filename);
     fs.readFile(filePath, (err, data) => {
@@ -211,43 +258,6 @@ const serveStaticFile = (res, filename, contentType) => {
         }
     });
 };
-
-const addSnippet = (code, language, callback) => {
-    const sqlQuery = `INSERT INTO Snippets (code, code_language) VALUES ('${code}', '${language}')`;
-    connection.query(sqlQuery, (error, results) => {
-        if (error) {
-            callback(error, null);
-        } else {
-            callback(null, results);
-        }
-    });
-};
-
-// Add a new function to fetch snippets
-const fetchSnippets = (callback) => {
-    connection.query('SELECT * FROM Snippets ORDER BY created_date DESC', (error, results) => {
-        if (error) {
-            callback(error, null);
-        } else {
-            callback(null, results);
-        }
-    });
-};
-
-// Handle fetching snippets request
-export const handleFetchSnippets = (req, res) => {
-    fetchSnippets((err, snippets) => {
-        if (err) {
-            res.writeHead(500, { 'Content-Type': 'application/json' });
-            res.end(JSON.stringify({ error: 'Internal Server Error' }));
-        } else {
-            res.writeHead(200, { 'Content-Type': 'application/json' });
-            res.end(JSON.stringify(snippets));
-        }
-    });
-};
-
-
 
 // Start the server
 server.listen(3000, () => {
