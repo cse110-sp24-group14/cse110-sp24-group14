@@ -164,7 +164,6 @@ export const server = http.createServer((req, res) => {
             res.writeHead(400, { 'Content-Type': 'application/json' });
             res.end(JSON.stringify({ error: 'Bad Request' }));
         }
-    } else if (req.url === '/num-completed' && req.method === 'GET') {
     } else if (pathname === '/num-completed' && req.method === 'GET') {
         // fetches number of completed tasks
         const date = query.get('date');
@@ -202,7 +201,7 @@ export const server = http.createServer((req, res) => {
                 res.end(JSON.stringify(result));
             }
         })
-    } else if (req.url === '/' && req.method === 'GET') {
+    } else if (pathname === '/' && req.method === 'GET') {
         fs.readFile(path.join(__dirname, 'index.html'), (err, data) => {
             if (err) {
                 res.writeHead(500, { 'Content-Type': 'text/html' });

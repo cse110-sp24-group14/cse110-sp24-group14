@@ -31,6 +31,10 @@ class FullCalendar extends HTMLElement {
                 cursor: pointer;
             }
             
+            td:hover {
+                background-color: #E5C775;
+            }
+
             .not-in-month {
                 background-color: rgba(231, 231, 231, 0.5);
                 cursor: default;
@@ -44,6 +48,8 @@ class FullCalendar extends HTMLElement {
                 border-radius: 3px;
                 font-size: 10px;
             }
+
+    
         `;
 
         this.shadowRoot.appendChild(styles);
@@ -194,9 +200,9 @@ class FullCalendar extends HTMLElement {
                     dayOfWeek.id = new Date(currentDate.getFullYear(), currentDate.getMonth(), date).toLocaleDateString();
 
                     dayOfWeek.addEventListener('click', ()=> {
-                        const dateStr = new Date(currentDate.getFullYear(), currentDate.getMonth(), date).toLocaleDateString();
+                        const dateStr = dayOfWeek.id;
                         console.log('Date cell clicked:', dateStr); // Log the clicked date
-                        
+                        window.location.href = `/?date=${dateStr}`;
                     });
                     date++;
                 } else {
