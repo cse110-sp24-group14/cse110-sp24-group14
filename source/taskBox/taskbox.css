@@ -1,17 +1,19 @@
 
 
-.textbox {
+.taskbox {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     background-color: #fff;
-    border: 1px solid #ccc;
+    border: 2.5px solid #cccccc92;
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     position: relative;
-    height: 200px;
-    width: 500px;
+    width: 90%;
+    box-sizing: border-box;
+    padding: 10px;
+    margin: 10px;
 }
 
 #taskInput {
@@ -22,6 +24,7 @@
     outline: none;
     width: 100%;
     height: 100px;
+    height: 100px;
     resize: none;
     box-sizing: border-box;
 }
@@ -30,10 +33,10 @@ textarea::placeholder {
     color: #bbb;
 }
 
-.textbox button {
+.taskbox button {
     background-color: rgb(1, 64, 1);
     border: none;
-    padding: 5px;
+    padding: 3px;
     cursor: pointer;
     outline: none;
     position: absolute;
@@ -45,11 +48,16 @@ textarea::placeholder {
     justify-content: center;
 }
 
-.textbox button:hover {
+.taskbox button img {
+    width: 24px;
+    height: 24px;
+}
+
+.taskbox button:hover {
     background-color: rgb(0, 100, 0); /* Lighter green color */
 }
 
-.textbox button:active {
+.taskbox button:active {
     background-color: rgb(0, 128, 0); /* Darker green color for pressed effect */
     box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.2); /* Pressed down effect */
 }
@@ -65,7 +73,6 @@ textarea::placeholder {
 
 .info:hover {
     background-color: #2D2E2E;
-    padding: 0 0 0 5px;
     width: 200px;
     text-align: left !important;
 }
@@ -98,7 +105,7 @@ textarea::placeholder {
     border-radius: 50%;
     background-color: #78ADC1;
     color: white;
-    cursor: pointer;
+    cursor: help;
     font-weight: bold;
 }
 
