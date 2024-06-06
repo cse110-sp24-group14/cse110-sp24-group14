@@ -178,12 +178,28 @@ const psuedoUpdateDelete = () => {
     numTasks.innerText = Number(numTasks.innerText) - 1;
 }
 
+/**
+ * Changes the task list header to have the current selected date
+ * 
+ * @param {Date} date 
+ */
+const addDateToHeader = (date) => {
+    const header = document.querySelector("div[id='task-container'] h1");
+    const dateOptions = {
+        month: "numeric",
+        day: "numeric",
+        year: "numeric"
+    }
+    header.innerText = date.toLocaleDateString(undefined, dateOptions) + " Tasks";
+}
+
 window.addEventListener("DOMContentLoaded", () => {
     // class to allow observing of global selected date
     const taskObserver = new class {
         update(date) {
             try {
                 fetchJson(date.toISOString().slice(0, 10));
+                addDateToHeader(date);
             } catch (error) {
                 console.error(error);
             }
