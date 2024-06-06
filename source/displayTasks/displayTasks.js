@@ -1,10 +1,10 @@
 /**
  * Fetch data from json file and add to table
  *
- * @param {String} file
+ * @param {string} date - date to fetch tasks from
  */
-const fetchJson = (file) => {
-    fetch(file)
+const fetchJson = (date) => {
+    fetch(`/tasks?date=${date}`)
         .then((data) => data.json())
         .then((json) => {
             populateTable(json);
@@ -13,150 +13,169 @@ const fetchJson = (file) => {
 };
 
 /**
+ * Calls a PUT method to update the completed column in the SQL database
+ * 
+ * @param {Object} task - task to update
+ * @param {boolean} completion - state of completed to update to
+ */
+const updateCompleted = (id, completion) => {
+    // update the task to be completed in SQL database
+    fetch(
+        `/updated-task-completion?taskId=${id}&completed=${completion}`, 
+        { method: 'PUT' }
+    );
+}
+
+/**
+ * Calls a DELETE method to delete a task from the SQL database
+ * 
+ * @param {number} id -- id of the task to be deleted 
+ */
+const deleteTask = (id) => {
+    fetch(
+        `/delete-task?taskId=${id}`,
+        { method: 'DELETE' }
+    );
+}
+
+/**
  * Adds all the tasks to their corresponding table
  *
- * @param {JSON} taskList
+ * @param {JSON} taskList - list of today's fetched tasks
  */
 const populateTable = (taskList) => {
+    
+    const table = document.getElementById("task-table");
+
     // go through each task and create a row
-
-    const taskCount = { incomplete: 0, complete: 0 };
-
     taskList.forEach((task) => {
-        // gets table that the task belongs to
-        const completeBool = task.completed ? "complete" : "incomplete";
 
-        const tableId = `${completeBool}-table`;
-        const table = document.getElementById(tableId);
+        const row = document.createElement("tr");
+        row.classList.add(task.completed ? "complete" : "incomplete");
 
-        const row = createRow(task, task.completed);
-        table.appendChild(row);
+        const cell = document.createElement("td");
 
-        // count number of each task
-        taskCount[completeBool] += 1;
+        cell.innerHTML = task.title;
+        cell.setAttribute("data-id", task.id);
+        cell.classList.add("task");
+
+        row.appendChild(cell);
+
+        const buttonContainer = document.createElement("div");
+        buttonContainer.className = "button-container";
+
+        const [complete_button, delete_button] = addButtons();
+
+        // add completion button if incomplete
+        if (!task.completed) {
+            complete_button.onclick = () => {
+
+                updateCompleted(task.id, true) // update database
+                psuedoUpdateCompletedTasks() // update statistics
+
+                row.classList.remove("incomplete"); // removes strikethrough
+                row.classList.add("complete"); // adds strikethrough
+
+                table.removeChild(row)
+
+                // remove completed button
+                buttonContainer.removeChild(complete_button);
+
+                // indicates if a completed task was found
+                let found = false;
+                // loop through the table to find the first element that is completed for insertion
+                for (const child of table.children) {
+                    if (child.classList[1] === "complete") {
+                        table.insertBefore(row, child);
+                        found = true;
+                        break;
+                    }
+                }
+
+                // if didn't find any, add to the end
+                if (!found) {
+                    table.appendChild(row);
+                }
+
+            }
+
+            buttonContainer.appendChild(complete_button);
+        }
+
+        delete_button.onclick = () => {
+            deleteTask(task.id)
+            table.removeChild(row);
+
+            // decrement complete statistic ONLY if completed
+            if (task.completed) {
+                psuedoUpdateDelete();
+            }
+        }
+
+        buttonContainer.appendChild(delete_button);
+        row.appendChild(buttonContainer);
+
+        if (task.completed) {
+            table.appendChild(row);
+        } else {
+            table.prepend(row);
+        }
     });
-
-    // update the count of both types of tasks
-    for (let count in taskCount) {
-        const title = document.getElementById(`${count}-title`);
-        title.textContent += ` (${taskCount[count]})`;
-    }
 };
 
 /**
- * Creates a row with the input task's information
- *
- * @param {Object} task
- * @returns row element to be added to the table
+ * Creates the complete and delete buttons 
+ * 
+ * @returns [complete_button, delete_button] - buttons to add to task row
  */
-const createRow = (task, completed) => {
-    // create a row element
-    const row = document.createElement("tr");
+const addButtons = () => {
+    const complete_button = document.createElement("button");
+    const delete_button = document.createElement("button");
 
-    // date of task
-    const date = document.createElement("td");
-    // get in format MM/dd
-    date.textContent = new Date(task.due_date).toLocaleString(undefined, {
-        month: "numeric",
-        day: "numeric",
-    });
+    const complete_img = document.createElement("img");
+    complete_img.src = "displayTasks/Check.png";
+    complete_img.alt = "Complete"; 
 
-    // description of task
-    const description = document.createElement("td");
-    if (task.tag !== "") {
-        let tag = document.createElement("td");
-        tag.innerHTML = task.tag;
+    const delete_img = document.createElement("img");
+    delete_img.src = "displayTasks/TrashSimple.png";
+    delete_img.alt = "Delete"; 
 
-        console.log(tag);
+    complete_img.classList.add("row-image");
+    delete_img.classList.add("row-image");
 
-        description.innerHTML =
-            tag.innerHTML + " " + 
-            new Date(task.due_date).toLocaleString(undefined, {
-                month: "numeric",
-                day: "numeric",
-            }) +
-            " | " +
-            task.description;
-    } else {
-        description.innerHTML =
-            new Date(task.due_date).toLocaleString(undefined, {
-                month: "numeric",
-                day: "numeric",
-            }) +
-            " | " +
-            task.description;
-    }
+    complete_button.classList.add("row-button");
+    delete_button.classList.add("row-button");
 
-    // if completed, strikethrough
-    if (completed) {
-        if (completed) {
-            description.style.textDecoration = "line-through";
-            description.style.textDecoration = "line-through";
-        }
-    }
+    complete_button.appendChild(complete_img);
+    delete_button.appendChild(delete_img);
 
-    let complete_button = document.createElement("button");
-    let delete_button = document.createElement("button");
+    return [complete_button, delete_button];
+}
 
-    complete_button.innerHTML = "check";
-    delete_button.innerHTML = "trash";
+/**
+ * Adds 1 to the number of completed tasks for the statistics element
+ */
+const psuedoUpdateCompletedTasks = () => {
+    const completeStats = document.querySelector("completed-statistics");
+    const numTasks = completeStats.shadowRoot.getElementById("num-tasks");
 
-    let incomplete_parent = document.getElementById("incomplete-table");
-    let complete_parent = document.getElementById("complete-table");
+    numTasks.innerText = Number(numTasks.innerText) + 1;
+}
 
-    complete_button.addEventListener("click", function () {
-        console.log("CHECK CLICKED");
-        description.style.textDecoration = "line-through";
-        incomplete_parent.removeChild(row);
-        complete_parent.appendChild(row);
-        row.removeChild(complete_button);
-        row.removeChild(delete_button);
-        description.removeEventListener("click", thing);
-    });
+/**
+ * Decrements 1 from number of completed tasks for the statistics element
+ */
+const psuedoUpdateDelete = () => {
+    const completeStats = document.querySelector("completed-statistics");
+    const numTasks = completeStats.shadowRoot.getElementById("num-tasks");
 
-    delete_button.addEventListener("click", function () {
-        console.log("DELETE CLICKED");
-        incomplete_parent.removeChild(row);
-    });
-
-    row.appendChild(description);
-    if (!completed) {
-        row.appendChild(complete_button);
-        row.appendChild(delete_button);
-    }
-
-    description.addEventListener("click", thing);
-
-    function thing() {
-        if (!completed) {
-            let curr_text = description.innerHTML;
-
-            let input_element = document.createElement("input");
-            input_element.value = curr_text;
-
-            description.innerHTML = "";
-            description.appendChild(input_element);
-
-            input_element.focus();
-
-            input_element.addEventListener("blur", function () {
-                let new_value = input_element.value;
-
-                description.innerHTML = new_value;
-            });
-        }
-    }
-
-    console.log(row);
-
-    return row;
-};
+    numTasks.innerText = Number(numTasks.innerText) - 1;
+}
 
 try {
-    console.log("hi");
-    fetchJson("./tasks.json");
+    let currentDate = new Date(2024, 4, 31).toISOString().slice(0, 10);
+    console.log(`Current date: ${currentDate}`)
+    fetchJson(currentDate);
 } catch (error) {
-    console.log("bye");
-
-    console.log(error);
+    console.error(error);
 }

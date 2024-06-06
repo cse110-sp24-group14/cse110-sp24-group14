@@ -1,29 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <link rel="stylesheet" href="index.css">
-    <link rel="stylesheet" href="header/header.css">
-    <link rel="stylesheet" href="snippetCreation/snippetCreation.css">
-    <script src="sideCalendar/sideCalendar.js"></script>
-    <script src="snippetCreation/snippetCreation.js"></script>
-    <script src="taskCompleted/taskCompleted.js"></script>
 
-     <!--taskbox script and stylesheet -->
-        <link rel="stylesheet" href="taskBox\taskbox.css" />
-        <script src="taskBox\send_task.js"></script>
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+   <link rel="stylesheet" href="index.css">
+   <link rel="stylesheet" href="header/header.css">
+    <link rel="stylesheet" href="snippetCreation/snippetCreation.css">
+   <script src="sideCalendar/sideCalendar.js"></script>
+    <script src="snippetCreation/snippetCreation.js"></script>
+   <script src="taskCompleted/taskCompleted.js"></script>
+
+   <script src="displayTasks/displayTasks.js"></script>
+   <link rel="stylesheet" href="displayTasks/displayTasks.css">
+
+   <!--taskbox script and stylesheet -->
+   <link rel="stylesheet" href="taskBox\taskbox.css" />
+   <script src="taskBox\send_task.js"></script>
 </head>
+
 <body>
    <header>
       <img src="header/assets/Logo.svg" alt="team logo" class="logo">  
 
       <div class="header-content">
-         
+
          <div class="stat-container">
             <div class="stat">
-               <img src="header/assets/Fire.svg" alt="Streak fire">
+               <img src="./header/assets/Fire.svg" alt="Streak fire">
                <div class="stat-text">
                   <p class="header-stat" id="streak-days">31 days streak</p>
                   <p class="stat-caption" id="streak-caption">You are on fire!</p>
@@ -44,53 +49,31 @@
             <a href="#">Settings</a>
             <img src="header/assets/Account.svg" alt="Person icon" class="profile-icon">
          </div>
-         
+
       </div>
 
    </header>
-   <side-calendar></side-calendar>
 
    <main>
-      <completed-statistics></completed-statistics>
+      <side-calendar></side-calendar>
+      <article>
+         <section>
+            <div id="container" class="hidden">
+               <h1>Today's Tasks</h1>
+               <table id="task-table"></table>
+            </div>
+            <completed-statistics></completed-statistics>
+         </section>
+
+         <!--text box on the bottom, with the send button-->
+         <div class="taskbox">
+            <textarea id="taskInput" placeholder="What would you like to do today?"></textarea>
+            <button class="add-task" type="button" id="sendTask">
+               <img src="taskBox/sendTask.png" alt="Send" />
+            </button>
+         </div>
+      </article>
    </main>
-
-   <!-- 
-      Commented because we will not use this exact code in this table format
-      but we will use this route for the task list
-   -->
-   <!-- <table id="tasksTable" border="1">
-      <thead>
-          <tr>
-              <th>Title</th>
-              <th>Due Date</th>
-              <th>Completed</th>
-          </tr>
-      </thead>
-      <tbody>
-      </tbody>
-  </table>
-
-    <script>
-       function fetchTasks() {
-         fetch('/tasks')
-             .then(response => response.json())
-             .then(data => {
-                 const tableBody = document.querySelector('#tasksTable tbody');
-                 tableBody.innerHTML = '';
-                 data.forEach(task => {
-                     const row = document.createElement('tr');
-                     row.innerHTML = `
-                         <td>${task.title}</td>
-                         <td>${task.due_date}</td>
-                         <td>${task.completed != 0}</td>
-                     `;
-                     tableBody.appendChild(row);
-                 });
-             })
-             .catch(error => console.error('Error fetching data:', error));
-         }
-         fetchTasks()
-    </script> -->
   
     <!--text box on the bottom, with the send button-->
      <div class="taskbox">
@@ -131,4 +114,5 @@
 
    <div id="alert"></div>
 </body>
+
 </html>

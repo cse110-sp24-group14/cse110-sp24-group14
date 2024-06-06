@@ -47,13 +47,17 @@ const addStreaks = (callback) => {
     });
 };
 
+
 /**
-* Fetches all tasks from the backend
-*
-* @param {function} callback - function that handles the error and results of call
-*/
-const fetchTasks = (callback) => {
-    connection.query('SELECT * FROM Tasks', (error, results) => {
+ * Fetch all the tasks of for a specified date
+ * 
+ * @param {string} date - date of tasks to fetch
+ * @param {function} callback - handles the outcome of the fetch
+ */
+const fetchTasks = (date, callback) => {
+    // const date = new Date().toISOString().slice(0, 10);
+    const query = `SELECT * FROM Tasks WHERE due_date = '${date}'`
+    connection.query(query, (error, results) => {
         if (error) {
             callback(error, null);
         } else {
@@ -139,13 +143,62 @@ const fetchSnippets = (callback) => {
     });
 };
 
-// Create an HTTP server
+/**
+ * Updates the completion of a task specified by its id
+ * 
+ * @param {number} taskId id of the task to be updated
+ * @param {boolean} completed state to change the task's completion to
+ * @param {function} callback - handles the outcome of the fetch
+ */
+const updateTaskCompletion = (taskId, completed, callback) => {
+    const sqlQuery = `
+        UPDATE Tasks
+        SET completed = ${completed}
+        WHERE id = ${taskId}
+    `;
+
+    connection.query(sqlQuery, (error, result) => {
+        if (error) {
+            callback(error, null);
+        } else {
+            callback(null, result);
+        }
+    })
+}
+
+/**
+ * Deletes a task specified by its id from the SQL database 
+ * 
+ * @param {number} taskId - the id of the task to delete
+ * @param {function} callback - handles the outcome of the fetch
+ */
+const deleteTask = (taskId, callback) => {
+    const sqlQuery = `
+        DELETE FROM Tasks
+        WHERE id = ${taskId}
+    `
+
+    connection.query(sqlQuery, (error, result) => {
+        if (error) {
+            callback(error, null);
+        } else {
+            callback(null, result);
+        }
+    })
+}
+
+/**
+ * Starts the server with all the routes
+ */
 export const server = http.createServer((req, res) => {
     const parsedUrl = new URL(req.url, `http://${req.headers.host}`);
     const pathname = parsedUrl.pathname;
     const query = parsedUrl.searchParams;
+  
+  
     if (pathname === '/tasks' && req.method === 'GET') {
-        fetchTasks((err, tasks) => {
+        const date = query.get('date');
+        fetchTasks(date, (err, tasks) => {
             if (err) {
                 res.writeHead(500, { 'Content-Type': 'application/json' });
                 res.end(JSON.stringify({ error: 'Internal Server Error' }));
@@ -155,8 +208,8 @@ export const server = http.createServer((req, res) => {
             }
         });
     } else if (pathname === '/tasks-this-month' && req.method === 'GET') {
-        const year = parseInt(query.year, 10);
-        const month = parseInt(query.month, 10);
+        const year = parseInt(query.get('year'), 10);
+        const month = parseInt(query.get('month'), 10);
         console.log('Received request for tasks this month:', year, month);
         // Ensure year and month are valid
         if (!isNaN(year) && !isNaN(month)) {
@@ -208,7 +261,32 @@ export const server = http.createServer((req, res) => {
                 res.end(JSON.stringify(snippets));
             }
         });
-    } else if (pathname === '/' && req.method === 'GET') {
+    } else if (pathname === '/updated-task-completion' && req.method === 'PUT') {
+        // updates the completed state of task
+        const taskId = query.get('taskId');
+        const completed = query.get('completed');
+        updateTaskCompletion(taskId, completed, (err, result) => {
+            if (err) {
+                res.writeHead(500, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ error: 'Internal Server Error' }));
+            } else {
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify(result));
+            }
+        })
+    } else if (pathname === '/delete-task' && req.method === 'DELETE') {
+        // deletes a task
+        const taskId = query.get('taskId');
+        deleteTask(taskId, (err, result) => {
+            if (err) {
+                res.writeHead(500, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ error: 'Internal Server Error' }));
+            } else {
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify(result));
+            }
+        })   
+    } else if (req.url === '/' && req.method === 'GET') {
         fs.readFile(path.join(__dirname, 'index.html'), (err, data) => {
             if (err) {
                 res.writeHead(500, { 'Content-Type': 'text/html' });
@@ -224,6 +302,8 @@ export const server = http.createServer((req, res) => {
         // Update the condition for serving JavaScript files
     } else if (pathname.endsWith('.js') && req.method === 'GET') {
         serveStaticFile(res, req.url.slice(1), 'text/javascript');
+    } else if (pathname.endsWith('.json') && req.method === 'GET') {
+        serveStaticFile(res, req.url.slice(1), 'text/json');
     } else if (pathname.endsWith('.html') && req.method === 'GET') {
         serveStaticFile(res, req.url.slice(1), 'text/html');
         // Add conditions for serving image files
@@ -231,7 +311,6 @@ export const server = http.createServer((req, res) => {
         const ext = path.extname(req.url).slice(1);
         const contentType = ext === 'svg' ? 'image/svg+xml' : `image/${ext === 'jpg' ? 'jpeg' : ext}`;
         serveStaticFile(res, req.url.slice(1), contentType);
-
 
     } else {
         res.writeHead(404, { 'Content-Type': 'text/plain' });
