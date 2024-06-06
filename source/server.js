@@ -58,7 +58,9 @@ const fetchTasks = (callback) => {
 /**
  * Gets tasks for the current month you are at
  * 
- * @param {year, month, Function} callback 
+ * @param {number} year - callback
+ * @param {number} month - callback
+ * @param {Function} callback - callback
  */
 const fetchTasksDue = (year, month, callback) => {
     const sqlQuery = 'SELECT * FROM Tasks WHERE YEAR(due_date) = ? AND MONTH(due_date) = ?';
