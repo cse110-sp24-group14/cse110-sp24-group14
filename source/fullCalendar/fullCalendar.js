@@ -28,10 +28,12 @@ class FullCalendar extends HTMLElement {
                 vertical-align: top;
                 text-align: left;
                 font-size: x-small;
+                cursor: pointer;
             }
             
             .not-in-month {
                 background-color: rgba(231, 231, 231, 0.5);
+                cursor: default;
             }
             
             .task {
@@ -191,6 +193,11 @@ class FullCalendar extends HTMLElement {
                     dayOfWeek.innerHTML = date;
                     dayOfWeek.id = new Date(currentDate.getFullYear(), currentDate.getMonth(), date).toLocaleDateString();
 
+                    dayOfWeek.addEventListener('click', ()=> {
+                        const dateStr = new Date(currentDate.getFullYear(), currentDate.getMonth(), date).toLocaleDateString();
+                        console.log('Date cell clicked:', dateStr); // Log the clicked date
+                        
+                    });
                     date++;
                 } else {
                     dayOfWeek.innerHTML = '';
