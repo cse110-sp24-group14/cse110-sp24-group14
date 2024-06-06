@@ -55,8 +55,10 @@ function displaySnippets(snippets) {
         const snippetText = document.createElement('button');
         snippetText.className = "snippet-button";
         snippetText.textContent = snippet.code;
-        snippetText.setAttribute("onclick", "copy(this)");
         snippetText.setAttribute("value", `${snippet.code}`)
+
+        snippetText.addEventListener("click", () => { copy(snippetText) });
+
         // Language
         const snippetType = document.createElement('p');
         snippetType.className = 'snippet-type';
