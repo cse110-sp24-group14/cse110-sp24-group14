@@ -111,3 +111,25 @@
 #snippet-form button {
   margin: 10px;
 }
+
+#alert {
+  opacity: 0;
+  transition: 1s;
+
+  position: sticky;
+  bottom: 10px;
+  left: 50%;
+  padding: 3vh;
+  height: 2vh;
+  width: 20vh;
+
+  background-color: #F6F6F6;
+  border-radius: 10px;
+  border: 0.3vh solid #2D2E2EB2;
+  text-align: center;
+}
+
+#alert.fade-in {
+  opacity: 1;
+  transition: 0.1s;
+}

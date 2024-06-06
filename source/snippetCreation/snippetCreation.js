@@ -6,6 +6,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const code = document.getElementById('code-input').value;
         const language = document.getElementById('language-select').value;
         snippetCompleted(code, language);
+        // Alert message
+        let text = document.getElementById("alert");
+        text.textContent = "Snippet added!";
+        if (text.classList.contains("fade-in")) {clearTimeout(ongoing);}    // if prev call in action: reset timer
+        else {text.classList.add("fade-in");}                               // else, create message
+        ongoing = setTimeout(function () {
+            text.classList.remove("fade-in");
+        }, 2000); // Set time out to three seconds to account for the second the element fades in
     });
     retrieve();
 });
@@ -67,7 +75,17 @@ async function retrieve() {
 }
 
 // Copies a copy snippet's text to the user's clipboard
+let ongoing;    // define a global variable to access timeout on separate function call
 function copy(button) {
     // Copy the text to clipboard
     navigator.clipboard.writeText(button.value);
+
+    // Alert message
+    let text = document.getElementById("alert");
+    text.textContent = "Copied to clipboard!";
+    if (text.classList.contains("fade-in")) {clearTimeout(ongoing);}    // if prev call in action: reset timer
+    else {text.classList.add("fade-in");}                               // else, create message
+    ongoing = setTimeout(function () {
+        text.classList.remove("fade-in");
+    }, 2000); // Set time out to three seconds to account for the second the element fades in
 }
