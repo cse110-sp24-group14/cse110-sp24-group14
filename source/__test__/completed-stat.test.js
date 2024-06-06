@@ -7,8 +7,8 @@ describe('Testing the completed statistic SQL query', () => {
     /**
      * Queries and tests the number of completed tasks in database
      * 
-     * @param {Function} done callback function to end async tests
-     * @param {Number} actual actual count of completed tasks in database 
+     * @param {Function} done - callback function to end async tests
+     * @param {Number} actual - actual count of completed tasks in database 
      */
     const queryCompletedCount = (done, actual) => {
 

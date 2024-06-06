@@ -4,8 +4,10 @@ class CompletedStatistics extends HTMLElement {
         this.attachShadow({ mode: "open" });
     }
 
+    /**
+     * Creates statistics HTML structures, loads date, and adds as a side calendar observer
+     */
     connectedCallback() {
-
         const statisticDiv = document.createElement('div')
         statisticDiv.id = "statistics-div"
         this.shadowRoot.appendChild(statisticDiv);
@@ -24,9 +26,15 @@ class CompletedStatistics extends HTMLElement {
 
         this.loadStyles();
         this.loadSVG();
-        this.fetchNumCompleted();
+        this.update(new Date()) // initial load date
+
+        const sidebar = document.querySelector('side-calendar');
+        sidebar.addObserver(this)
     }
 
+    /**
+     * Loads the styles of the statistics component
+     */
     loadStyles() {
         const styles = document.createElement('style');
 
@@ -84,6 +92,9 @@ class CompletedStatistics extends HTMLElement {
         this.shadowRoot.appendChild(styles);
     }
 
+    /**
+     * Loads the SVG icon for the component
+     */
     loadSVG() {
         const svgDiv = this.shadowRoot.getElementById('svg-div');
         svgDiv.innerHTML = `
@@ -99,15 +110,20 @@ class CompletedStatistics extends HTMLElement {
         `;
     }
 
-    fetchNumCompleted() {
-        fetch('/num-completed')
+    /**
+     * Called by side calendar when date is changed to fetch new data for completion statistics
+     * 
+     * @param {Date} date 
+     */
+    update(date) {
+        fetch(`/num-completed?date=${date.toISOString().slice(0, 10)}`)
             .then(response => response.json())
             .then(data => {
                 const paragraph = this.shadowRoot.getElementById("num-tasks");
                 paragraph.innerHTML = data[0].CompletedCount;
             })
             .catch(error => console.error('Error fetching number of tasks completed:', error));
-    }    
+    }
 }
 
 customElements.define("completed-statistics", CompletedStatistics)

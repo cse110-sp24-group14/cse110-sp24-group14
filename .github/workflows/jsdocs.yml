@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - staging
+      - edward/add-complete-delete-button-functionalities
 
 jobs:
   deploy:
@@ -17,8 +18,8 @@ jobs:
         uses: andstor/jsdoc-action@v1.2.1
         with:
           source_dir: ./source
-          recurse: true
           output_dir: ./out
+          recurse: true
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
