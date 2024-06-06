@@ -118,7 +118,7 @@ const addSnippet = (code, language, callback) => {
 
 // Add a new function to fetch snippets
 const fetchSnippets = (date, callback) => {
-    connection.query(`SELECT * FROM Snippets WHERE created_date = ${date}`, (error, results) => {
+    connection.query(`SELECT * FROM Snippets WHERE created_date LIKE '${date}%'`, (error, results) => {
         if (error) {
             callback(error, null);
         } else {
