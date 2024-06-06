@@ -170,7 +170,7 @@ class SideCalendar extends HTMLElement {
             HTMLtable[day].innerHTML = `${dayOfWeek[dateList[day].getDay()]} ${dateList[day].getMonth() + 1}.${dateList[day].getDate()}`
 
             // highlighting for the today's date
-            if (dateList[day].valueOf() == this.todayDate.valueOf()) {
+            if (dateList[day].toDateString() == new Date().toDateString()) {
                 HTMLtable[day].id = "today-cell"
             } else {
                 HTMLtable[day].removeAttribute("id")
