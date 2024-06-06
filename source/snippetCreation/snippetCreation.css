@@ -54,10 +54,18 @@
   margin: 0 10px 0 5px;
 }
 
-/* Code */
-.snippet-box p {
+/* Code Itself */
+.snippet-box button {
+  background-color: transparent;
+  border-color: transparent;
+  text-align: left;
+  color: #2D2E2EB2;
   width: 85%;
   margin: 0 5px 0 10px;
+}
+
+.snippet-box button:hover {
+  color: blue;
 }
 
 /* Snippet Form */
@@ -93,6 +101,7 @@
 }
 
 #language-area {
+  color: #2D2E2EB2;
   width: 25%;
 }
 

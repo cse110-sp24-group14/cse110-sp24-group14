@@ -44,8 +44,11 @@ function displaySnippets(snippets) {
         snippetBox.className = 'snippet-box';
 
         // Code Snippet
-        const snippetText = document.createElement('p');
+        const snippetText = document.createElement('button');
+        snippetText.className = "snippet-button";
         snippetText.textContent = snippet.code;
+        snippetText.setAttribute("onclick", "copy(this)");
+        snippetText.setAttribute("value", `${snippet.code}`)
         // Language
         const snippetType = document.createElement('p');
         snippetType.className = 'snippet-type';
@@ -61,4 +64,13 @@ function displaySnippets(snippets) {
 async function retrieve() {
     const snippets = await fetchSnippets();
     displaySnippets(snippets);
+}
+
+// Copies a copy snippet's text to the user's clipboard
+function copy(button) {
+    // Copy the text to clipboard
+    navigator.clipboard.writeText(button.value);
+
+    // Alert the copied text
+    alert("Copied to clipboard!");
 }
