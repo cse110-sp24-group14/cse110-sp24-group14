@@ -70,7 +70,4 @@ async function retrieve() {
 function copy(button) {
     // Copy the text to clipboard
     navigator.clipboard.writeText(button.value);
-
-    // Alert the copied text
-    alert("Copied to clipboard!");
 }
