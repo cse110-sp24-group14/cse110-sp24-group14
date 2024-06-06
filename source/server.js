@@ -99,11 +99,10 @@ const fetchNumberCompleted = (callback) => {
 
 // Create an HTTP server
 export const server = http.createServer((req, res) => {
-    const parsedUrl = url.parse(req.url, true); // Parse the URL
+    const parsedUrl = new URL(req.url, `http://${req.headers.host}`);
     const pathname = parsedUrl.pathname;
-    const query = parsedUrl.query;
-
-    if (req.url === '/tasks' && req.method === 'GET') {
+    const query = parsedUrl.searchParams;
+    if (pathname === '/tasks' && req.method === 'GET') {
         fetchTasks((err, users) => {
             if (err) {
                 res.writeHead(500, { 'Content-Type': 'application/json' });
@@ -132,7 +131,7 @@ export const server = http.createServer((req, res) => {
             res.writeHead(400, { 'Content-Type': 'application/json' });
             res.end(JSON.stringify({ error: 'Bad Request' }));
         }
-    } else if (req.url === '/num-completed' && req.method === 'GET') {
+    } else if (pathname === '/num-completed' && req.method === 'GET') {
         // fetches number of completed tasks
         fetchNumberCompleted((err, numCompleted) => {
             if (err) {
@@ -143,7 +142,31 @@ export const server = http.createServer((req, res) => {
                 res.end(JSON.stringify(numCompleted));
             }
         });
-    } else if (req.url === '/' && req.method === 'GET') {
+    } else if (pathname === '/add-snippet' && req.method === 'POST') {
+        // adds a snippet entry
+        const code = query.get('code');
+        const language = query.get('language');
+        addSnippet(code, language, (err, result) => {
+            if (err) {
+                res.writeHead(500, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ error: 'Internal Server Error' }));
+            } else {
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ message: 'Snippet added successfully', result }));
+            }
+        });
+    } else if (pathname === '/fetch-snippets' && req.method === 'GET') {
+        //fetches snippets
+        fetchSnippets((err, snippets) => {
+            if (err) {
+                res.writeHead(500, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ error: 'Internal Server Error' }));
+            } else {
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify(snippets));
+            }
+        });
+    } else if (pathname === '/' && req.method === 'GET') {
         fs.readFile(path.join(__dirname, 'index.html'), (err, data) => {
             if (err) {
                 res.writeHead(500, { 'Content-Type': 'text/html' });
@@ -153,19 +176,18 @@ export const server = http.createServer((req, res) => {
                 res.end(data);
             }
         });
-    // Update the condition for serving CSS files
-    } else if (req.url.endsWith('.css') && req.method === 'GET') {
+        // Update the condition for serving CSS files
+    } else if (pathname.endsWith('.css') && req.method === 'GET') {
         serveStaticFile(res, req.url.slice(1), 'text/css');
 
 
-    // Update the condition for serving JavaScript files
-    } else if (req.url.endsWith('.js') && req.method === 'GET') {
+        // Update the condition for serving JavaScript files
+    } else if (pathname.endsWith('.js') && req.method === 'GET') {
         serveStaticFile(res, req.url.slice(1), 'text/javascript');
-    } else if (req.url.endsWith('.html') && req.method === 'GET') {
+    } else if (pathname.endsWith('.html') && req.method === 'GET') {
         serveStaticFile(res, req.url.slice(1), 'text/html');
-
-    // Add conditions for serving image files
-    } else if (req.url.match(/\.(jpg|jpeg|png|gif|svg)$/) && req.method === 'GET') {
+        // Add conditions for serving image files
+    } else if (pathname.match(/\.(jpg|jpeg|png|gif|svg)$/) && req.method === 'GET') {
         const ext = path.extname(req.url).slice(1);
         const contentType = ext === 'svg' ? 'image/svg+xml' : `image/${ext === 'jpg' ? 'jpeg' : ext}`;
         serveStaticFile(res, req.url.slice(1), contentType);
@@ -189,6 +211,43 @@ const serveStaticFile = (res, filename, contentType) => {
         }
     });
 };
+
+const addSnippet = (code, language, callback) => {
+    const sqlQuery = `INSERT INTO Snippets (code, code_language) VALUES ('${code}', '${language}')`;
+    connection.query(sqlQuery, (error, results) => {
+        if (error) {
+            callback(error, null);
+        } else {
+            callback(null, results);
+        }
+    });
+};
+
+// Add a new function to fetch snippets
+const fetchSnippets = (callback) => {
+    connection.query('SELECT * FROM Snippets ORDER BY created_date DESC', (error, results) => {
+        if (error) {
+            callback(error, null);
+        } else {
+            callback(null, results);
+        }
+    });
+};
+
+// Handle fetching snippets request
+export const handleFetchSnippets = (req, res) => {
+    fetchSnippets((err, snippets) => {
+        if (err) {
+            res.writeHead(500, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ error: 'Internal Server Error' }));
+        } else {
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify(snippets));
+        }
+    });
+};
+
+
 
 // Start the server
 server.listen(3000, () => {

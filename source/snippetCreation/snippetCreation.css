@@ -1,0 +1,138 @@
+/* Snippets Container */
+#snippet {
+  display: block;
+  position: absolute;
+  top: 105px; /* CURRENT: header + 20px = 105px; PREV: 116px / 1024px */
+  right: 1.4%; /* 20px / 1440px */
+
+  height: 52.54%; /* 538px / 1024px */
+  width: 57.91%; /* 834px / 1440px */ 
+  border-radius: 12px;
+
+  justify-content: center;
+
+  color: #2D2E2EB2;
+  background-color: #F6F6F6;
+} 
+
+/* Container Title */
+#snippet h1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  height: 15%;
+  margin: 0;
+
+  font-weight: 400;
+  font-size: 24px; 
+}
+
+/* Snippets List */
+#snippet ul {
+  list-style-type: none;
+  justify-content: center;
+  height: 70%;
+  overflow-y: auto;
+
+  margin: 0px;
+  padding: 0px;
+}
+
+/* Individual Entries */
+.snippet-box {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+
+  margin: 5px;
+}
+
+/* Language */
+.snippet-box .snippet-type {
+  width: 12%;
+  margin: 0;
+}
+
+/* Code Itself */
+.snippet-box button {
+  width: 88%;
+  margin: 0;
+  word-wrap: break-word;
+  white-space: normal;
+
+  background-color: transparent;
+  border-color: transparent;
+  text-align: left;
+  color: #2D2E2EB2;
+}
+
+.snippet-box button:hover {
+  color: blue;
+}
+
+/* Snippet Form */
+#snippet form {
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+  height: 15%;
+  
+  display: flex;
+  align-items: center;
+
+  border-radius: 0 0 12px 12px;
+  background-color: #e5c775;
+}
+
+#code-area {
+  display: flex;
+  align-items: center;
+  margin: 5px;
+  width: 60%;
+}
+
+#code-area label {
+  margin: 5px;
+}
+
+#code-area textarea {
+  box-sizing: border-box;
+  width: 80%;
+  height: 90%;
+  resize: none;
+}
+
+#language-area {
+  color: #2D2E2EB2;
+  width: 25%;
+}
+
+#snippet-form button {
+  margin: 10px;
+}
+
+#alert {
+  opacity: 0;
+  transition: 1s;
+
+  position: fixed;
+  inset: 0px;
+  bottom: 10px;
+  margin-top: auto;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 3vh;
+  height: fit-content;
+  width: 20vh;
+
+  background-color: #F6F6F6;
+  border-radius: 10px;
+  border: 0.3vh solid #2D2E2EB2;
+  text-align: center;
+}
+
+#alert.fade-in {
+  opacity: 1;
+  transition: 0.1s;
+}
