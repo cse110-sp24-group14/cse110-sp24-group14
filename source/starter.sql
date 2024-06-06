@@ -21,7 +21,9 @@ VALUES
 
 INSERT INTO Tasks (title, due_date, completed)
 VALUES 
-('Buy groceries', '2024-05-22', TRUE);
+('Buy groceries', '2024-05-22', TRUE),
+('Buy more groceries', '2024-05-23', FALSE),
+('Fill gas tank', '2024-05-24', TRUE);
 
 
 CREATE TABLE Tags (

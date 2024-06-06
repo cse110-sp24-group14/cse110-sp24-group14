@@ -16,15 +16,19 @@ class CompletedStatistics extends HTMLElement {
         const numTasks = document.createElement('p');
         numTasks.id = "num-tasks";
 
+        const numIncompleteTasks = document.createElement('p');
+        numIncompleteTasks.id = "num-incomplete-tasks";
+
         const caption = document.createElement('p');
         caption.id = "task-caption"
         caption.innerText = "Total tasks completed";
 
-        statisticDiv.append(svgDiv, numTasks, caption);
+        statisticDiv.append(svgDiv, numTasks, numIncompleteTasks, caption);
 
         this.loadStyles();
         this.loadSVG();
         this.fetchNumCompleted();
+        this.fetchNumIncomplete();
     }
 
     loadStyles() {
@@ -105,9 +109,23 @@ class CompletedStatistics extends HTMLElement {
             .then(data => {
                 const paragraph = this.shadowRoot.getElementById("num-tasks");
                 paragraph.innerHTML = data[0].CompletedCount;
+                const navDisplay = document.getElementById("tasks-completed");
+                navDisplay.innerHTML = data[0].CompletedCount + " tasks completed";
             })
             .catch(error => console.error('Error fetching number of tasks completed:', error));
-    }    
+    }
+    fetchNumIncomplete() {
+        fetch('/num-incomplete-tasks')
+            .then(response => response.json())
+            .then(data => {
+                const p = this.shadowRoot.getElementById("num-incomplete-tasks");
+                p.innerHTML = data[0].incomplete;
+                const tasksLeft = document.getElementById("tasks-to-go");
+                console.log(data[0].incomplete);
+                tasksLeft.innerHTML = data[0].incomplete + " more to go!";
+            })
+            .catch(error => console.error('Error fetching number of tasks completed:', error));
+    }
 }
 
 customElements.define("completed-statistics", CompletedStatistics)

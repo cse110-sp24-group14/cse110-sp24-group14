@@ -55,6 +55,22 @@ const fetchTasks = (callback) => {
     });
 };
 
+/** 
+ * Gets number of tasks added in total
+ * 
+ * @param {Function} callback
+ */
+const fetchNumIncompleteTasks = (callback) => {
+    const sqlQuery = 'SELECT COUNT(*) AS incomplete FROM Tasks WHERE completed = 0';
+    connection.query(sqlQuery, (error, results) => {
+        if (error) {
+            callback(error, null);
+        } else {
+            callback(null, results);
+        }
+    });
+}
+
 /**
  * Gets tasks for the current month you are at
  * 
@@ -113,6 +129,16 @@ export const server = http.createServer((req, res) => {
                 res.end(JSON.stringify(users));
             }
         });
+    } else if (pathname === '/num-incomplete-tasks' && req.method === 'GET') {
+        fetchNumIncompleteTasks((err, users) => {
+            if (err) {
+                res.writeHead(500, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ error: 'Internal Server Error' }));
+            } else {
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify(users));
+            }
+        });
     } else if (pathname === '/tasks-this-month' && req.method === 'GET') {
         const year = parseInt(query.year, 10);
         const month = parseInt(query.month, 10);
@@ -153,18 +179,18 @@ export const server = http.createServer((req, res) => {
                 res.end(data);
             }
         });
-    // Update the condition for serving CSS files
+        // Update the condition for serving CSS files
     } else if (req.url.endsWith('.css') && req.method === 'GET') {
         serveStaticFile(res, req.url.slice(1), 'text/css');
 
 
-    // Update the condition for serving JavaScript files
+        // Update the condition for serving JavaScript files
     } else if (req.url.endsWith('.js') && req.method === 'GET') {
         serveStaticFile(res, req.url.slice(1), 'text/javascript');
     } else if (req.url.endsWith('.html') && req.method === 'GET') {
         serveStaticFile(res, req.url.slice(1), 'text/html');
 
-    // Add conditions for serving image files
+        // Add conditions for serving image files
     } else if (req.url.match(/\.(jpg|jpeg|png|gif|svg)$/) && req.method === 'GET') {
         const ext = path.extname(req.url).slice(1);
         const contentType = ext === 'svg' ? 'image/svg+xml' : `image/${ext === 'jpg' ? 'jpeg' : ext}`;
