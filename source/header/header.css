@@ -82,17 +82,6 @@ header {
     margin-left: 50px;
 }
 
-    justify-content: space-between;
-
-    background-color: #F6F6F6;
-    border-radius: 400px;
-
-    height: 50px;
-    gap: 14px;
-
-    margin-left: 50px;
-}
-
 .menu a {
     text-decoration: none;
     color: #2D2E2E;
