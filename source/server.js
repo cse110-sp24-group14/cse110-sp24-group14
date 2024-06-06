@@ -105,6 +105,28 @@ const deleteTask = (taskId, callback) => {
     })
 }
 
+const addSnippet = (code, language, callback) => {
+    const sqlQuery = `INSERT INTO Snippets (code, code_language) VALUES ('${code}', '${language}')`;
+    connection.query(sqlQuery, (error, results) => {
+        if (error) {
+            callback(error, null);
+        } else {
+            callback(null, results);
+        }
+    });
+};
+
+// Add a new function to fetch snippets
+const fetchSnippets = (date, callback) => {
+    connection.query(`SELECT * FROM Snippets WHERE created_date = ${date}`, (error, results) => {
+        if (error) {
+            callback(error, null);
+        } else {
+            callback(null, results);
+        }
+    });
+};
+
 /**
  * Starts the server with all the routes
  */
@@ -177,8 +199,9 @@ export const server = http.createServer((req, res) => {
             }
         });
     } else if (pathname === '/fetch-snippets' && req.method === 'GET') {
+        const date = query.get('date');
         //fetches snippets
-        fetchSnippets((err, snippets) => {
+        fetchSnippets(date, (err, snippets) => {
             if (err) {
                 res.writeHead(500, { 'Content-Type': 'application/json' });
                 res.end(JSON.stringify({ error: 'Internal Server Error' }));
@@ -229,28 +252,6 @@ const serveStaticFile = (res, filename, contentType) => {
         } else {
             res.writeHead(200, { 'Content-Type': contentType });
             res.end(data);
-        }
-    });
-};
-
-const addSnippet = (code, language, callback) => {
-    const sqlQuery = `INSERT INTO Snippets (code, code_language) VALUES ('${code}', '${language}')`;
-    connection.query(sqlQuery, (error, results) => {
-        if (error) {
-            callback(error, null);
-        } else {
-            callback(null, results);
-        }
-    });
-};
-
-// Add a new function to fetch snippets
-const fetchSnippets = (callback) => {
-    connection.query('SELECT * FROM Snippets ORDER BY created_date DESC', (error, results) => {
-        if (error) {
-            callback(error, null);
-        } else {
-            callback(null, results);
         }
     });
 };
