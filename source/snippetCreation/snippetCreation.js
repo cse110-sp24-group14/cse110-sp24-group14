@@ -25,6 +25,7 @@ const snippetCompleted = (code, language) => {
         { method: 'POST' }
     );
     retrieve();
+    psuedoUpdateSnippetCount();
 }
 
 //fetches all snippets and creates json file from them 
@@ -74,6 +75,16 @@ function displaySnippets(snippets) {
 async function retrieve() {
     const snippets = await fetchSnippets();
     displaySnippets(snippets);
+}
+
+/**
+ * Adds 1 to the number of snippets created for the statistics element
+ */
+function psuedoUpdateSnippetCount() {
+    const snippetStats = document.querySelector('snippets-statistics')
+    const numSnippets = snippetStats.shadowRoot.getElementById('num-snippets')
+
+    numSnippets.innerText = Number(numSnippets.innerText) + 1;
 }
 
 // Copies a copy snippet's text to the user's clipboard
