@@ -116,23 +116,52 @@ const fetchNumberCompleted = (callback) => {
 
 // Create an HTTP server
 export const server = http.createServer((req, res) => {
-    const parsedUrl = url.parse(req.url, true); // Parse the URL
+    const parsedUrl = new URL(req.url, `http://${req.headers.host}`);
     const pathname = parsedUrl.pathname;
-    const query = parsedUrl.query;
+    const query = parsedUrl.searchParams;
 
-    if (req.url === '/tasks' && req.method === 'GET') {
-        fetchTasks((err, users) => {
+
+    if (req.url === '/tasks' && req.method === 'POST') {
+        let body = '';
+        req.on('data', chunk => {
+            body += chunk.toString();
+        });
+        req.on('end', () => {
+            const { title, due_date } = JSON.parse(body);
+            insertTask(title, due_date, (err) => {
+                if (err) {
+                    res.writeHead(500, { 'Content-Type': 'application/json' });
+                    res.end(JSON.stringify({ error: 'Internal Server Error' }));
+                } else {
+                    res.writeHead(200, { 'Content-Type': 'application/json' });
+                    res.end(JSON.stringify({ message: 'Task added successfully' }));
+                }
+            });
+        });
+    } else if (req.url === '/streaks' && req.method === 'POST') {
+        addStreaks((err) => {
             if (err) {
                 res.writeHead(500, { 'Content-Type': 'application/json' });
                 res.end(JSON.stringify({ error: 'Internal Server Error' }));
             } else {
                 res.writeHead(200, { 'Content-Type': 'application/json' });
-                res.end(JSON.stringify(users));
+                res.end(JSON.stringify({ message: 'Streak added/updated successfully' }));
+            }
+        });
+    } else if (pathname === '/tasks' && req.method === 'GET') {
+        const date = query.get('date');
+        fetchTasks(date, (err, tasks) => {
+            if (err) {
+                res.writeHead(500, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ error: 'Internal Server Error' }));
+            } else {
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify(tasks));
             }
         });
     } else if (pathname === '/tasks-this-month' && req.method === 'GET') {
-        const year = parseInt(query.year, 10);
-        const month = parseInt(query.month, 10);
+        const year = parseInt(query.get('year'), 10);
+        const month = parseInt(query.get('month'), 10);
         console.log('Received request for tasks this month:', year, month);
         // Ensure year and month are valid
         if (!isNaN(year) && !isNaN(month)) {
@@ -149,7 +178,7 @@ export const server = http.createServer((req, res) => {
             res.writeHead(400, { 'Content-Type': 'application/json' });
             res.end(JSON.stringify({ error: 'Bad Request' }));
         }
-    } else if (req.url === '/num-completed' && req.method === 'GET') {
+    } else if (pathname === '/num-completed' && req.method === 'GET') {
         // fetches number of completed tasks
         fetchNumberCompleted((err, numCompleted) => {
             if (err) {
@@ -158,6 +187,67 @@ export const server = http.createServer((req, res) => {
             } else {
                 res.writeHead(200, { 'Content-Type': 'application/json' });
                 res.end(JSON.stringify(numCompleted));
+            }
+        });
+    } else if (pathname === '/updated-task-completion' && req.method === 'PUT') {
+        // updates the completed state of task
+        const taskId = query.get('taskId');
+        const completed = query.get('completed');
+        updateTaskCompletion(taskId, completed, (err, result) => {
+            if (err) {
+                res.writeHead(500, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ error: 'Internal Server Error' }));
+            } else {
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify(result));
+            }
+        })
+    } else if (pathname === '/num-snippets' && req.method === 'GET') {
+        // fetches number of snippets created
+        fetchNumSnippets((err, result) => {
+            if (err) {
+                res.writeHead(500, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ error: 'Internal Server Error' }));
+            } else {
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify(result));
+            }
+        });
+    } else if (pathname === '/delete-task' && req.method === 'DELETE') {
+        // deletes a task
+        const taskId = query.get('taskId');
+        deleteTask(taskId, (err, result) => {
+            if (err) {
+                res.writeHead(500, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ error: 'Internal Server Error' }));
+            } else {
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify(result));
+            }
+        })
+    } else if (pathname === '/add-snippet' && req.method === 'POST') {
+        // adds a snippet entry
+        const code = query.get('code');
+        const language = query.get('language');
+        addSnippet(code, language, (err, result) => {
+            if (err) {
+                res.writeHead(500, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ error: 'Internal Server Error' }));
+            } else {
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ message: 'Snippet added successfully', result }));
+            }
+        });
+    } else if (pathname === '/fetch-snippets' && req.method === 'GET') {
+        const date = query.get('date');
+        //fetches snippets
+        fetchSnippets(date, (err, snippets) => {
+            if (err) {
+                res.writeHead(500, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ error: 'Internal Server Error' }));
+            } else {
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify(snippets));
             }
         });
     } else if (req.url === '/streak' && req.method === 'GET') {
