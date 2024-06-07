@@ -72,14 +72,44 @@ class SideCalendar extends HTMLElement {
                 width: 130px;
                 height: 100%;
             
-                padding: 5px 5px;
+                padding: 10px 5px;
             
                 background-color: #234654;
             
                 display: flex;
                 flex-direction: column;
+                align-items: center;
+            }
+
+            button {
+                display: flex;
+                flex-direction: row;
+
                 justify-content: center;
                 align-items: center;
+                gap: 5px;
+
+                border: none;
+                border-radius: 400px;
+                padding: 15px 15px;
+
+                background-color: #F6F6F6;
+                color: #234654;
+
+                cursor: pointer;
+            }
+
+            button:hover {
+                background-color: white;
+            }
+
+            p {
+                margin: 0;
+            }
+
+            /* rotating for next week button */
+            #next-week svg {
+                transform: rotate(180deg); 
             }
             
             table {
@@ -114,10 +144,12 @@ class SideCalendar extends HTMLElement {
         this.shadowRoot.appendChild(styles);
 
         const lastWeekButton = document.createElement('button');
-        const nextWeekButton = document.createElement('button');
+        lastWeekButton.id = "last-week"
 
-        const arrowSVG = document.createElement('div');
-        arrowSVG.innerHTML = `
+        const nextWeekButton = document.createElement('button');
+        nextWeekButton.id = "next-week"
+
+        const arrowSVG = `
             <svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                 <rect width="19" height="19" fill="url(#pattern0_545_31)"/>
                 <defs>
@@ -129,8 +161,9 @@ class SideCalendar extends HTMLElement {
             </svg>
         `
 
-        lastWeekButton.appendChild(arrowSVG);
-        lastWeekButton.innerHTML += "Last Week";
+        // add last week button
+        lastWeekButton.innerHTML = arrowSVG;
+        lastWeekButton.innerHTML += "<p>Last Week</p>";
         lastWeekButton.addEventListener("click", () => {
             const lastWeekDate = new Date(this.globalDate)
             lastWeekDate.setDate(this.globalDate.getDate() - 7);
@@ -143,9 +176,9 @@ class SideCalendar extends HTMLElement {
         const sidebar = document.createElement("table");
         this.shadowRoot.appendChild(sidebar);
 
-        arrowSVG.style.transform = "rotate(180deg)";
-        nextWeekButton.appendChild(arrowSVG);
-        nextWeekButton.innerHTML += "Next Week";
+        // add next week button
+        nextWeekButton.innerHTML = arrowSVG;
+        nextWeekButton.innerHTML += "<p>Next Week</p>";
         nextWeekButton.addEventListener("click", () => {
             const nextWeekDate = new Date(this.globalDate)
             nextWeekDate.setDate(this.globalDate.getDate() + 7);
@@ -180,8 +213,6 @@ class SideCalendar extends HTMLElement {
             dateRow.appendChild(dateCell);
             sidebar.appendChild(dateRow);
         }
-        // add to div in shadow root
-        // this.shadowRoot.appendChild(sidebar);
     }
 
     /**
