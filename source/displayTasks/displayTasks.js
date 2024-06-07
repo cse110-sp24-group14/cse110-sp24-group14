@@ -210,8 +210,12 @@ const addButtons = () => {
 const psuedoUpdateCompletedTasks = () => {
     const completeStats = document.querySelector("completed-statistics");
     const numTasks = completeStats.shadowRoot.getElementById("num-tasks");
+    const headerNumCompleted = document.getElementById("tasks-completed");
 
-    numTasks.innerText = Number(numTasks.innerText) + 1;
+    const completedTasks = Number(numTasks.innerText) + 1;
+
+    numTasks.innerText = completedTasks;
+    headerNumCompleted.innerText = `${completedTasks} tasks completed`;
 }
 
 /**
@@ -223,8 +227,12 @@ const psuedoUpdateCompletedTasks = () => {
 const psuedoUpdateDelete = () => {
     const completeStats = document.querySelector("completed-statistics");
     const numTasks = completeStats.shadowRoot.getElementById("num-tasks");
+    const headerNumCompleted = document.getElementById("tasks-completed");
 
-    numTasks.innerText = Number(numTasks.innerText) - 1;
+    const completedTasks = Number(numTasks.innerText) - 1;
+
+    numTasks.innerText = completedTasks;
+    headerNumCompleted.innerText = `${completedTasks} tasks completed`;
 }
 
 /**
