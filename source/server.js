@@ -18,7 +18,7 @@ const connection = mysql.createConnection({
 /**
  * Inserts a new task into the database
  * 
- * @param {Function} callback 
+ * @param {function} callback 
  */
 const insertTask = (title, due_date, callback) => {
     const query = 'INSERT INTO Tasks (title, due_date) VALUES (?, ?)';
@@ -34,7 +34,7 @@ const insertTask = (title, due_date, callback) => {
 /**
  * Inserts a new visit into the database
  * 
- * @param {Function} callback 
+ * @param {function} callback 
  */
 /**
 * Adds to the streak based on the site visits or new streak if no record exists
@@ -135,7 +135,7 @@ const fetchNumberCompleted = (callback) => {
  * 
  * @param {number} taskId id of the task to be updated
  * @param {boolean} completed state to change the task's completion to
- * @param {Function} callback - handles the outcome of the fetch
+ * @param {function} callback - handles the outcome of the fetch
  */
 const updateTaskCompletion = (taskId, completed, callback) => {
     const sqlQuery = `
@@ -157,7 +157,7 @@ const updateTaskCompletion = (taskId, completed, callback) => {
  * Deletes a task specified by its id from the SQL database 
  * 
  * @param {number} taskId - the id of the task to delete
- * @param {Function} callback - handles the outcome of the fetch
+ * @param {function} callback - handles the outcome of the fetch
  */
 const deleteTask = (taskId, callback) => {
     const sqlQuery = `

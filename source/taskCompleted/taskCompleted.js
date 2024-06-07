@@ -1,4 +1,7 @@
 class CompletedStatistics extends HTMLElement {
+    /**
+     * Constructor to define the shadow root
+     */
     constructor() {
         super();
         this.attachShadow({ mode: "open" });

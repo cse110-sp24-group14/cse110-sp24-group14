@@ -15,7 +15,7 @@ class SideCalendar extends HTMLElement {
     /**
      * Takes in an object to add an observer to allow listening
      * 
-     * @param {object} observer 
+     * @param {object} observer - object to observe and update when global date changes
      */
     addObserver(observer) {
         this.observers.push(observer);
@@ -24,7 +24,7 @@ class SideCalendar extends HTMLElement {
     /**
      * Removes an object from the observer list to stop listening
      * 
-     * @param {object} observer 
+     * @param {object} observer - object to observe and update when global date changes
      */
     removeObserver(observer) {
         this.observers = this.observers.filter(obs => obs !== observer);
@@ -43,7 +43,7 @@ class SideCalendar extends HTMLElement {
     /**
      * Sets the global date, updates the side calendar, and broadcast change to observer
      * 
-     * @param {Date} date 
+     * @param {Date} date - date to set global date to and update observers' dates to
      */
     setGlobalDate(date) {
         this.globalDate = date;
@@ -146,7 +146,7 @@ class SideCalendar extends HTMLElement {
     /**
      * Populates the sidebar
      * 
-     * @param {Date} today
+     * @param {Date} selectedDate - date selected for load sidebar to highlight and load around
      */
     loadSidebar(today) {
         const dayOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"] // names of days of the week

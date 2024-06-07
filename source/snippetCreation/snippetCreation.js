@@ -2,6 +2,11 @@
 document.addEventListener('DOMContentLoaded', () => {
     // observes the selected date
     const snippetObserver = new class {
+        /**
+         * Update the snippets with the new selected date when globalDate is updated
+         * 
+         * @param {Date} date - new date to fetch snippets from and display  
+         */
         update(date) {
             retrieve(date);
         }
@@ -31,7 +36,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-//create a POST request using fetch on the frontend
+/**
+ * Create a POST request using fetch on the frontend
+ * 
+ * @param {string} code - the value of the code snippet the user types
+ * @param {string} language - the language of the snippet the user selects
+ */
 const snippetCompleted = (code, language) => {
     fetch(
         `/add-snippet?code=${code}&language=${language}`,
@@ -39,7 +49,12 @@ const snippetCompleted = (code, language) => {
     );
 }
 
-//fetches all snippets and creates json file from them 
+/**
+ * Fetches all snippets and creates json file from them 
+ * 
+ * @param {Date} date - the date to fetch snippets from
+ * @returns {JSON} - returns the snippets if successfully fetches or an empty array if failed
+ */
 async function fetchSnippets(date) {
     try {
         const response = await fetch(`/fetch-snippets?date=${date}`);
@@ -53,7 +68,11 @@ async function fetchSnippets(date) {
     }
 }
 
-// displays the snippets in the top half of the 'Snippets' grey box
+/**
+ * Displays the snippets in the top half of the 'Snippets' grey box
+ * 
+ * @param {object[]} snippets - array of snippet objects with their code and language attributes 
+ */
 function displaySnippets(snippets) {
     const container = document.getElementById('snippet-container');
     container.innerHTML = '';
@@ -83,13 +102,23 @@ function displaySnippets(snippets) {
     });
 }
 
+/**
+ * Fetches snippets based on the date and displays them to the user
+ * 
+ * @param {Date} date - the daet to retrieve and display snippets from 
+ */
 async function retrieve(date) {
     const snippets = await fetchSnippets(date.toISOString().slice(0, 10));
     displaySnippets(snippets);
 }
 
-// Copies a copy snippet's text to the user's clipboard
+
 let ongoing;    // define a global variable to access timeout on separate function call
+/**
+ * Copies a copy snippet's text to the user's clipboard
+ * 
+ * @param {HTMLElement} button - button that allows copying to user clipboard when clicked
+ */
 function copy(button) {
     // Copy the text to clipboard
     navigator.clipboard.writeText(button.value);
