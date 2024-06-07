@@ -21,7 +21,7 @@ const fetchJson = (date) => {
 const updateCompleted = (id, completion) => {
     // update the task to be completed in SQL database
     fetch(
-        `/updated-task-completion?taskId=${id}&completed=${completion}`, 
+        `/updated-task-completion?taskId=${id}&completed=${completion}`,
         { method: 'PUT' }
     );
 }
@@ -44,8 +44,8 @@ const deleteTask = (id) => {
  * @param {JSON} taskList - list of today's fetched tasks
  */
 const populateTable = (taskList) => {
-    
     const table = document.getElementById("task-table");
+    table.innerHTML = ""
 
     // go through each task and create a row
     taskList.forEach((task) => {
@@ -68,7 +68,7 @@ const populateTable = (taskList) => {
 
         // add completion button if incomplete
         if (!task.completed) {
-            complete_button.onclick = () => {
+            complete_button.addEventListener("click",() => {
 
                 updateCompleted(task.id, true) // update database
                 psuedoUpdateCompletedTasks() // update statistics
@@ -97,12 +97,12 @@ const populateTable = (taskList) => {
                     table.appendChild(row);
                 }
 
-            }
+            });
 
             buttonContainer.appendChild(complete_button);
         }
 
-        delete_button.onclick = () => {
+        delete_button.addEventListener("click", () => {
             deleteTask(task.id)
             table.removeChild(row);
 
@@ -110,7 +110,7 @@ const populateTable = (taskList) => {
             if (task.completed) {
                 psuedoUpdateDelete();
             }
-        }
+        });
 
         buttonContainer.appendChild(delete_button);
         row.appendChild(buttonContainer);
@@ -121,6 +121,11 @@ const populateTable = (taskList) => {
             table.prepend(row);
         }
     });
+
+    // No task message
+    if (taskList.length === 0) {
+        table.innerHTML = "No tasks. Add a task for the day!"
+    }
 };
 
 /**
@@ -134,11 +139,11 @@ const addButtons = () => {
 
     const complete_img = document.createElement("img");
     complete_img.src = "displayTasks/Check.png";
-    complete_img.alt = "Complete"; 
+    complete_img.alt = "Complete";
 
     const delete_img = document.createElement("img");
     delete_img.src = "displayTasks/TrashSimple.png";
-    delete_img.alt = "Delete"; 
+    delete_img.alt = "Delete";
 
     complete_img.classList.add("row-image");
     delete_img.classList.add("row-image");
@@ -172,10 +177,36 @@ const psuedoUpdateDelete = () => {
     numTasks.innerText = Number(numTasks.innerText) - 1;
 }
 
-try {
-    let currentDate = new Date(2024, 4, 31).toISOString().slice(0, 10);
-    console.log(`Current date: ${currentDate}`)
-    fetchJson(currentDate);
-} catch (error) {
-    console.error(error);
+/**
+ * Changes the task list header to have the current selected date
+ * 
+ * @param {Date} date 
+ */
+const addDateToHeader = (date) => {
+    const header = document.querySelector("div[id='task-container'] h1");
+    const dateOptions = {
+        month: "numeric",
+        day: "numeric",
+        year: "numeric"
+    }
+    header.innerText = date.toLocaleDateString(undefined, dateOptions) + " Tasks";
 }
+
+window.addEventListener("DOMContentLoaded", () => {
+    // class to allow observing of global selected date
+    const taskObserver = new class {
+        update(date) {
+            try {
+                fetchJson(date.toISOString().slice(0, 10));
+                addDateToHeader(date);
+            } catch (error) {
+                console.error(error);
+            }
+        }
+    }();
+
+    taskObserver.update(new Date()); // initial load date
+
+    const sidebar = document.querySelector("side-calendar");
+    sidebar.addObserver(taskObserver);
+})

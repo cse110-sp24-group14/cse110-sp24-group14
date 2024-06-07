@@ -51,7 +51,6 @@ const addStreaks = (callback) => {
 /**
  * Fetch all the tasks of for a specified date
  * 
- * @param {string} date - date of tasks to fetch
  * @param {function} callback - handles the outcome of the fetch
  */
 const fetchTasks = (date, callback) => {
@@ -95,7 +94,7 @@ const fetchNumberCompleted = (callback) => {
 
     const sqlQuery = `
         SELECT CASE
-                WHEN COUNT(*) > 0 THEN (SELECT SUM(completed) FROM Tasks) 
+                WHEN COUNT(*) > 0 THEN SUM(completed) 
                 ELSE 0
             END AS CompletedCount
         FROM Tasks
@@ -191,6 +190,8 @@ const deleteTask = (taskId, callback) => {
  * Starts the server with all the routes
  */
 export const server = http.createServer((req, res) => {
+
+    // console.log("Running")
     const parsedUrl = new URL(req.url, `http://${req.headers.host}`);
     const pathname = parsedUrl.pathname;
     const query = parsedUrl.searchParams;
@@ -237,6 +238,31 @@ export const server = http.createServer((req, res) => {
                 res.end(JSON.stringify(numCompleted));
             }
         });
+    } else if (pathname === '/updated-task-completion' && req.method === 'PUT') {
+        // updates the completed state of task
+        const taskId = query.get('taskId');
+        const completed = query.get('completed');
+        updateTaskCompletion(taskId, completed, (err, result) => {
+            if (err) {
+                res.writeHead(500, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ error: 'Internal Server Error' }));
+            } else {
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify(result));
+            }
+        })
+    } else if (pathname === '/delete-task' && req.method === 'DELETE') {
+        // deletes a task
+        const taskId = query.get('taskId');
+        deleteTask(taskId, (err, result) => {
+            if (err) {
+                res.writeHead(500, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ error: 'Internal Server Error' }));
+            } else {
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify(result));
+            }
+        })
     } else if (pathname === '/add-snippet' && req.method === 'POST') {
         // adds a snippet entry
         const code = query.get('code');
