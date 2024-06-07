@@ -156,7 +156,7 @@ const fetchTasksDue = (year, month, callback) => {
         }
     });
 };
-          
+
 /**
  * Gets number of tasks that are completed from backend
  * 
@@ -181,6 +181,22 @@ const fetchNumberCompleted = (callback) => {
             callback(null, results);
         }
     })
+}
+
+/** 
+ * Gets number of incomplete tasks overall
+ * 
+ * @param {Function} callback
+ */
+const fetchNumIncompleteTasks = (callback) => {
+    const sqlQuery = 'SELECT COUNT(*) AS incomplete FROM Tasks WHERE completed = 0';
+    connection.query(sqlQuery, (error, results) => {
+        if (error) {
+            callback(error, null);
+        } else {
+            callback(null, results);
+        }
+    });
 }
 
 /**
@@ -377,6 +393,16 @@ export const server = http.createServer((req, res) => {
                 res.end(JSON.stringify(numCompleted));
             }
         });
+    } else if (pathname === '/num-incomplete-tasks' && req.method === 'GET') {
+        fetchNumIncompleteTasks((err, users) => {
+            if (err) {
+                res.writeHead(500, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ error: 'Internal Server Error' }));
+            } else {
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify(users));
+            }
+        });
     } else if (pathname === '/updated-task-completion' && req.method === 'PUT') {
         // updates the completed state of task
         const taskId = query.get('taskId');
@@ -455,7 +481,7 @@ export const server = http.createServer((req, res) => {
                 }
             });
         });
-    // Update the condition for serving CSS files
+        // Update the condition for serving CSS files
     } else if (pathname.endsWith('.css') && req.method === 'GET') {
         serveStaticFile(res, req.url.slice(1), 'text/css');
         // Update the condition for serving JavaScript files

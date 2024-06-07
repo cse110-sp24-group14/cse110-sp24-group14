@@ -26,6 +26,9 @@ class CompletedStatistics extends HTMLElement {
         const numTasks = document.createElement('p');
         numTasks.id = "num-tasks";
 
+        const numIncompleteTasks = document.createElement('p');
+        numIncompleteTasks.id = "num-incomplete-tasks";
+
         const caption = document.createElement('p');
         caption.id = "task-caption"
         caption.innerText = "Total tasks completed";
@@ -35,6 +38,7 @@ class CompletedStatistics extends HTMLElement {
         this.loadStyles();
         this.loadSVG();
         this.fetchNumCompleted();
+        this.fetchNumIncomplete();
     }
 
     /**
@@ -116,7 +120,8 @@ class CompletedStatistics extends HTMLElement {
     }
 
     /**
-     * Fetches data for overall task completion statistics 
+     * Fetches data for overall task completion statistics + updates HTML elements to display appropriately
+     * @function fetchNumCompleted
      */
     fetchNumCompleted() {
         fetch('/num-completed')
@@ -124,9 +129,24 @@ class CompletedStatistics extends HTMLElement {
             .then(data => {
                 const paragraph = this.shadowRoot.getElementById("num-tasks");
                 paragraph.innerHTML = data[0].CompletedCount;
+                const navDisplay = document.getElementById("tasks-completed");
+                navDisplay.innerHTML = data[0].CompletedCount + " tasks completed";
             })
             .catch(error => console.error('Error fetching number of tasks completed:', error));
-    }    
+    }
+    /**
+     * Fetches data for number of incomplete tasks + update HTML element appropriately
+     * @function fetchNumIncomplete
+     */
+    fetchNumIncomplete() {
+        fetch('/num-incomplete-tasks')
+            .then(response => response.json())
+            .then(data => {
+                const tasksLeft = document.getElementById("tasks-to-go");
+                tasksLeft.innerHTML = data[0].incomplete + " more to go!";
+            })
+            .catch(error => console.error('Error fetching number of tasks completed:', error));
+    }
 }
 
 customElements.define("completed-statistics", CompletedStatistics)
