@@ -110,44 +110,11 @@ const fetchNumberCompleted = (callback) => {
 }
 
 /**
- * Adds user's code snippet into the database
- * 
- * @param {string} code - code snippet value
- * @param {string} language - language of code snippet
- * @param {function} callback - function that handles the error and results of call 
- */
-const addSnippet = (code, language, callback) => {
-    const sqlQuery = `INSERT INTO Snippets (code, code_language) VALUES ('${code}', '${language}')`;
-    connection.query(sqlQuery, (error, results) => {
-        if (error) {
-            callback(error, null);
-        } else {
-            callback(null, results);
-        }
-    });
-};
-
-/**
- * Fetches all code snippets from the database
- * 
- * @param {function} callback - function that handles the error and results of call 
- */
-const fetchSnippets = (callback) => {
-    connection.query('SELECT * FROM Snippets ORDER BY created_date DESC', (error, results) => {
-        if (error) {
-            callback(error, null);
-        } else {
-            callback(null, results);
-        }
-    });
-};
-
-/**
  * Updates the completion of a task specified by its id
  * 
  * @param {number} taskId id of the task to be updated
  * @param {boolean} completed state to change the task's completion to
- * @param {function} callback - handles the outcome of the fetch
+ * @param {Function} callback - handles the outcome of the fetch
  */
 const updateTaskCompletion = (taskId, completed, callback) => {
     const sqlQuery = `
@@ -169,7 +136,7 @@ const updateTaskCompletion = (taskId, completed, callback) => {
  * Deletes a task specified by its id from the SQL database 
  * 
  * @param {number} taskId - the id of the task to delete
- * @param {function} callback - handles the outcome of the fetch
+ * @param {Function} callback - handles the outcome of the fetch
  */
 const deleteTask = (taskId, callback) => {
     const sqlQuery = `
@@ -185,6 +152,28 @@ const deleteTask = (taskId, callback) => {
         }
     })
 }
+
+const addSnippet = (code, language, callback) => {
+    const sqlQuery = `INSERT INTO Snippets (code, code_language) VALUES ('${code}', '${language}')`;
+    connection.query(sqlQuery, (error, results) => {
+        if (error) {
+            callback(error, null);
+        } else {
+            callback(null, results);
+        }
+    });
+};
+
+// Add a new function to fetch snippets
+const fetchSnippets = (date, callback) => {
+    connection.query(`SELECT * FROM Snippets WHERE created_date LIKE '${date}%'`, (error, results) => {
+        if (error) {
+            callback(error, null);
+        } else {
+            callback(null, results);
+        }
+    });
+};
 
 /**
  * Starts the server with all the routes
@@ -277,8 +266,9 @@ export const server = http.createServer((req, res) => {
             }
         });
     } else if (pathname === '/fetch-snippets' && req.method === 'GET') {
+        const date = query.get('date');
         //fetches snippets
-        fetchSnippets((err, snippets) => {
+        fetchSnippets(date, (err, snippets) => {
             if (err) {
                 res.writeHead(500, { 'Content-Type': 'application/json' });
                 res.end(JSON.stringify({ error: 'Internal Server Error' }));
@@ -287,31 +277,6 @@ export const server = http.createServer((req, res) => {
                 res.end(JSON.stringify(snippets));
             }
         });
-    } else if (pathname === '/updated-task-completion' && req.method === 'PUT') {
-        // updates the completed state of task
-        const taskId = query.get('taskId');
-        const completed = query.get('completed');
-        updateTaskCompletion(taskId, completed, (err, result) => {
-            if (err) {
-                res.writeHead(500, { 'Content-Type': 'application/json' });
-                res.end(JSON.stringify({ error: 'Internal Server Error' }));
-            } else {
-                res.writeHead(200, { 'Content-Type': 'application/json' });
-                res.end(JSON.stringify(result));
-            }
-        })
-    } else if (pathname === '/delete-task' && req.method === 'DELETE') {
-        // deletes a task
-        const taskId = query.get('taskId');
-        deleteTask(taskId, (err, result) => {
-            if (err) {
-                res.writeHead(500, { 'Content-Type': 'application/json' });
-                res.end(JSON.stringify({ error: 'Internal Server Error' }));
-            } else {
-                res.writeHead(200, { 'Content-Type': 'application/json' });
-                res.end(JSON.stringify(result));
-            }
-        })   
     } else if (req.url === '/' && req.method === 'GET') {
         fs.readFile(path.join(__dirname, 'index.html'), (err, data) => {
             if (err) {
@@ -337,7 +302,6 @@ export const server = http.createServer((req, res) => {
         const ext = path.extname(req.url).slice(1);
         const contentType = ext === 'svg' ? 'image/svg+xml' : `image/${ext === 'jpg' ? 'jpeg' : ext}`;
         serveStaticFile(res, req.url.slice(1), contentType);
-
     } else {
         res.writeHead(404, { 'Content-Type': 'text/plain' });
         res.end('Not Found');
@@ -363,6 +327,21 @@ const serveStaticFile = (res, filename, contentType) => {
         }
     });
 };
+
+// Handle fetching snippets request
+export const handleFetchSnippets = (req, res) => {
+    fetchSnippets((err, snippets) => {
+        if (err) {
+            res.writeHead(500, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ error: 'Internal Server Error' }));
+        } else {
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify(snippets));
+        }
+    });
+};
+
+
 
 // Start the server
 server.listen(3000, () => {
