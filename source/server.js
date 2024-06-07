@@ -16,6 +16,27 @@ const connection = mysql.createConnection({
 });
 
 /**
+ * Inserts a new task into the database
+ * 
+ * @param {Function} callback 
+ */
+const insertTask = (title, due_date, callback) => {
+    const query = 'INSERT INTO Tasks (title, due_date) VALUES (?, ?)';
+    connection.query(query, [title, due_date], (error, results) => {
+        if (error) {
+            callback(error, null);
+        } else {
+            callback(null, results);
+        }
+    });
+};
+
+/**
+ * Inserts a new visit into the database
+ * 
+ * @param {Function} callback 
+ */
+/**
 * Adds to the streak based on the site visits or new streak if no record exists
 *
 * @param {function} callback - function that handles the error and results of call
@@ -186,7 +207,34 @@ export const server = http.createServer((req, res) => {
     const query = parsedUrl.searchParams;
   
   
-    if (pathname === '/tasks' && req.method === 'GET') {
+    if (req.url === '/tasks' && req.method === 'POST') {
+        let body = '';
+        req.on('data', chunk => {
+            body += chunk.toString();
+        });
+        req.on('end', () => {
+            const { title, due_date } = JSON.parse(body);
+            insertTask(title, due_date, (err) => {
+                if (err) {
+                    res.writeHead(500, { 'Content-Type': 'application/json' });
+                    res.end(JSON.stringify({ error: 'Internal Server Error' }));
+                } else {
+                    res.writeHead(200, { 'Content-Type': 'application/json' });
+                    res.end(JSON.stringify({ message: 'Task added successfully' }));
+                }
+            });
+        });
+    } else if (req.url === '/streaks' && req.method === 'POST') {
+        addStreaks((err) => {
+            if (err) {
+                res.writeHead(500, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ error: 'Internal Server Error' }));
+            } else {
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ message: 'Streak added/updated successfully' }));
+            }
+        });
+    } else if (pathname === '/tasks' && req.method === 'GET') {
         const date = query.get('date');
         fetchTasks(date, (err, tasks) => {
             if (err) {
@@ -278,14 +326,21 @@ export const server = http.createServer((req, res) => {
             }
         });
     } else if (req.url === '/' && req.method === 'GET') {
-        fs.readFile(path.join(__dirname, 'index.html'), (err, data) => {
+        console.log('Home page accessed');
+        addStreaks((err, results) => {
             if (err) {
-                res.writeHead(500, { 'Content-Type': 'text/html' });
-                res.end('<h1>Internal Server Error</h1>');
-            } else {
-                res.writeHead(200, { 'Content-Type': 'text/html' });
-                res.end(data);
+                console.error('Error adding streak:', err);
             }
+            console.log('Added streak:', results);
+            fs.readFile(path.join(__dirname, 'index.html'), (err, data) => {
+                if (err) {
+                    res.writeHead(500, { 'Content-Type': 'text/html' });
+                    res.end('<h1>Internal Server Error</h1>');
+                } else {
+                    res.writeHead(200, { 'Content-Type': 'text/html' });
+                    res.end(data);
+                }
+            });
         });
         // Update the condition for serving CSS files
     } else if (pathname.endsWith('.css') && req.method === 'GET') {
