@@ -29,6 +29,8 @@ const connection = mysql.createConnection({
  */
 const insertTask = (title, due_date, callback) => {
     const query = 'INSERT INTO Tasks (title, due_date) VALUES (?, ?)';
+    console.log('Inserting title:', title);
+    console.log('Inserting due_date:', due_date);
     connection.query(query, [title, due_date], (error, results) => {
         if (error) {
             callback(error, null);
@@ -304,7 +306,12 @@ export const server = http.createServer((req, res) => {
             body += chunk.toString();
         });
         req.on('end', () => {
-            const { title, due_date } = JSON.parse(body);
+            console.log('Raw body:', body);  // Log the raw body
+            const parsedBody = JSON.parse(body);
+            console.log('Parsed body:', parsedBody);  // Log the parsed body
+            const { title, due_date } = parsedBody;
+            console.log('Received title:', title);
+            console.log('Received due_date:', due_date);
             insertTask(title, due_date, (err) => {
                 if (err) {
                     res.writeHead(500, { 'Content-Type': 'application/json' });
