@@ -13,7 +13,8 @@ const connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: 'pw',
-    database: 'prod'
+    database: 'prod',
+    port: 3307
 });
 
 /**
@@ -130,7 +131,7 @@ export const server = http.createServer((req, res) => {
         });
         req.on('end', () => {
             const { title, due_date } = JSON.parse(body);
-            insertTask(title, due_date, (err, results) => {
+            insertTask(title, due_date, (err) => {
                 if (err) {
                     res.writeHead(500, { 'Content-Type': 'application/json' });
                     res.end(JSON.stringify({ error: 'Internal Server Error' }));
@@ -141,7 +142,7 @@ export const server = http.createServer((req, res) => {
             });
         });
     } else if (req.url === '/streaks' && req.method === 'POST') {
-        addStreaks((err, results) => {
+        addStreaks((err) => {
             if (err) {
                 res.writeHead(500, { 'Content-Type': 'application/json' });
                 res.end(JSON.stringify({ error: 'Internal Server Error' }));
