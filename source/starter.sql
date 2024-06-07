@@ -86,7 +86,7 @@ INSERT INTO SiteVisits (visit_date) VALUES
     ('2024-06-01'),
     ('2024-05-31'),
     ('2024-06-04'),
-    ('2024-06-03');
+    ('2024-06-03'),
     ('2024-05-25');
 
 CREATE TABLE Snippets (
