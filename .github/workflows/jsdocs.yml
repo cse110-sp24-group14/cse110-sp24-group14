@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - staging
-      - edward/add-complete-delete-button-functionalities
+      - edward/jsdoc-function-comments
 
 jobs:
   deploy:
