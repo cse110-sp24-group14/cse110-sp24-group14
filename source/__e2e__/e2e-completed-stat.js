@@ -7,7 +7,6 @@ import puppeteer from 'puppeteer';
  * 2. CHANGE THE FILE NAME TO [original-file-name-here].test.stat.js
  * 3. MAKE SURE THERE ARE INCOMPLETE TASKS TO MARK COMPLETE
  * 4. npm run test
- *  
  */
 
 describe('End to end test to check if completed statistic matches number of completed tasks', () => {

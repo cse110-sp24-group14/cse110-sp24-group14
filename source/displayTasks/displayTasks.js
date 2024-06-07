@@ -44,7 +44,6 @@ const deleteTask = (id) => {
  * @param {JSON} taskList - list of today's fetched tasks
  */
 const populateTable = (taskList) => {
-
     const table = document.getElementById("task-table");
     table.innerHTML = ""
 
