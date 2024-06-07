@@ -32,11 +32,6 @@ const insertTask = (title, due_date, callback) => {
 };
 
 /**
- * Inserts a new visit into the database
- * 
- * @param {function} callback 
- */
-/**
 * Adds to the streak based on the site visits or new streak if no record exists
 *
 * @param {function} callback - function that handles the error and results of call
@@ -77,6 +72,23 @@ const addStreaks = (callback) => {
 const fetchTasks = (date, callback) => {
     // const date = new Date().toISOString().slice(0, 10);
     const query = `SELECT * FROM Tasks WHERE due_date = '${date}'`
+    connection.query(query, (error, results) => {
+        if (error) {
+            callback(error, null);
+        } else {
+            callback(null, results);
+        }
+    });
+};
+
+/**
+ * Fetch all the tasks of for a specified date
+ * 
+ * @param {function} callback - handles the outcome of the fetch
+ */
+const fetchNumSnippets = (callback) => {
+    // const date = new Date().toISOString().slice(0, 10);
+    const query = 'SELECT COUNT(*) AS SnippetCount FROM Snippets';
     connection.query(query, (error, results) => {
         if (error) {
             callback(error, null);
@@ -205,8 +217,8 @@ export const server = http.createServer((req, res) => {
     const parsedUrl = new URL(req.url, `http://${req.headers.host}`);
     const pathname = parsedUrl.pathname;
     const query = parsedUrl.searchParams;
-  
-  
+
+
     if (req.url === '/tasks' && req.method === 'POST') {
         let body = '';
         req.on('data', chunk => {
@@ -288,6 +300,17 @@ export const server = http.createServer((req, res) => {
                 res.end(JSON.stringify(result));
             }
         })
+    } else if (pathname === '/num-snippets' && req.method === 'GET') {
+        // fetches number of snippets created
+        fetchNumSnippets((err, result) => {
+            if (err) {
+                res.writeHead(500, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ error: 'Internal Server Error' }));
+            } else {
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify(result));
+            }
+        });
     } else if (pathname === '/delete-task' && req.method === 'DELETE') {
         // deletes a task
         const taskId = query.get('taskId');
@@ -329,19 +352,13 @@ export const server = http.createServer((req, res) => {
         console.log('Home page accessed');
         addStreaks((err, results) => {
             if (err) {
-                console.error('Error adding streak:', err);
+                res.writeHead(500, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ error: 'Internal Server Error' }));
+            } else {
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify(results));
             }
-            console.log('Added streak:', results);
-            fs.readFile(path.join(__dirname, 'index.html'), (err, data) => {
-                if (err) {
-                    res.writeHead(500, { 'Content-Type': 'text/html' });
-                    res.end('<h1>Internal Server Error</h1>');
-                } else {
-                    res.writeHead(200, { 'Content-Type': 'text/html' });
-                    res.end(data);
-                }
-            });
-        });
+        })
         // Update the condition for serving CSS files
     } else if (pathname.endsWith('.css') && req.method === 'GET') {
         serveStaticFile(res, req.url.slice(1), 'text/css');
@@ -382,21 +399,6 @@ const serveStaticFile = (res, filename, contentType) => {
         }
     });
 };
-
-// Handle fetching snippets request
-export const handleFetchSnippets = (req, res) => {
-    fetchSnippets((err, snippets) => {
-        if (err) {
-            res.writeHead(500, { 'Content-Type': 'application/json' });
-            res.end(JSON.stringify({ error: 'Internal Server Error' }));
-        } else {
-            res.writeHead(200, { 'Content-Type': 'application/json' });
-            res.end(JSON.stringify(snippets));
-        }
-    });
-};
-
-
 
 // Start the server
 server.listen(3000, () => {
