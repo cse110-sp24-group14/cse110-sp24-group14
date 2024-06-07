@@ -146,6 +146,8 @@ async function retrieve(date) {
 }
 
 /**
+ * @function psuedoUpdateSnippetCount
+ * @memberof SnippetCreation
  * Adds 1 to the number of snippets created for the statistics element
  */
 function psuedoUpdateSnippetCount() {
