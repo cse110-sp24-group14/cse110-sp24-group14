@@ -28,10 +28,14 @@ const populateStreak = (siteVisits) => {
         days.push(day.visit_date);
     });
 
+    // Updates the dashboard streak
     const streakAmt = countStreak(days);
     streakText.innerHTML = `You are on a ${streakAmt} days streak!`;
+
+    // Updates the header streak
     const headerStreak = document.getElementById("header-streak-days");
-    headerStreak.innerHTML = `${streakAmt} days streak!`;
+    if (streakAmt == 1) {headerStreak.innerHTML = `${streakAmt} day streak!`;}
+    else {headerStreak.innerHTML = `${streakAmt} days streak!`;}
 
     // Get current day and start of week to determine streak days
     const currentDate = new Date();
