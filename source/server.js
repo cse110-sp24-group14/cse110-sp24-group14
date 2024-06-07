@@ -415,14 +415,20 @@ export const server = http.createServer((req, res) => {
         console.log('Home page accessed');
         addStreaks((err, results) => {
             if (err) {
-                res.writeHead(500, { 'Content-Type': 'application/json' });
-                res.end(JSON.stringify({ error: 'Internal Server Error' }));
-            } else {
-                res.writeHead(200, { 'Content-Type': 'application/json' });
-                res.end(JSON.stringify(results));
+                console.error('Error adding streak:', err);
             }
-        })
-        // Update the condition for serving CSS files
+            console.log('Added streak:', results);
+            fs.readFile(path.join(__dirname, 'index.html'), (err, data) => {
+                if (err) {
+                    res.writeHead(500, { 'Content-Type': 'text/html' });
+                    res.end('<h1>Internal Server Error</h1>');
+                } else {
+                    res.writeHead(200, { 'Content-Type': 'text/html' });
+                    res.end(data);
+                }
+            });
+        });
+    // Update the condition for serving CSS files
     } else if (pathname.endsWith('.css') && req.method === 'GET') {
         serveStaticFile(res, req.url.slice(1), 'text/css');
         // Update the condition for serving JavaScript files
