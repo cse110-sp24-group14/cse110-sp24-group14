@@ -50,9 +50,7 @@ class SideCalendar extends HTMLElement {
 
         // removes the old table if exists to load update one
         const table = this.shadowRoot.querySelector('table')
-        if (table !== null) { 
-            this.shadowRoot.removeChild(table);
-        }
+        table.innerHTML = "";
 
         this.createSidebar();
         this.loadSidebar(this.globalDate)
@@ -79,8 +77,9 @@ class SideCalendar extends HTMLElement {
                 background-color: #234654;
             
                 display: flex;
+                flex-direction: column;
                 justify-content: center;
-                align-items: flex-start;
+                align-items: center;
             }
             
             table {
@@ -114,6 +113,9 @@ class SideCalendar extends HTMLElement {
 
         this.shadowRoot.appendChild(styles);
 
+        const sidebar = document.createElement("table");
+        this.shadowRoot.appendChild(sidebar);
+
         this.setGlobalDate(new Date);
     }
 
@@ -121,7 +123,7 @@ class SideCalendar extends HTMLElement {
      * Creates the elements in the sidebar
      */
     createSidebar() {
-        const sidebar = document.createElement("table");
+        const sidebar = this.shadowRoot.querySelector("table");
 
         // Creates each row and cell
         for (let row = 0; row < 7; row++) {
