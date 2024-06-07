@@ -107,7 +107,7 @@ const populateTable = (taskList) => {
             table.removeChild(row);
 
             // decrement complete statistic ONLY if completed
-            if (task.completed) {
+            if (row.className === "complete") {
                 psuedoUpdateDelete();
             }
         });
