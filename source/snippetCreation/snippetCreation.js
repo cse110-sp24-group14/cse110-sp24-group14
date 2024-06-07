@@ -10,6 +10,8 @@ document.addEventListener('DOMContentLoaded', () => {
         /**
          * Update the snippets with the new selected date when globalDate is updated
          * 
+         * @function update
+         * @memberof SnippetCreation
          * @param {Date} date - new date to fetch snippets from and display  
          */
         update(date) {

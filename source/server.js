@@ -233,6 +233,8 @@ const addSnippet = (code, language, callback) => {
 /**
  * Fetches snippets from the SQL database by date
  * 
+ * @function fetchSnippets
+ * @memberof Server
  * @param {string} date - string date in the format YYYY-MM-DD
  * @param {function} callback - handles the outcome of the fetch 
  * 
@@ -252,6 +254,8 @@ const fetchSnippets = (date, callback) => {
 
 /**
  * Starts the server with all the routes
+ * @function server
+ * @memberof Server
  */
 export const server = http.createServer((req, res) => {
 
@@ -420,6 +424,8 @@ export const server = http.createServer((req, res) => {
 /**
  * Serves static files (html, js, html, images)
  *
+ * @function serveStaticFile
+ * @memberof Server
  * @param {object} res - result of the call
  * @param {string} filename - name of file
  * @param {string} contentType - type of content (html, js, etc.)
