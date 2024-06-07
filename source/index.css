@@ -1,3 +1,33 @@
 body {
     margin: 0;
 }
+
+.row-button {
+    background-color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.disabled {
+    cursor: not-allowed;
+    background-color: red;
+}
+
+main {
+    display: flex;
+    flex-direction: row;
+}
+
+article {
+    display: flex;
+    flex-direction: column;
+}
+
+section {
+    display: flex;
+    flex-direction: row;
+
+    gap: 16px;
+    padding: 20px;
+}
