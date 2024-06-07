@@ -214,8 +214,10 @@ const psuedoUpdateCompletedTasks = () => {
 
     const completedTasks = Number(numTasks.innerText) + 1;
 
+    // Updates dashboard and header counter respectively
     numTasks.innerText = completedTasks;
-    headerNumCompleted.innerText = `${completedTasks} tasks completed`;
+    if (completedTasks == 1) {headerNumCompleted.innerText = `1 task completed`;}
+    else {headerNumCompleted.innerText = `${completedTasks} tasks completed`;}
 }
 
 /**
@@ -231,8 +233,10 @@ const psuedoUpdateDelete = () => {
 
     const completedTasks = Number(numTasks.innerText) - 1;
 
+    // Updates dashboard and header counter respectively
     numTasks.innerText = completedTasks;
-    headerNumCompleted.innerText = `${completedTasks} tasks completed`;
+    if (completedTasks == 1) {headerNumCompleted.innerText = `1 task completed`;}
+    else {headerNumCompleted.innerText = `${completedTasks} tasks completed`;}
 }
 
 /**
