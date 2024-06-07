@@ -1,0 +1,73 @@
+h1 {
+    text-align: center;
+    color: #2D2E2EB2;
+    font-size: 24px;
+
+    margin: 15px 0px;
+}
+
+#task-container {
+    background-color: #F6F6F6;
+    padding: 10px;
+    border-radius: 12px;
+
+    width: 350px;
+    height: 500px;
+
+    overflow-y: auto;
+}
+
+#task-container > table {
+    border-collapse: collapse;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+
+    padding: 2.5px;
+}
+
+#task-container > table > tr {
+    border-radius: 10px;
+    padding: 0px 20px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    width: 90%;
+}
+
+.complete {
+    text-decoration: line-through;
+    background-color: #00000005;
+}
+
+.incomplete {
+    background-color: #00000014;
+}
+
+.button-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.row-button {
+    background-color: white;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    margin: 10px 5px;
+    vertical-align: middle;
+
+    flex-grow: 0;
+}
+
+.task {
+    padding: 10px 10px;
+}
+
+.row-image {
+    margin: 2px;
+}
