@@ -72,7 +72,6 @@ const addStreaks = (callback) => {
     });
 };
 
-
 /**
  * Fetch all the tasks of for a specified date
  * 
@@ -113,7 +112,6 @@ const fetchNumSnippets = (callback) => {
         }
     });
 };
-
 
 /**
  * Gets all dates of site visits
@@ -278,7 +276,6 @@ const addSnippet = (code, language, callback) => {
         }
     });
 };
-
 
 /**
  * Fetches snippets from the SQL database by date
