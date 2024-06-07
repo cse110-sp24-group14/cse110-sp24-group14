@@ -114,6 +114,23 @@ const fetchNumSnippets = (callback) => {
     });
 };
 
+
+/**
+ * Gets all dates of site visits
+ * 
+ * @param {Function} callback 
+ */
+const fetchVisits = (callback) => {
+    connection.query('SELECT * FROM SiteVisits', (error, results) => {
+        if (error) {
+            callback(error, null);
+        } else {
+            console.log(results);
+            callback(null, results);
+        }
+    });
+};
+
 /**
  * Gets tasks for the current month you are at
  *
@@ -139,7 +156,7 @@ const fetchTasksDue = (year, month, callback) => {
         }
     });
 };
-
+          
 /**
  * Gets number of tasks that are completed from backend
  * 
@@ -275,7 +292,6 @@ const fetchSnippets = (date, callback) => {
  * @memberof Server
  */
 export const server = http.createServer((req, res) => {
-
     // console.log("Running")
     const parsedUrl = new URL(req.url, `http://${req.headers.host}`);
     const pathname = parsedUrl.pathname;
@@ -298,6 +314,17 @@ export const server = http.createServer((req, res) => {
                     res.end(JSON.stringify({ message: 'Task added successfully' }));
                 }
             });
+        });
+    } else if (req.url === '/streak' && req.method === 'GET') {
+        // fetches streak days of current week
+        fetchVisits((err, daysVisited) => {
+            if (err) {
+                res.writeHead(500, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ error: 'Internal Server Error' }));
+            } else {
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify(daysVisited));
+            }
         });
     } else if (req.url === '/streaks' && req.method === 'POST') {
         addStreaks((err) => {
@@ -415,20 +442,14 @@ export const server = http.createServer((req, res) => {
         console.log('Home page accessed');
         addStreaks((err, results) => {
             if (err) {
-                console.error('Error adding streak:', err);
+                res.writeHead(500, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ error: 'Internal Server Error' }));
+            } else {
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify(results));
             }
-            console.log('Added streak:', results);
-            fs.readFile(path.join(__dirname, 'index.html'), (err, data) => {
-                if (err) {
-                    res.writeHead(500, { 'Content-Type': 'text/html' });
-                    res.end('<h1>Internal Server Error</h1>');
-                } else {
-                    res.writeHead(200, { 'Content-Type': 'text/html' });
-                    res.end(data);
-                }
-            });
-        });
-    // Update the condition for serving CSS files
+        })
+        // Update the condition for serving CSS files
     } else if (pathname.endsWith('.css') && req.method === 'GET') {
         serveStaticFile(res, req.url.slice(1), 'text/css');
         // Update the condition for serving JavaScript files
