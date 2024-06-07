@@ -7,6 +7,10 @@ We are Team 14, Bozosort. We are striving to create the best developer-focused j
 
 ## Downloading the Project
 
+Dependencies: 
+- Node
+- Docker
+
 ```
 git clone https://github.com/cse110-sp24-group14/cse110-sp24-group14.git
 ```
