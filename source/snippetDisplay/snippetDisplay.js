@@ -1,11 +1,18 @@
+/**
+ * creates class CreatedSnippets to initialize a custom HTML element to display snippet stats.
+ * @class
+ * @extends HTMLElement
+ */
 class CreatedSnippets extends HTMLElement {
     constructor() {
         super();
         this.attachShadow({ mode: "open" });
     }
     /**
- * Creates statistics HTML structures
- */
+     * Creates and appends statistics HTML structures to the shadow DOM.
+     * @function connectedCallback
+     * @memberof SnippetDisplay
+     */
     connectedCallback() {
         const statsDiv = document.createElement('div')
         statsDiv.id = "stats-div"
@@ -30,8 +37,10 @@ class CreatedSnippets extends HTMLElement {
     }
 
     /**
- * Loads the styles of the statistics component
- */
+    * Loads the styles of the statistics component
+    * @function loadStyles
+    * @memberof SnippetDisplay
+    */
     loadStyles() {
         const styles = document.createElement('style');
 
@@ -90,8 +99,10 @@ class CreatedSnippets extends HTMLElement {
     }
 
     /**
- * Loads the SVG icon for the component
- */
+    * Loads the SVG icon for the component
+    * @function loadSVG
+    * @memberof SnippetDisplay
+    */
     loadSVG() {
         const svgDiv = this.shadowRoot.getElementById('svg-div');
         svgDiv.innerHTML = `
@@ -108,10 +119,10 @@ class CreatedSnippets extends HTMLElement {
     }
 
     /**
-* Called by side calendar when date is changed to fetch new data for completion statistics
-* 
-* @param {Date} date 
-*/
+    * Gets number of snippets created in totality from fetching specific query.
+    * Assigns it to shadowRoot element corresponding to box text.
+    * @function getNumSnippets 
+    */
     getNumSnippets() {
         fetch('/num-snippets')
             .then(response => response.json())
