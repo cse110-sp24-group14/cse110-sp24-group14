@@ -1,3 +1,8 @@
+/**
+ * Creates class CompletedStatistics to initialize a custom HTML element to display task completion stats
+ * @class
+ * @extends HTMLElement
+ */
 class CompletedStatistics extends HTMLElement {
     /**
      * Constructor to define the shadow root

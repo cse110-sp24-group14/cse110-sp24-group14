@@ -1,3 +1,8 @@
+/**
+ * Creates class SideCalendar to initialize a custom HTML element to display a side calendar
+ * @class
+ * @extends HTMLElement
+ */
 class SideCalendar extends HTMLElement {
     /**
      * Constructor to define date attributes and shadow root
