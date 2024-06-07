@@ -38,12 +38,12 @@ const fetchTasks = (date, callback) => {
 };
 
 /**
- * Gets tasks for the current month you are at
+ * Gets tasks which are not completed for the current month you are at
  * 
  * @param {year, month, Function} callback 
  */
 const fetchTasksDue = (year, month, callback) => {
-    const sqlQuery = 'SELECT * FROM Tasks WHERE YEAR(due_date) = ? AND MONTH(due_date) = ?';
+    const sqlQuery = 'SELECT * FROM Tasks WHERE YEAR(due_date) = ? AND MONTH(due_date) = ? AND completed = 0';
     console.log('Executing query:', sqlQuery, 'with parameters:', year, month);
     connection.execute(sqlQuery, [year, month], (error, results) => {
         if (error) {
@@ -146,8 +146,8 @@ export const server = http.createServer((req, res) => {
             }
         });
     } else if (pathname === '/tasks-this-month' && req.method === 'GET') {
-        const year = parseInt(query.year, 10);
-        const month = parseInt(query.month, 10);
+        const year = parseInt(query.get('year'), 10);
+        const month = parseInt(query.get('month'), 10);
         console.log('Received request for tasks this month:', year, month);
         // Ensure year and month are valid
         if (!isNaN(year) && !isNaN(month)) {

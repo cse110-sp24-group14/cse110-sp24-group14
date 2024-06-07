@@ -14,6 +14,8 @@
    <script src="displayTasks/displayTasks.js"></script>
    <link rel="stylesheet" href="displayTasks/displayTasks.css">
 
+   <script src="fullCalendar/fullCalendar_interaction.js"></script>
+
    <!--taskbox script and stylesheet -->
    <link rel="stylesheet" href="taskBox\taskbox.css" />
    <script src="taskBox\send_task.js"></script>
@@ -131,29 +133,6 @@
       console.log(`Current date: ${currentDate}`)
       fetchTasks(currentDate)
    </script> -->
-   <script>
-      // Function to get query parameters
-      function getQueryParams() {
-          const params = {};
-          const queryString = window.location.search.substring(1);
-          const paramArray = queryString.split("&");
-          for (const param of paramArray) {
-              const pair = param.split("=");
-              params[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1]);
-          }
-          return params;
-      }
-  
-      // Update the UI with the date from the query parameter if it exists
-      window.addEventListener("DOMContentLoaded", () => {
-          const queryParams = getQueryParams();
-          if (queryParams.date) {
-              const date = new Date(queryParams.date);
-              const sidebar = document.querySelector("side-calendar");
-              sidebar.setGlobalDate(date);
-          }
-      });
-  </script>
 </body>
 
 </html>
