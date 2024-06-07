@@ -20,7 +20,7 @@ function init() {
             const titleText = match[2];
             console.log(titleText);
 
-            taskInput.innerHTML = `<span class="task-command">${commandText}</span>${titleText}`;
+            taskInput.innerHTML = `<span class="task-command">${commandText}</span> ${titleText.trimStart()}`;
             moveCaretToEnd(taskInput);
             taskTitle = titleText;
         } else {
@@ -38,7 +38,7 @@ function init() {
     //once the popup form is finished submit it will POST the task
     dueDateForm.addEventListener('submit', (event) => {
         event.preventDefault();
-        
+
         const due_date = document.getElementById('dueDate').value;
         const data = {
             title: taskTitle,
@@ -51,21 +51,18 @@ function init() {
             },
             body: JSON.stringify(data)
         })
-        .then(response => response.json())
-        .then(data => {
-            alert(data.message);
-            sidebar.setGlobalDate(sidebar.globalDate); // Re-trigger date update
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-        });
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message);
+                sidebar.setGlobalDate(sidebar.globalDate); // Re-trigger date update
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
 
-         // Hide the popup form and reset the task title
-         popupForm.style.display = 'none';
-         taskTitle = '';
-
-         
-
+        // Hide the popup form and reset the task title
+        popupForm.style.display = 'none';
+        taskTitle = '';
     });
 
     // always make sure the caret is to the end of the text.
