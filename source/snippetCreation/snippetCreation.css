@@ -50,14 +50,25 @@
 
 /* Language */
 .snippet-box .snippet-type {
-  width: 15%;
-  margin: 0 10px 0 5px;
+  width: 12%;
+  margin: 0;
 }
 
-/* Code */
-.snippet-box p {
-  width: 85%;
-  margin: 0 5px 0 10px;
+/* Code Itself */
+.snippet-box button {
+  width: 88%;
+  margin: 0;
+  word-wrap: break-word;
+  white-space: normal;
+
+  background-color: transparent;
+  border-color: transparent;
+  text-align: left;
+  color: #2D2E2EB2;
+}
+
+.snippet-box button:hover {
+  color: blue;
 }
 
 /* Snippet Form */
@@ -93,9 +104,35 @@
 }
 
 #language-area {
+  color: #2D2E2EB2;
   width: 25%;
 }
 
 #snippet-form button {
   margin: 10px;
+}
+
+#alert {
+  opacity: 0;
+  transition: 1s;
+
+  position: fixed;
+  inset: 0px;
+  bottom: 10px;
+  margin-top: auto;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 3vh;
+  height: fit-content;
+  width: 20vh;
+
+  background-color: #F6F6F6;
+  border-radius: 10px;
+  border: 0.3vh solid #2D2E2EB2;
+  text-align: center;
+}
+
+#alert.fade-in {
+  opacity: 1;
+  transition: 0.1s;
 }
