@@ -15,7 +15,7 @@ class SideCalendar extends HTMLElement {
     /**
      * Takes in an object to add an observer to allow listening
      * 
-     * @param {object} observer 
+     * @param {object} observer - object to observe and update when global date changes
      */
     addObserver(observer) {
         this.observers.push(observer);
@@ -24,7 +24,7 @@ class SideCalendar extends HTMLElement {
     /**
      * Removes an object from the observer list to stop listening
      * 
-     * @param {object} observer 
+     * @param {object} observer - object to observe and update when global date changes
      */
     removeObserver(observer) {
         this.observers = this.observers.filter(obs => obs !== observer);
@@ -43,7 +43,7 @@ class SideCalendar extends HTMLElement {
     /**
      * Sets the global date, updates the side calendar, and broadcast change to observer
      * 
-     * @param {Date} date 
+     * @param {Date} date - date to set global date to and update observers' dates to
      */
     setGlobalDate(date) {
         this.globalDate = date;
@@ -149,6 +149,7 @@ class SideCalendar extends HTMLElement {
         const nextWeekButton = document.createElement('button');
         nextWeekButton.id = "next-week"
 
+        // svg for next and last week button icons
         const arrowSVG = `
             <svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                 <rect width="19" height="19" fill="url(#pattern0_545_31)"/>
@@ -218,18 +219,18 @@ class SideCalendar extends HTMLElement {
     /**
      * Populates the sidebar
      * 
-     * @param {Date} today
+     * @param {Date} selectedDate - date selected for load sidebar to highlight and load around
      */
-    loadSidebar(today) {
+    loadSidebar(selectedDate) {
         const dayOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"] // names of days of the week
         const BAR_LENGTH = 7                                                // adjust the number of entries in the sidebar
         let dateList = []                                                   // to hold sidebar's date values
 
         // get today's date
-        let currDate = new Date(today);
+        let currDate = new Date(selectedDate);
 
         // start date (3 days before current date)
-        currDate.setDate(today.getDate() - 3);
+        currDate.setDate(selectedDate.getDate() - 3);
 
         for (let day = 0; day < BAR_LENGTH; day++) {
             dateList.push(new Date(currDate));
