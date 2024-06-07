@@ -66,6 +66,23 @@ const fetchTasks = (date, callback) => {
 };
 
 /**
+ * Fetch all the tasks of for a specified date
+ * 
+ * @param {function} callback - handles the outcome of the fetch
+ */
+const fetchNumSnippets = (callback) => {
+    // const date = new Date().toISOString().slice(0, 10);
+    const query = 'SELECT COUNT(*) AS SnippetCount FROM Snippets';
+    connection.query(query, (error, results) => {
+        if (error) {
+            callback(error, null);
+        } else {
+            callback(null, results);
+        }
+    });
+};
+
+/**
 * Gets tasks for the current month you are at
 *
 * @param {number} year - year of the task fetched
@@ -195,8 +212,8 @@ export const server = http.createServer((req, res) => {
     const parsedUrl = new URL(req.url, `http://${req.headers.host}`);
     const pathname = parsedUrl.pathname;
     const query = parsedUrl.searchParams;
-  
-  
+
+
     if (pathname === '/tasks' && req.method === 'GET') {
         const date = query.get('date');
         fetchTasks(date, (err, tasks) => {
@@ -251,6 +268,17 @@ export const server = http.createServer((req, res) => {
                 res.end(JSON.stringify(result));
             }
         })
+    } else if (pathname === '/num-snippets' && req.method === 'GET') {
+        // fetches number of snippets created
+        fetchNumSnippets((err, result) => {
+            if (err) {
+                res.writeHead(500, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ error: 'Internal Server Error' }));
+            } else {
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify(result));
+            }
+        });
     } else if (pathname === '/delete-task' && req.method === 'DELETE') {
         // deletes a task
         const taskId = query.get('taskId');
@@ -311,7 +339,7 @@ export const server = http.createServer((req, res) => {
                 res.writeHead(200, { 'Content-Type': 'application/json' });
                 res.end(JSON.stringify(result));
             }
-        })   
+        })
     } else if (req.url === '/' && req.method === 'GET') {
         fs.readFile(path.join(__dirname, 'index.html'), (err, data) => {
             if (err) {
