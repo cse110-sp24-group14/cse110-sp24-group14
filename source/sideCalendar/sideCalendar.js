@@ -1,3 +1,8 @@
+/**
+ * Creates class SideCalendar to initialize a custom HTML element to display a side calendar
+ * @class
+ * @extends HTMLElement
+ */
 class SideCalendar extends HTMLElement {
     /**
      * Constructor to define date attributes and shadow root
@@ -44,6 +49,10 @@ class SideCalendar extends HTMLElement {
      * Sets the global date, updates the side calendar, and broadcast change to observer
      * 
      * @param {Date} date - date to set global date to and update observers' dates to
+     * 
+     * @example
+     * // set global date to June 7, 2024
+     * setGlobalDate(new Date(2024, 5, 7));
      */
     setGlobalDate(date) {
         this.globalDate = date;
@@ -220,6 +229,10 @@ class SideCalendar extends HTMLElement {
      * Populates the sidebar
      * 
      * @param {Date} selectedDate - date selected for load sidebar to highlight and load around
+     * 
+     * @example
+     * // load sidebar for June 7, 2024
+     * loadSidebar(new Date(2024, 5, 7));
      */
     loadSidebar(selectedDate) {
         const dayOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"] // names of days of the week

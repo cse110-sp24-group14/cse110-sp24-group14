@@ -1,3 +1,8 @@
+/**
+ * Namespace for server functions
+ * @namespace Server
+ */
+
 import mysql from 'mysql2';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -18,6 +23,8 @@ const connection = mysql.createConnection({
 /**
  * Inserts a new task into the database
  * 
+ * @function insertTask
+ * @memberof Server
  * @param {function} callback 
  */
 const insertTask = (title, due_date, callback) => {
@@ -32,10 +39,12 @@ const insertTask = (title, due_date, callback) => {
 };
 
 /**
-* Adds to the streak based on the site visits or new streak if no record exists
-*
-* @param {function} callback - function that handles the error and results of call
-*/
+ * Adds to the streak based on the site visits or new streak if no record exists
+ * 
+ * @function addStreaks
+ * @memberof Server
+ * @param {function} callback - function that handles the error and results of call
+ */
 const addStreaks = (callback) => {
     const today = new Date();
     today.setHours(0, 0, 0, 0);  // Set to the start of the day
@@ -67,7 +76,14 @@ const addStreaks = (callback) => {
 /**
  * Fetch all the tasks of for a specified date
  * 
+ * @function fetchTasks
+ * @memberof Server
+ * @param {string} date - date of the task in format YYYY-MM-DD
  * @param {function} callback - handles the outcome of the fetch
+ * 
+ * @example
+ * // fetch tasks for June 7, 2024
+ * fetchTasks('2024-06-07', callback);
  */
 const fetchTasks = (date, callback) => {
     // const date = new Date().toISOString().slice(0, 10);
@@ -82,12 +98,12 @@ const fetchTasks = (date, callback) => {
 };
 
 /**
- * Fetch all the tasks of for a specified date
+ * Fetch then number of snippets created in total, regardless of date
  * 
- * @param {function} callback - handles the outcome of the fetch
+ * @function fetchNumSnippets
+ * @memberof Server
  */
 const fetchNumSnippets = (callback) => {
-    // const date = new Date().toISOString().slice(0, 10);
     const query = 'SELECT COUNT(*) AS SnippetCount FROM Snippets';
     connection.query(query, (error, results) => {
         if (error) {
@@ -99,12 +115,18 @@ const fetchNumSnippets = (callback) => {
 };
 
 /**
-* Gets tasks for the current month you are at
-*
-* @param {number} year - year of the task fetched
-* @param {number} month - month of the task fetched
-* @param {function} callback - function that handles the error and results of call
-*/
+ * Gets tasks for the current month you are at
+ *
+ * @function fetchTasksDue
+ * @memberof Server
+ * @param {number} year - year of the task fetched
+ * @param {number} month - month of the task fetched
+ * @param {function} callback - function that handles the error and results of call
+ * 
+ * @example
+ * // fetch tasks due in June
+ * fetchTasksDue(2022, 6, callback);
+ */
 const fetchTasksDue = (year, month, callback) => {
     const sqlQuery = 'SELECT * FROM Tasks WHERE YEAR(due_date) = ? AND MONTH(due_date) = ?';
     console.log('Executing query:', sqlQuery, 'with parameters:', year, month);
@@ -119,10 +141,12 @@ const fetchTasksDue = (year, month, callback) => {
 };
 
 /**
-* Gets number of tasks that are completed from backend
-*
-* @param {function} callback - function that handles the error and results of call
-*/
+ * Gets number of tasks that are completed from backend
+ * 
+ * @function fetchNumberCompleted
+ * @memberof Server
+ * @param {function} callback - function that handles the error and results of call
+ */
 const fetchNumberCompleted = (callback) => {
 
     const sqlQuery = `
@@ -145,9 +169,15 @@ const fetchNumberCompleted = (callback) => {
 /**
  * Updates the completion of a task specified by its id
  * 
+ * @function updateTaskCompletion
+ * @memberof Server
  * @param {number} taskId id of the task to be updated
  * @param {boolean} completed state to change the task's completion to
  * @param {function} callback - handles the outcome of the fetch
+ * 
+ * @example
+ * // update task with id 1 to be completed
+ * updateTaskCompletion(1, true, callback);
  */
 const updateTaskCompletion = (taskId, completed, callback) => {
     const sqlQuery = `
@@ -168,8 +198,14 @@ const updateTaskCompletion = (taskId, completed, callback) => {
 /**
  * Deletes a task specified by its id from the SQL database 
  * 
+ * @function deleteTask
+ * @memberof Server
  * @param {number} taskId - the id of the task to delete
  * @param {function} callback - handles the outcome of the fetch
+ * 
+ * @example
+ * // delete task with id 1
+ * deleteTask(1, callback);
  */
 const deleteTask = (taskId, callback) => {
     const sqlQuery = `
@@ -186,6 +222,19 @@ const deleteTask = (taskId, callback) => {
     })
 }
 
+/**
+ * Adds a snippet to the SQL database
+ * 
+ * @function addSnippet
+ * @memberof Server
+ * @param {string} code - code content of snippet
+ * @param {string} language - language of the code in snippet
+ * @param {function} callback - handles the outcome of the fetch
+ * 
+ * @example
+ * // add snippet to database
+ * addSnippet("console.log('Hello World!)", "JavaScript", callback)
+ */
 const addSnippet = (code, language, callback) => {
     const sqlQuery = `INSERT INTO Snippets (code, code_language) VALUES ('${code}', '${language}')`;
     connection.query(sqlQuery, (error, results) => {
@@ -197,7 +246,19 @@ const addSnippet = (code, language, callback) => {
     });
 };
 
-// Add a new function to fetch snippets
+
+/**
+ * Fetches snippets from the SQL database by date
+ * 
+ * @function fetchSnippets
+ * @memberof Server
+ * @param {string} date - string date in the format YYYY-MM-DD
+ * @param {function} callback - handles the outcome of the fetch 
+ * 
+ * @example
+ * // fetch snippets for date June 7, 2024
+ * fetchSnippets("2024-06-07", callback)
+ */
 const fetchSnippets = (date, callback) => {
     connection.query(`SELECT * FROM Snippets WHERE created_date LIKE '${date}%'`, (error, results) => {
         if (error) {
@@ -210,6 +271,8 @@ const fetchSnippets = (date, callback) => {
 
 /**
  * Starts the server with all the routes
+ * @function server
+ * @memberof Server
  */
 export const server = http.createServer((req, res) => {
 
@@ -381,12 +444,18 @@ export const server = http.createServer((req, res) => {
 });
 
 /**
-* Serves static files (html, js, html, images)
-*
-* @param {object} res - result of the call
-* @param {string} filename - name of file
-* @param {string} contentType - type of content (html, js, etc.)
-*/
+ * Serves static files (html, js, html, images)
+ *
+ * @function serveStaticFile
+ * @memberof Server
+ * @param {object} res - result of the call
+ * @param {string} filename - name of file
+ * @param {string} contentType - type of content (html, js, etc.)
+ * 
+ * @example
+ * // serve index.html
+ * serveStaticFile(res, 'index.html', 'text/html');
+ */
 const serveStaticFile = (res, filename, contentType) => {
     const filePath = path.join(__dirname, filename);
     fs.readFile(filePath, (err, data) => {

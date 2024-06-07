@@ -1,7 +1,18 @@
 /**
+ * Namespace for display task function
+ * @namespace DisplayTasks
+ */
+
+/**
  * Fetch data from json file and add to table
- *
+ * 
+ * @function fetchJson
+ * @memberof DisplayTasks
  * @param {string} date - date to fetch tasks from
+ * 
+ * @example
+ * // fetches the json for date June 7, 2024
+ * fetchJson('2024-06-07');
  */
 const fetchJson = (date) => {
     fetch(`/tasks?date=${date}`)
@@ -15,11 +26,21 @@ const fetchJson = (date) => {
 /**
  * Calls a PUT method to update the completed column in the SQL database
  * 
- * @param {object} task - task to update
+ * @function updateCompleted
+ * @memberof DisplayTasks
+ * @param {number} id - id of task to update
  * @param {boolean} completion - state of completed to update to
+ * 
+ * @example
+ * // updates task with id 1 to be completed
+ * updateCompleted(1, true);
+ * @example
+ * // updates task with id 2 to not be completed
+ * updateCompleted(2, false);
  */
 const updateCompleted = (id, completion) => {
     // update the task to be completed in SQL database
+    console.log(id, completion);
     fetch(
         `/updated-task-completion?taskId=${id}&completed=${completion}`,
         { method: 'PUT' }
@@ -29,7 +50,13 @@ const updateCompleted = (id, completion) => {
 /**
  * Calls a DELETE method to delete a task from the SQL database
  * 
- * @param {number} id -- id of the task to be deleted 
+ * @function deleteTask
+ * @memberof DisplayTasks
+ * @param {number} id - id of the task to be deleted 
+ * 
+ * @example
+ * // delete a task with id 1
+ * deleteTask(1)
  */
 const deleteTask = (id) => {
     fetch(
@@ -41,7 +68,22 @@ const deleteTask = (id) => {
 /**
  * Adds all the tasks to their corresponding table
  *
+ * @function populateTable
+ * @memberof DisplayTasks
  * @param {JSON} taskList - list of today's fetched tasks
+ * 
+ * @example
+ * // populate table with list with one task
+ * populateTable([
+*       {
+        "id": 4,
+        "title": "Plan team meeting",
+        "due_date": "2024-05-31T07:00:00.000Z",
+        "completed": 1,
+        "created_at": "2024-06-07T15:17:40.000Z",
+        "updated_at": "2024-06-07T15:47:42.000Z"
+        }
+    ]);
  */
 const populateTable = (taskList) => {
     const table = document.getElementById("task-table");
@@ -131,6 +173,8 @@ const populateTable = (taskList) => {
 /**
  * Creates the complete and delete buttons 
  * 
+ * @function addButtons
+ * @memberof DisplayTasks
  * @returns {HTMLElement[]} [complete_button, delete_button] - buttons to add to task row
  */
 const addButtons = () => {
@@ -159,6 +203,9 @@ const addButtons = () => {
 
 /**
  * Adds 1 to the number of completed tasks for the statistics element
+ * 
+ * @function psuedoUpdateCompletedTasks
+ * @memberof DisplayTasks
  */
 const psuedoUpdateCompletedTasks = () => {
     const completeStats = document.querySelector("completed-statistics");
@@ -169,6 +216,9 @@ const psuedoUpdateCompletedTasks = () => {
 
 /**
  * Decrements 1 from number of completed tasks for the statistics element
+ * 
+ * @function psuedoUpdateDelete
+ * @memberof DisplayTasks
  */
 const psuedoUpdateDelete = () => {
     const completeStats = document.querySelector("completed-statistics");
@@ -180,7 +230,13 @@ const psuedoUpdateDelete = () => {
 /**
  * Changes the task list header to have the current selected date
  * 
+ * @function addDateToHeader
+ * @memberof DisplayTasks
  * @param {Date} date - date to display in the header text
+ * 
+ * @example
+ * // add date 6/7/2024 to the header
+ * addDateToHeader(new Date(2024, 5, 7));
  */
 const addDateToHeader = (date) => {
     const header = document.querySelector("div[id='task-container'] h1");
@@ -198,6 +254,8 @@ window.addEventListener("DOMContentLoaded", () => {
         /**
          * Updates the task list based on the selected date
          * 
+         * @function update
+         * @memberof DisplayTasks
          * @param {Date} date - new date to fetch tasks from and display in header 
          */
         update(date) {
