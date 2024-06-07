@@ -15,7 +15,7 @@ const fetchJson = (date) => {
 /**
  * Calls a PUT method to update the completed column in the SQL database
  * 
- * @param {Object} task - task to update
+ * @param {object} task - task to update
  * @param {boolean} completion - state of completed to update to
  */
 const updateCompleted = (id, completion) => {
@@ -131,7 +131,7 @@ const populateTable = (taskList) => {
 /**
  * Creates the complete and delete buttons 
  * 
- * @returns [complete_button, delete_button] - buttons to add to task row
+ * @returns {HTMLElement[]} [complete_button, delete_button] - buttons to add to task row
  */
 const addButtons = () => {
     const complete_button = document.createElement("button");
@@ -180,7 +180,7 @@ const psuedoUpdateDelete = () => {
 /**
  * Changes the task list header to have the current selected date
  * 
- * @param {Date} date 
+ * @param {Date} date - date to display in the header text
  */
 const addDateToHeader = (date) => {
     const header = document.querySelector("div[id='task-container'] h1");
@@ -195,6 +195,11 @@ const addDateToHeader = (date) => {
 window.addEventListener("DOMContentLoaded", () => {
     // class to allow observing of global selected date
     const taskObserver = new class {
+        /**
+         * Updates the task list based on the selected date
+         * 
+         * @param {Date} date - new date to fetch tasks from and display in header 
+         */
         update(date) {
             try {
                 fetchJson(date.toISOString().slice(0, 10));

@@ -15,7 +15,7 @@ class SideCalendar extends HTMLElement {
     /**
      * Takes in an object to add an observer to allow listening
      * 
-     * @param {object} observer 
+     * @param {object} observer - object to observe and update when global date changes
      */
     addObserver(observer) {
         this.observers.push(observer);
@@ -24,7 +24,7 @@ class SideCalendar extends HTMLElement {
     /**
      * Removes an object from the observer list to stop listening
      * 
-     * @param {object} observer 
+     * @param {object} observer - object to observe and update when global date changes
      */
     removeObserver(observer) {
         this.observers = this.observers.filter(obs => obs !== observer);
@@ -43,16 +43,14 @@ class SideCalendar extends HTMLElement {
     /**
      * Sets the global date, updates the side calendar, and broadcast change to observer
      * 
-     * @param {Date} date 
+     * @param {Date} date - date to set global date to and update observers' dates to
      */
     setGlobalDate(date) {
         this.globalDate = date;
 
         // removes the old table if exists to load update one
         const table = this.shadowRoot.querySelector('table')
-        if (table !== null) { 
-            this.shadowRoot.removeChild(table);
-        }
+        table.innerHTML = "";
 
         this.createSidebar();
         this.loadSidebar(this.globalDate)
@@ -74,13 +72,44 @@ class SideCalendar extends HTMLElement {
                 width: 130px;
                 height: 100%;
             
-                padding: 5px 5px;
+                padding: 10px 5px;
             
                 background-color: #234654;
             
                 display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            button {
+                display: flex;
+                flex-direction: row;
+
                 justify-content: center;
-                align-items: flex-start;
+                align-items: center;
+                gap: 5px;
+
+                border: none;
+                border-radius: 400px;
+                padding: 15px 15px;
+
+                background-color: #F6F6F6;
+                color: #234654;
+
+                cursor: pointer;
+            }
+
+            button:hover {
+                background-color: white;
+            }
+
+            p {
+                margin: 0;
+            }
+
+            /* rotating for next week button */
+            #next-week svg {
+                transform: rotate(180deg); 
             }
             
             table {
@@ -114,6 +143,52 @@ class SideCalendar extends HTMLElement {
 
         this.shadowRoot.appendChild(styles);
 
+        const lastWeekButton = document.createElement('button');
+        lastWeekButton.id = "last-week"
+
+        const nextWeekButton = document.createElement('button');
+        nextWeekButton.id = "next-week"
+
+        // svg for next and last week button icons
+        const arrowSVG = `
+            <svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                <rect width="19" height="19" fill="url(#pattern0_545_31)"/>
+                <defs>
+                <pattern id="pattern0_545_31" patternContentUnits="objectBoundingBox" width="1" height="1">
+                <use xlink:href="#image0_545_31" transform="scale(0.01)"/>
+                </pattern>
+                <image id="image0_545_31" width="100" height="100" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVUAAAACXBIWXMAAAsTAAALEwEAmpwYAAAC/klEQVR4nO2du2tUQRSHr4KNiCJWIii5ZyMxhSBpBcHsHBdMIc5cAtqLnYWgxiZ/g70aiI9CULC0TmMbH2CbztJOQdyV2Q0oPqKb3XvPYff74PS5vy9z5u6dGaYoAAAAAAAAAAAAAKxodap5CWlFNK6Vmp5NU4nGtfzss+3lU4U1Zbs6JJqeiqauaOpNeXUlxCetztWDljLeOgii56viGxMp2yPDQQDJXZWaHjU/Z9CmejtI6TY6p0g73rX+LxTnVWp1pzkh+c3CwUOL5wrpQWNCBq97Dh5a/VbOCCFqLwIhah8+QtQ+cISofcgIUftgEaL2YSLEQYCCEPvQBCH2QQlC7MMRhNgHIgixD0EcFd+ydKeA4kZ5IV4vNb1CiO1/6de8dlOsru7NX15nz1fHEGImJG6V7ers72s5tCwLGS+OX7xy+E/rEQhpVsTnsl3d2GlhCCFNtYgQ38904ul/rdIhpBkZ60eXlvb/z5IpQuptUZ9Eq+Vh1q4RUteo0PT6ZKhmhpGBkHpkdEXTvYWFa/uGlYGQ8beoj60QdTciEDL2FhVfzi1eOjKKDEbIWN6g0pft3xZ7RpWBkFGFhPihtRjPjEMEQkYeGXF9/lx1oBgzzbXYCdpKWmq8XdffjpDh54x3dclAyK7mjbSJEH/HEW7WJYWWxaQ+QQd2Aq+9voQoPwzdCZEfr8J8OvEkRPrFx0VnQlIuPr87E9IbtDAWqFwJkUELYwnXl5A0GC1scvAlRNgG5E+IDFoYG+VcVkjP2Urqb7Rssdna43GEkFY4juBvtGxwYMdcQrIenZOzpi4TUAhRewkIUfvgEaL2YSNE7QNGiNqHihC1DxIhDsIThNgHJgixD0kQYh+MIMQ+DJm2TycS4kPrBxbnVWq835wQrqvoubquIl9WwoUu6e9CQvx2Qi/PFU2SL8CybgvitPK2pKJp8sVX+QIs64cXbxXSptlNbX0pIT6mfaV+m8ojw0zGr3NKPjk7rRdLliHdanzOAAAAAAAAAAAAACh+4juxXJe8XjTN+wAAAABJRU5ErkJggg=="/>
+                </defs>
+            </svg>
+        `
+
+        // add last week button
+        lastWeekButton.innerHTML = arrowSVG;
+        lastWeekButton.innerHTML += "<p>Last Week</p>";
+        lastWeekButton.addEventListener("click", () => {
+            const lastWeekDate = new Date(this.globalDate)
+            lastWeekDate.setDate(this.globalDate.getDate() - 7);
+
+            this.setGlobalDate(lastWeekDate);
+        });
+
+        this.shadowRoot.appendChild(lastWeekButton);
+
+        const sidebar = document.createElement("table");
+        this.shadowRoot.appendChild(sidebar);
+
+        // add next week button
+        nextWeekButton.innerHTML = arrowSVG;
+        nextWeekButton.innerHTML += "<p>Next Week</p>";
+        nextWeekButton.addEventListener("click", () => {
+            const nextWeekDate = new Date(this.globalDate)
+            nextWeekDate.setDate(this.globalDate.getDate() + 7);
+
+            this.setGlobalDate(nextWeekDate);
+        });
+
+        this.shadowRoot.appendChild(nextWeekButton);
+
         this.setGlobalDate(new Date);
     }
 
@@ -121,7 +196,7 @@ class SideCalendar extends HTMLElement {
      * Creates the elements in the sidebar
      */
     createSidebar() {
-        const sidebar = document.createElement("table");
+        const sidebar = this.shadowRoot.querySelector("table");
 
         // Creates each row and cell
         for (let row = 0; row < 7; row++) {
@@ -139,25 +214,23 @@ class SideCalendar extends HTMLElement {
             dateRow.appendChild(dateCell);
             sidebar.appendChild(dateRow);
         }
-        // add to div in shadow root
-        this.shadowRoot.appendChild(sidebar);
     }
 
     /**
      * Populates the sidebar
      * 
-     * @param {Date} today
+     * @param {Date} selectedDate - date selected for load sidebar to highlight and load around
      */
-    loadSidebar(today) {
+    loadSidebar(selectedDate) {
         const dayOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"] // names of days of the week
         const BAR_LENGTH = 7                                                // adjust the number of entries in the sidebar
         let dateList = []                                                   // to hold sidebar's date values
 
         // get today's date
-        let currDate = new Date(today);
+        let currDate = new Date(selectedDate);
 
         // start date (3 days before current date)
-        currDate.setDate(today.getDate() - 3);
+        currDate.setDate(selectedDate.getDate() - 3);
 
         for (let day = 0; day < BAR_LENGTH; day++) {
             dateList.push(new Date(currDate));

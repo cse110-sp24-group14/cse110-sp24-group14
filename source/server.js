@@ -16,6 +16,22 @@ const connection = mysql.createConnection({
 });
 
 /**
+ * Inserts a new task into the database
+ * 
+ * @param {function} callback 
+ */
+const insertTask = (title, due_date, callback) => {
+    const query = 'INSERT INTO Tasks (title, due_date) VALUES (?, ?)';
+    connection.query(query, [title, due_date], (error, results) => {
+        if (error) {
+            callback(error, null);
+        } else {
+            callback(null, results);
+        }
+    });
+};
+
+/**
 * Adds to the streak based on the site visits or new streak if no record exists
 *
 * @param {function} callback - function that handles the error and results of call
@@ -127,39 +143,6 @@ const fetchNumberCompleted = (callback) => {
 }
 
 /**
- * Adds user's code snippet into the database
- * 
- * @param {string} code - code snippet value
- * @param {string} language - language of code snippet
- * @param {function} callback - function that handles the error and results of call 
- */
-const addSnippet = (code, language, callback) => {
-    const sqlQuery = `INSERT INTO Snippets (code, code_language) VALUES ('${code}', '${language}')`;
-    connection.query(sqlQuery, (error, results) => {
-        if (error) {
-            callback(error, null);
-        } else {
-            callback(null, results);
-        }
-    });
-};
-
-/**
- * Fetches all code snippets from the database
- * 
- * @param {function} callback - function that handles the error and results of call 
- */
-const fetchSnippets = (callback) => {
-    connection.query('SELECT * FROM Snippets ORDER BY created_date DESC', (error, results) => {
-        if (error) {
-            callback(error, null);
-        } else {
-            callback(null, results);
-        }
-    });
-};
-
-/**
  * Updates the completion of a task specified by its id
  * 
  * @param {number} taskId id of the task to be updated
@@ -203,6 +186,28 @@ const deleteTask = (taskId, callback) => {
     })
 }
 
+const addSnippet = (code, language, callback) => {
+    const sqlQuery = `INSERT INTO Snippets (code, code_language) VALUES ('${code}', '${language}')`;
+    connection.query(sqlQuery, (error, results) => {
+        if (error) {
+            callback(error, null);
+        } else {
+            callback(null, results);
+        }
+    });
+};
+
+// Add a new function to fetch snippets
+const fetchSnippets = (date, callback) => {
+    connection.query(`SELECT * FROM Snippets WHERE created_date LIKE '${date}%'`, (error, results) => {
+        if (error) {
+            callback(error, null);
+        } else {
+            callback(null, results);
+        }
+    });
+};
+
 /**
  * Starts the server with all the routes
  */
@@ -214,7 +219,34 @@ export const server = http.createServer((req, res) => {
     const query = parsedUrl.searchParams;
 
 
-    if (pathname === '/tasks' && req.method === 'GET') {
+    if (req.url === '/tasks' && req.method === 'POST') {
+        let body = '';
+        req.on('data', chunk => {
+            body += chunk.toString();
+        });
+        req.on('end', () => {
+            const { title, due_date } = JSON.parse(body);
+            insertTask(title, due_date, (err) => {
+                if (err) {
+                    res.writeHead(500, { 'Content-Type': 'application/json' });
+                    res.end(JSON.stringify({ error: 'Internal Server Error' }));
+                } else {
+                    res.writeHead(200, { 'Content-Type': 'application/json' });
+                    res.end(JSON.stringify({ message: 'Task added successfully' }));
+                }
+            });
+        });
+    } else if (req.url === '/streaks' && req.method === 'POST') {
+        addStreaks((err) => {
+            if (err) {
+                res.writeHead(500, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ error: 'Internal Server Error' }));
+            } else {
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ message: 'Streak added/updated successfully' }));
+            }
+        });
+    } else if (pathname === '/tasks' && req.method === 'GET') {
         const date = query.get('date');
         fetchTasks(date, (err, tasks) => {
             if (err) {
@@ -305,8 +337,9 @@ export const server = http.createServer((req, res) => {
             }
         });
     } else if (pathname === '/fetch-snippets' && req.method === 'GET') {
+        const date = query.get('date');
         //fetches snippets
-        fetchSnippets((err, snippets) => {
+        fetchSnippets(date, (err, snippets) => {
             if (err) {
                 res.writeHead(500, { 'Content-Type': 'application/json' });
                 res.end(JSON.stringify({ error: 'Internal Server Error' }));
@@ -315,41 +348,17 @@ export const server = http.createServer((req, res) => {
                 res.end(JSON.stringify(snippets));
             }
         });
-    } else if (pathname === '/updated-task-completion' && req.method === 'PUT') {
-        // updates the completed state of task
-        const taskId = query.get('taskId');
-        const completed = query.get('completed');
-        updateTaskCompletion(taskId, completed, (err, result) => {
-            if (err) {
-                res.writeHead(500, { 'Content-Type': 'application/json' });
-                res.end(JSON.stringify({ error: 'Internal Server Error' }));
-            } else {
-                res.writeHead(200, { 'Content-Type': 'application/json' });
-                res.end(JSON.stringify(result));
-            }
-        })
-    } else if (pathname === '/delete-task' && req.method === 'DELETE') {
-        // deletes a task
-        const taskId = query.get('taskId');
-        deleteTask(taskId, (err, result) => {
-            if (err) {
-                res.writeHead(500, { 'Content-Type': 'application/json' });
-                res.end(JSON.stringify({ error: 'Internal Server Error' }));
-            } else {
-                res.writeHead(200, { 'Content-Type': 'application/json' });
-                res.end(JSON.stringify(result));
-            }
-        })
     } else if (req.url === '/' && req.method === 'GET') {
-        fs.readFile(path.join(__dirname, 'index.html'), (err, data) => {
+        console.log('Home page accessed');
+        addStreaks((err, results) => {
             if (err) {
-                res.writeHead(500, { 'Content-Type': 'text/html' });
-                res.end('<h1>Internal Server Error</h1>');
+                res.writeHead(500, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ error: 'Internal Server Error' }));
             } else {
-                res.writeHead(200, { 'Content-Type': 'text/html' });
-                res.end(data);
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify(results));
             }
-        });
+        })
         // Update the condition for serving CSS files
     } else if (pathname.endsWith('.css') && req.method === 'GET') {
         serveStaticFile(res, req.url.slice(1), 'text/css');
@@ -365,7 +374,6 @@ export const server = http.createServer((req, res) => {
         const ext = path.extname(req.url).slice(1);
         const contentType = ext === 'svg' ? 'image/svg+xml' : `image/${ext === 'jpg' ? 'jpeg' : ext}`;
         serveStaticFile(res, req.url.slice(1), contentType);
-
     } else {
         res.writeHead(404, { 'Content-Type': 'text/plain' });
         res.end('Not Found');
