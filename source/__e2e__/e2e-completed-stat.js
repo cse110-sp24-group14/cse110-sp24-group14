@@ -4,8 +4,9 @@ import puppeteer from 'puppeteer';
  * TO RUN THIS TEST:
  * 
  * 1. FOLLOW THE STEPS TO START THE SERVER
- * 2. CHANGE THE FILE NAME TO e2e-completed.test.stat.js
- * 3. npm run test
+ * 2. CHANGE THE FILE NAME TO [original-file-name-here].test.stat.js
+ * 3. MAKE SURE THERE ARE INCOMPLETE TASKS TO MARK COMPLETE
+ * 4. npm run test
  *  
  */
 

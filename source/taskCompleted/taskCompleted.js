@@ -1,11 +1,21 @@
+/**
+ * Creates class CompletedStatistics to initialize a custom HTML element to display task completion stats
+ * @class
+ * @extends HTMLElement
+ */
 class CompletedStatistics extends HTMLElement {
+    /**
+     * Constructor to define the shadow root
+     */
     constructor() {
         super();
         this.attachShadow({ mode: "open" });
     }
 
+    /**
+     * Creates statistics HTML structures, loads date, and adds as a side calendar observer
+     */
     connectedCallback() {
-
         const statisticDiv = document.createElement('div')
         statisticDiv.id = "statistics-div"
         this.shadowRoot.appendChild(statisticDiv);
@@ -27,6 +37,9 @@ class CompletedStatistics extends HTMLElement {
         this.fetchNumCompleted();
     }
 
+    /**
+     * Loads the styles of the statistics component
+     */
     loadStyles() {
         const styles = document.createElement('style');
 
@@ -84,6 +97,9 @@ class CompletedStatistics extends HTMLElement {
         this.shadowRoot.appendChild(styles);
     }
 
+    /**
+     * Loads the SVG icon for the component
+     */
     loadSVG() {
         const svgDiv = this.shadowRoot.getElementById('svg-div');
         svgDiv.innerHTML = `
@@ -99,6 +115,9 @@ class CompletedStatistics extends HTMLElement {
         `;
     }
 
+    /**
+     * Fetches data for overall task completion statistics 
+     */
     fetchNumCompleted() {
         fetch('/num-completed')
             .then(response => response.json())
