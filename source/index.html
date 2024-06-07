@@ -16,6 +16,9 @@
    <script src="displayTasks/displayTasks.js"></script>
    <link rel="stylesheet" href="displayTasks/displayTasks.css">
 
+   <script src="displayStreak/displayStreak.js"></script>
+   <link rel="stylesheet" href="displayStreak/displayStreak.css">
+
    <!--taskbox script and stylesheet -->
    <link rel="stylesheet" href="taskBox\taskbox.css" />
    <script src="taskBox\send_task.js"></script>
@@ -31,8 +34,8 @@
             <div class="stat">
                <img src="./header/assets/Fire.svg" alt="Streak fire">
                <div class="stat-text">
-                  <p class="header-stat" id="streak-days">31 days streak</p>
-                  <p class="stat-caption" id="streak-caption">You are on fire!</p>
+                  <p class="header-stat" id="header-streak-days"></p>
+                  <p class="stat-caption" id="header-streak-caption">You are on fire!</p>
                </div>
             </div>
 
@@ -163,6 +166,7 @@
         </button>
      </div>
 
+   <!-- Snippets Container -->
    <div id="snippet">
       <h1>Snippets</h1>
       <ul id="snippet-container"></ul>
@@ -185,8 +189,13 @@
          <button type="submit">Add Snippet</button>
       </form>
    </div>
-
    <div id="alert"></div>
+
+   <!-- Mini-Streak Container -->
+   <div id="streak-container" class="hidden">
+      <p id="streak-text">You are on a x days streak!</p>
+      <div id="streak-days"></div>
+    </div>
 </body>
 
 </html>
