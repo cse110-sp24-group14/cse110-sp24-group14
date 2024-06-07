@@ -26,7 +26,12 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>// event listener to handle DOM Content load first upon which requests can be made
+            <pre class="prettyprint source linenums"><code>/**
+ * Namespace for snippet creation functions
+ * @namespace SnippetCreation
+ */
+
+// event listener to handle DOM Content load first upon which requests can be made
 document.addEventListener('DOMContentLoaded', () => {
     // observes the selected date
     const snippetObserver = new class {
@@ -67,8 +72,14 @@ document.addEventListener('DOMContentLoaded', () => {
 /**
  * Create a POST request using fetch on the frontend
  * 
+ * @function snippetCompleted
+ * @memberof SnippetCreation
  * @param {string} code - the value of the code snippet the user types
  * @param {string} language - the language of the snippet the user selects
+ * 
+ * @example
+ * // add snippet "console.log("Hello")" in javascript
+ * snippetCompleted("console.log(\"Hello\")", "JavaScript");
  */
 const snippetCompleted = (code, language) => {
     fetch(
@@ -80,8 +91,14 @@ const snippetCompleted = (code, language) => {
 /**
  * Fetches all snippets and creates json file from them 
  * 
- * @param {Date} date - the date to fetch snippets from
+ * @function fetchSnippets
+ * @memberof SnippetCreation
+ * @param {string} date - the date string to fetch snippets from
  * @returns {JSON} - returns the snippets if successfully fetches or an empty array if failed
+ * 
+ * @example
+ * // fetch snippets for June 7, 2024
+ * fetchSnippets("2024-06-07");
  */
 async function fetchSnippets(date) {
     try {
@@ -99,7 +116,13 @@ async function fetchSnippets(date) {
 /**
  * Displays the snippets in the top half of the 'Snippets' grey box
  * 
+ * @function displaySnippets
+ * @memberof SnippetCreation
  * @param {object[]} snippets - array of snippet objects with their code and language attributes 
+ * 
+ * @example
+ * // display a snippet 
+ * displaySnippets([{code: "console.log(\"Hello\")", code_language: "JavaScript"}, created_date: "2024-06-07T16:21:14.000Z"])
  */
 function displaySnippets(snippets) {
     const container = document.getElementById('snippet-container');
@@ -133,7 +156,13 @@ function displaySnippets(snippets) {
 /**
  * Fetches snippets based on the date and displays them to the user
  * 
- * @param {Date} date - the daet to retrieve and display snippets from 
+ * @function retrieve
+ * @memberof SnippetCreation
+ * @param {Date} date - the date to retrieve and display snippets from 
+ * 
+ * @example 
+ * // retrieves and displays snippets for June 7, 2024
+ * retrieve(new Date(2024, 5, 7));
  */
 async function retrieve(date) {
     const snippets = await fetchSnippets(date.toISOString().slice(0, 10));
@@ -145,6 +174,8 @@ let ongoing;    // define a global variable to access timeout on separate functi
 /**
  * Copies a copy snippet's text to the user's clipboard
  * 
+ * @function copy
+ * @memberof SnippetCreation
  * @param {HTMLElement} button - button that allows copying to user clipboard when clicked
  */
 function copy(button) {
@@ -169,13 +200,13 @@ function copy(button) {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="CompletedStatistics.html">CompletedStatistics</a></li><li><a href="SideCalendar.html">SideCalendar</a></li></ul><h3>Global</h3><ul><li><a href="global.html#addButtons">addButtons</a></li><li><a href="global.html#addDateToHeader">addDateToHeader</a></li><li><a href="global.html#addStreaks">addStreaks</a></li><li><a href="global.html#copy">copy</a></li><li><a href="global.html#deleteTask">deleteTask</a></li><li><a href="global.html#displaySnippets">displaySnippets</a></li><li><a href="global.html#fetchJson">fetchJson</a></li><li><a href="global.html#fetchNumberCompleted">fetchNumberCompleted</a></li><li><a href="global.html#fetchSnippets">fetchSnippets</a></li><li><a href="global.html#fetchTasks">fetchTasks</a></li><li><a href="global.html#fetchTasksDue">fetchTasksDue</a></li><li><a href="global.html#insertTask">insertTask</a></li><li><a href="global.html#populateTable">populateTable</a></li><li><a href="global.html#psuedoUpdateCompletedTasks">psuedoUpdateCompletedTasks</a></li><li><a href="global.html#psuedoUpdateDelete">psuedoUpdateDelete</a></li><li><a href="global.html#retrieve">retrieve</a></li><li><a href="global.html#server">server</a></li><li><a href="global.html#serveStaticFile">serveStaticFile</a></li><li><a href="global.html#snippetCompleted">snippetCompleted</a></li><li><a href="global.html#update">update</a></li><li><a href="global.html#updateCompleted">updateCompleted</a></li><li><a href="global.html#updateTaskCompletion">updateTaskCompletion</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="DisplayTasks.html">DisplayTasks</a></li><li><a href="Server.html">Server</a></li><li><a href="SnippetCreation.html">SnippetCreation</a></li></ul><h3>Classes</h3><ul><li><a href="CompletedStatistics.html">CompletedStatistics</a></li><li><a href="SideCalendar.html">SideCalendar</a></li></ul><h3>Global</h3><ul><li><a href="global.html#fetchSnippets">fetchSnippets</a></li><li><a href="global.html#server">server</a></li><li><a href="global.html#serveStaticFile">serveStaticFile</a></li><li><a href="global.html#update">update</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Fri Jun 07 2024 08:41:17 GMT+0000 (Coordinated Universal Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Fri Jun 07 2024 09:39:14 GMT+0000 (Coordinated Universal Time)
 </footer>
 
 <script> prettyPrint(); </script>
