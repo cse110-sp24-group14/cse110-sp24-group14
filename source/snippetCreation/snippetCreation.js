@@ -60,6 +60,8 @@ const snippetCompleted = (code, language) => {
         `/add-snippet?code=${code}&language=${language}`,
         { method: 'POST' }
     );
+    retrieve();
+    psuedoUpdateSnippetCount();
 }
 
 /**
@@ -143,7 +145,17 @@ async function retrieve(date) {
     displaySnippets(snippets);
 }
 
+/**
+ * Adds 1 to the number of snippets created for the statistics element
+ */
+function psuedoUpdateSnippetCount() {
+    const snippetStats = document.querySelector('snippets-statistics')
+    const numSnippets = snippetStats.shadowRoot.getElementById('num-snippets')
 
+    numSnippets.innerText = Number(numSnippets.innerText) + 1;
+}
+
+// Copies a copy snippet's text to the user's clipboard
 let ongoing;    // define a global variable to access timeout on separate function call
 /**
  * Copies a copy snippet's text to the user's clipboard

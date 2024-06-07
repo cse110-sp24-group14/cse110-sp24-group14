@@ -34,10 +34,7 @@ class CompletedStatistics extends HTMLElement {
 
         this.loadStyles();
         this.loadSVG();
-        this.update(new Date()) // initial load date
-
-        const sidebar = document.querySelector('side-calendar');
-        sidebar.addObserver(this)
+        this.fetchNumCompleted();
     }
 
     /**
@@ -119,19 +116,17 @@ class CompletedStatistics extends HTMLElement {
     }
 
     /**
-     * Called by side calendar when date is changed to fetch new data for completion statistics
-     * 
-     * @param {Date} date 
+     * Fetches data for overall task completion statistics 
      */
-    update(date) {
-        fetch(`/num-completed?date=${date.toISOString().slice(0, 10)}`)
+    fetchNumCompleted() {
+        fetch('/num-completed')
             .then(response => response.json())
             .then(data => {
                 const paragraph = this.shadowRoot.getElementById("num-tasks");
                 paragraph.innerHTML = data[0].CompletedCount;
             })
             .catch(error => console.error('Error fetching number of tasks completed:', error));
-    }
+    }    
 }
 
 customElements.define("completed-statistics", CompletedStatistics)
