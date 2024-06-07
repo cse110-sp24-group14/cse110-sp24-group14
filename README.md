@@ -30,3 +30,8 @@ node server.js
 ## CI Pipeline
 
 We have a continuous integration pipeline that runs via GitHub actions in our `staging` and `main branches` we have a eslint that enforces linting and various tests with sqlite, puppeteer, and jest. We also utilize JSDocs, which builds all of our documentation to [https://cse110-sp24-group14.github.io/cse110-sp24-group14/](https://cse110-sp24-group14.github.io/cse110-sp24-group14/). 
+
+## Resources
+
+- [Figma design board](https://www.figma.com/design/zNVxTEwExahDGpp1mrBVRq/CSE-110-To-do-List)
+- [Database schema](https://github.com/cse110-sp24-group14/cse110-sp24-group14/blob/main/specs/adr/052124-db-schema.md)
