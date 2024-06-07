@@ -81,7 +81,8 @@ const deleteTask = (id) => {
         "due_date": "2024-05-31T07:00:00.000Z",
         "completed": 1,
         "created_at": "2024-06-07T15:17:40.000Z",
-        "updated_at": "2024-06-07T15:47:42.000Z"
+        "updated_at": "2024-06-07T15:47:42.000Z",
+        "priority": "low"
         }
     ]);
  */

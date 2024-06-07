@@ -27,9 +27,9 @@ const connection = mysql.createConnection({
  * @memberof Server
  * @param {function} callback 
  */
-const insertTask = (title, due_date, callback) => {
-    const query = 'INSERT INTO Tasks (title, due_date) VALUES (?, ?)';
-    connection.query(query, [title, due_date], (error, results) => {
+const insertTask = (title, due_date, priority, callback) => {
+    const query = 'INSERT INTO Tasks (title, due_date, priority_tag) VALUES (?, ?, ?)';
+    connection.query(query, [title, due_date, priority], (error, results) => {
         if (error) {
             callback(error, null);
         } else {
@@ -304,9 +304,10 @@ export const server = http.createServer((req, res) => {
             body += chunk.toString();
         });
         req.on('end', () => {
-            const { title, due_date } = JSON.parse(body);
-            insertTask(title, due_date, (err) => {
+            const { title, due_date, priority } = JSON.parse(body);
+            insertTask(title, due_date, priority, (err) => {
                 if (err) {
+                    console.log(err);
                     res.writeHead(500, { 'Content-Type': 'application/json' });
                     res.end(JSON.stringify({ error: 'Internal Server Error' }));
                 } else {

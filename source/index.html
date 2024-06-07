@@ -83,6 +83,13 @@
         <input type="text" id="title" name="title" required><br><br>
         <label for="due_date">Due Date:</label>
         <input type="date" id="due_date" name="due_date" required><br><br>
+        <label>Priority:</label>
+        <input type="radio" id="high" name="priority" value="high" required>
+        <label for="high">High</label>
+        <input type="radio" id="medium" name="priority" value="medium" required>
+        <label for="medium">Medium</label>
+        <input type="radio" id="low" name="priority" value="low" required>
+        <label for="low">Low</label><br><br>
         <button type="submit">Add Task</button>
     </form>
 
@@ -92,13 +99,14 @@
 
             const title = document.getElementById('title').value;
             const due_date = document.getElementById('due_date').value;
+            const priority = document.querySelector('input[name="priority"]:checked').value;
 
             fetch('/tasks', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ title, due_date })
+                body: JSON.stringify({ title, due_date, priority })
             })
             .then(response => response.json())
             .then(data => {
