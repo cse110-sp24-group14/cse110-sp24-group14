@@ -740,6 +740,172 @@ deleteTask(1, callback);</code></pre>
     
 
     
+    <h4 class="name" id=".fetchSnippets"><span class="type-signature">(static) </span>fetchSnippets<span class="signature">(date, callback)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Fetches snippets from the SQL database by date
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>date</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">string date in the format YYYY-MM-DD</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">handles the outcome of the fetch</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="server.js.html">server.js</a>, <a href="server.js.html#line233">line 233</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>// fetch snippets for date June 7, 2024
+fetchSnippets("2024-06-07", callback)</code></pre>
+
+
+
+        
+            
+
+    
+
+    
     <h4 class="name" id=".fetchTasks"><span class="type-signature">(static) </span>fetchTasks<span class="signature">(date, callback)</span><span class="type-signature"></span></h4>
     
 
@@ -1232,6 +1398,283 @@ fetchTasksDue(2022, 6, callback);</code></pre>
     
 
     
+    <h4 class="name" id=".server"><span class="type-signature">(static) </span>server<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Starts the server with all the routes
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="server.js.html">server.js</a>, <a href="server.js.html#line255">line 255</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id=".serveStaticFile"><span class="type-signature">(static) </span>serveStaticFile<span class="signature">(res, filename, contentType)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Serves static files (html, js, html, images)
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>res</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">result of the call</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>filename</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">name of file</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>contentType</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">type of content (html, js, etc.)</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="server.js.html">server.js</a>, <a href="server.js.html#line424">line 424</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>// serve index.html
+serveStaticFile(res, 'index.html', 'text/html');</code></pre>
+
+
+
+        
+            
+
+    
+
+    
     <h4 class="name" id=".updateTaskCompletion"><span class="type-signature">(static) </span>updateTaskCompletion<span class="signature">(taskId, completed, callback)</span><span class="type-signature"></span></h4>
     
 
@@ -1431,13 +1874,13 @@ updateTaskCompletion(1, true, callback);</code></pre>
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="DisplayTasks.html">DisplayTasks</a></li><li><a href="Server.html">Server</a></li><li><a href="SnippetCreation.html">SnippetCreation</a></li></ul><h3>Classes</h3><ul><li><a href="CompletedStatistics.html">CompletedStatistics</a></li><li><a href="SideCalendar.html">SideCalendar</a></li></ul><h3>Global</h3><ul><li><a href="global.html#fetchSnippets">fetchSnippets</a></li><li><a href="global.html#server">server</a></li><li><a href="global.html#serveStaticFile">serveStaticFile</a></li><li><a href="global.html#update">update</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="DisplayTasks.html">DisplayTasks</a></li><li><a href="Server.html">Server</a></li><li><a href="SnippetCreation.html">SnippetCreation</a></li></ul><h3>Classes</h3><ul><li><a href="CompletedStatistics.html">CompletedStatistics</a></li><li><a href="SideCalendar.html">SideCalendar</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Fri Jun 07 2024 09:39:14 GMT+0000 (Coordinated Universal Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Fri Jun 07 2024 09:43:36 GMT+0000 (Coordinated Universal Time)
 </footer>
 
 <script> prettyPrint(); </script>
