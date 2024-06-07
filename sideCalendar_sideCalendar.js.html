@@ -72,19 +72,13 @@
      * Sets the global date, updates the side calendar, and broadcast change to observer
      * 
      * @param {Date} date - date to set global date to and update observers' dates to
-     * 
-     * @example
-     * // set global date to June 7, 2024
-     * setGlobalDate(new Date(2024, 5, 7));
      */
     setGlobalDate(date) {
         this.globalDate = date;
 
         // removes the old table if exists to load update one
         const table = this.shadowRoot.querySelector('table')
-        if (table !== null) { 
-            this.shadowRoot.removeChild(table);
-        }
+        table.innerHTML = "";
 
         this.createSidebar();
         this.loadSidebar(this.globalDate)
@@ -106,13 +100,44 @@
                 width: 130px;
                 height: 100%;
             
-                padding: 5px 5px;
+                padding: 10px 5px;
             
                 background-color: #234654;
             
                 display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            button {
+                display: flex;
+                flex-direction: row;
+
                 justify-content: center;
-                align-items: flex-start;
+                align-items: center;
+                gap: 5px;
+
+                border: none;
+                border-radius: 400px;
+                padding: 15px 15px;
+
+                background-color: #F6F6F6;
+                color: #234654;
+
+                cursor: pointer;
+            }
+
+            button:hover {
+                background-color: white;
+            }
+
+            p {
+                margin: 0;
+            }
+
+            /* rotating for next week button */
+            #next-week svg {
+                transform: rotate(180deg); 
             }
             
             table {
@@ -146,6 +171,52 @@
 
         this.shadowRoot.appendChild(styles);
 
+        const lastWeekButton = document.createElement('button');
+        lastWeekButton.id = "last-week"
+
+        const nextWeekButton = document.createElement('button');
+        nextWeekButton.id = "next-week"
+
+        // svg for next and last week button icons
+        const arrowSVG = `
+            &lt;svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                &lt;rect width="19" height="19" fill="url(#pattern0_545_31)"/>
+                &lt;defs>
+                &lt;pattern id="pattern0_545_31" patternContentUnits="objectBoundingBox" width="1" height="1">
+                &lt;use xlink:href="#image0_545_31" transform="scale(0.01)"/>
+                &lt;/pattern>
+                &lt;image id="image0_545_31" width="100" height="100" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVUAAAACXBIWXMAAAsTAAALEwEAmpwYAAAC/klEQVR4nO2du2tUQRSHr4KNiCJWIii5ZyMxhSBpBcHsHBdMIc5cAtqLnYWgxiZ/g70aiI9CULC0TmMbH2CbztJOQdyV2Q0oPqKb3XvPYff74PS5vy9z5u6dGaYoAAAAAAAAAAAAAKxodap5CWlFNK6Vmp5NU4nGtfzss+3lU4U1Zbs6JJqeiqauaOpNeXUlxCetztWDljLeOgii56viGxMp2yPDQQDJXZWaHjU/Z9CmejtI6TY6p0g73rX+LxTnVWp1pzkh+c3CwUOL5wrpQWNCBq97Dh5a/VbOCCFqLwIhah8+QtQ+cISofcgIUftgEaL2YSLEQYCCEPvQBCH2QQlC7MMRhNgHIgixD0EcFd+ydKeA4kZ5IV4vNb1CiO1/6de8dlOsru7NX15nz1fHEGImJG6V7ers72s5tCwLGS+OX7xy+E/rEQhpVsTnsl3d2GlhCCFNtYgQ38904ul/rdIhpBkZ60eXlvb/z5IpQuptUZ9Eq+Vh1q4RUteo0PT6ZKhmhpGBkHpkdEXTvYWFa/uGlYGQ8beoj60QdTciEDL2FhVfzi1eOjKKDEbIWN6g0pft3xZ7RpWBkFGFhPihtRjPjEMEQkYeGXF9/lx1oBgzzbXYCdpKWmq8XdffjpDh54x3dclAyK7mjbSJEH/HEW7WJYWWxaQ+QQd2Aq+9voQoPwzdCZEfr8J8OvEkRPrFx0VnQlIuPr87E9IbtDAWqFwJkUELYwnXl5A0GC1scvAlRNgG5E+IDFoYG+VcVkjP2Urqb7Rssdna43GEkFY4juBvtGxwYMdcQrIenZOzpi4TUAhRewkIUfvgEaL2YSNE7QNGiNqHihC1DxIhDsIThNgHJgixD0kQYh+MIMQ+DJm2TycS4kPrBxbnVWq835wQrqvoubquIl9WwoUu6e9CQvx2Qi/PFU2SL8CybgvitPK2pKJp8sVX+QIs64cXbxXSptlNbX0pIT6mfaV+m8ojw0zGr3NKPjk7rRdLliHdanzOAAAAAAAAAAAAACh+4juxXJe8XjTN+wAAAABJRU5ErkJggg=="/>
+                &lt;/defs>
+            &lt;/svg>
+        `
+
+        // add last week button
+        lastWeekButton.innerHTML = arrowSVG;
+        lastWeekButton.innerHTML += "&lt;p>Last Week&lt;/p>";
+        lastWeekButton.addEventListener("click", () => {
+            const lastWeekDate = new Date(this.globalDate)
+            lastWeekDate.setDate(this.globalDate.getDate() - 7);
+
+            this.setGlobalDate(lastWeekDate);
+        });
+
+        this.shadowRoot.appendChild(lastWeekButton);
+
+        const sidebar = document.createElement("table");
+        this.shadowRoot.appendChild(sidebar);
+
+        // add next week button
+        nextWeekButton.innerHTML = arrowSVG;
+        nextWeekButton.innerHTML += "&lt;p>Next Week&lt;/p>";
+        nextWeekButton.addEventListener("click", () => {
+            const nextWeekDate = new Date(this.globalDate)
+            nextWeekDate.setDate(this.globalDate.getDate() + 7);
+
+            this.setGlobalDate(nextWeekDate);
+        });
+
+        this.shadowRoot.appendChild(nextWeekButton);
+
         this.setGlobalDate(new Date);
     }
 
@@ -153,7 +224,7 @@
      * Creates the elements in the sidebar
      */
     createSidebar() {
-        const sidebar = document.createElement("table");
+        const sidebar = this.shadowRoot.querySelector("table");
 
         // Creates each row and cell
         for (let row = 0; row &lt; 7; row++) {
@@ -171,29 +242,23 @@
             dateRow.appendChild(dateCell);
             sidebar.appendChild(dateRow);
         }
-        // add to div in shadow root
-        this.shadowRoot.appendChild(sidebar);
     }
 
     /**
      * Populates the sidebar
      * 
      * @param {Date} selectedDate - date selected for load sidebar to highlight and load around
-     * 
-     * @example
-     * // load sidebar for June 7, 2024
-     * loadSidebar(new Date(2024, 5, 7));
      */
-    loadSidebar(today) {
+    loadSidebar(selectedDate) {
         const dayOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"] // names of days of the week
         const BAR_LENGTH = 7                                                // adjust the number of entries in the sidebar
         let dateList = []                                                   // to hold sidebar's date values
 
         // get today's date
-        let currDate = new Date(today);
+        let currDate = new Date(selectedDate);
 
         // start date (3 days before current date)
-        currDate.setDate(today.getDate() - 3);
+        currDate.setDate(selectedDate.getDate() - 3);
 
         for (let day = 0; day &lt; BAR_LENGTH; day++) {
             dateList.push(new Date(currDate));
@@ -250,13 +315,13 @@ customElements.define("side-calendar", SideCalendar);
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="DisplayTasks.html">DisplayTasks</a></li><li><a href="Server.html">Server</a></li><li><a href="SnippetCreation.html">SnippetCreation</a></li></ul><h3>Classes</h3><ul><li><a href="CompletedStatistics.html">CompletedStatistics</a></li><li><a href="SideCalendar.html">SideCalendar</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="CompletedStatistics.html">CompletedStatistics</a></li><li><a href="SideCalendar.html">SideCalendar</a></li></ul><h3>Global</h3><ul><li><a href="global.html#addButtons">addButtons</a></li><li><a href="global.html#addDateToHeader">addDateToHeader</a></li><li><a href="global.html#addStreaks">addStreaks</a></li><li><a href="global.html#copy">copy</a></li><li><a href="global.html#deleteTask">deleteTask</a></li><li><a href="global.html#displaySnippets">displaySnippets</a></li><li><a href="global.html#fetchJson">fetchJson</a></li><li><a href="global.html#fetchNumberCompleted">fetchNumberCompleted</a></li><li><a href="global.html#fetchSnippets">fetchSnippets</a></li><li><a href="global.html#fetchTasks">fetchTasks</a></li><li><a href="global.html#fetchTasksDue">fetchTasksDue</a></li><li><a href="global.html#insertTask">insertTask</a></li><li><a href="global.html#populateTable">populateTable</a></li><li><a href="global.html#psuedoUpdateCompletedTasks">psuedoUpdateCompletedTasks</a></li><li><a href="global.html#psuedoUpdateDelete">psuedoUpdateDelete</a></li><li><a href="global.html#retrieve">retrieve</a></li><li><a href="global.html#server">server</a></li><li><a href="global.html#serveStaticFile">serveStaticFile</a></li><li><a href="global.html#snippetCompleted">snippetCompleted</a></li><li><a href="global.html#update">update</a></li><li><a href="global.html#updateCompleted">updateCompleted</a></li><li><a href="global.html#updateTaskCompletion">updateTaskCompletion</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Fri Jun 07 2024 09:56:45 GMT+0000 (Coordinated Universal Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Fri Jun 07 2024 16:19:01 GMT+0000 (Coordinated Universal Time)
 </footer>
 
 <script> prettyPrint(); </script>
