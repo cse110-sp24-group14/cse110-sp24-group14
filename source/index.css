@@ -1,10 +1,14 @@
-body {
+html, body {
     margin: 0;
+    width: 100%;
+    height: 100%;
 }
 
 main {
     display: flex;
     flex-direction: row;
+
+    height: 100%;
 }
 
 article {
@@ -18,7 +22,7 @@ article {
 
 section {
     display: grid;
-    grid-template-rows: 3fr repeat(2, 0.5fr);
+    grid-template-rows: 3fr repeat(2, 0.25fr);
     grid-template-columns: 1fr 1fr;
 
     gap: 16px;
