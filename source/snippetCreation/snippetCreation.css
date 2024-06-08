@@ -57,7 +57,8 @@
 
 /* Code Itself */
 .snippet-box button {
-  width: 88%;
+  width: 70%;
+  height: 100px;
   margin: 0;
   word-wrap: break-word;
   white-space: normal;
@@ -66,6 +67,8 @@
   border-color: transparent;
   text-align: left;
   color: #2D2E2EB2;
+
+  overflow-y: auto;
 }
 
 .snippet-box button:hover {
