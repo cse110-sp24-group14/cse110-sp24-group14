@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const snippetForm = document.getElementById('snippet-form');
     snippetForm.addEventListener('submit', (event) => {
         event.preventDefault();
-        const code = document.getElementById('code-input').value;
+        const code = document.getElementById('code-area').innerHTML;
         const language = document.getElementById('language-select').value;
         snippetCompleted(code, language);
         // Alert message
