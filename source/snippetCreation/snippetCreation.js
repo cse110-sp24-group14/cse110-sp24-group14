@@ -1,3 +1,5 @@
+/* global hljs */
+
 /**
  * Namespace for snippet creation functions
  * @namespace SnippetCreation
@@ -56,8 +58,11 @@ document.addEventListener('DOMContentLoaded', () => {
  * snippetCompleted("console.log(\"Hello\")", "JavaScript");
  */
 const snippetCompleted = (code, language) => {
+    // replaces newline characters with <br/> to retain newlines in HTML
     fetch(
-        `/add-snippet?code=${code.replace(/'/g, "\\'")}&language=${language}`,
+        `/add-snippet?code=${
+            code.replace(/'/g, "\\'")
+                .replace(/\n/g, "<br/>")}&language=${language}`,
         { method: 'POST' }
     );
     psuedoUpdateSnippetCount();
@@ -111,15 +116,27 @@ function displaySnippets(snippets) {
         // Code Snippet
         const snippetText = document.createElement('button');
         snippetText.className = "snippet-button";
-        snippetText.textContent = snippet.code;
-        snippetText.setAttribute("value", `${snippet.code}`)
-
-        snippetText.addEventListener("click", () => { copy(snippetText) });
 
         // Language
         const snippetType = document.createElement('p');
         snippetType.className = 'snippet-type';
-        snippetType.textContent = snippet.code_language;
+        snippetType.innerHTML = snippet.code_language;
+        
+        console.log(snippet.code);
+
+        // Add pre code for snippet highlighting
+        const pre = document.createElement('pre');
+        const code = document.createElement('code');
+        code.className = `language-${snippet.code_language.toLowerCase()}`
+        code.innerHTML = snippet.code.replace('<br/>', '\n');
+        
+        pre.append(code);
+        snippetText.appendChild(pre);
+
+        // snippetText.textContent = snippet.code;
+        snippetText.setAttribute("value", `${snippet.code.replace('<br/>', '\n')}`)
+
+        snippetText.addEventListener("click", () => { copy(snippetText) });
 
         // Add box to container
         snippetBox.appendChild(snippetText);
@@ -142,6 +159,7 @@ function displaySnippets(snippets) {
 async function retrieve(date) {
     const snippets = await fetchSnippets(date.toISOString().slice(0, 10));
     displaySnippets(snippets);
+    hljs.highlightAll(); // highlights based on language
 }
 
 /**

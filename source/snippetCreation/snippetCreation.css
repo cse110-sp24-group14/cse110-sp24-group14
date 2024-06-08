@@ -52,6 +52,7 @@
 .snippet-box .snippet-type {
   width: 12%;
   margin: 0;
+  padding: 15px 0px;
 }
 
 /* Code Itself */
@@ -135,4 +136,11 @@
 #alert.fade-in {
   opacity: 1;
   transition: 0.1s;
+}
+
+/* code highlighting format */
+.hljs {
+  background: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
 }
