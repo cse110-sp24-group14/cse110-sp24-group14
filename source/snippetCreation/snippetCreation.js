@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /**
- * Create a POST request using fetch on the frontend
+ * Create a POST request using fetch on the frontend after cleaning up new lines and single quotes
  * 
  * @function snippetCompleted
  * @memberof SnippetCreation
@@ -58,11 +58,10 @@ document.addEventListener('DOMContentLoaded', () => {
  * snippetCompleted("console.log(\"Hello\")", "JavaScript");
  */
 const snippetCompleted = (code, language) => {
-    // replaces newline characters with <br/> to retain newlines in HTML
     fetch(
         `/add-snippet?code=${
-            code.replace(/'/g, "\\'")
-                .replace(/\n/g, "<br/>")}&language=${language}`,
+            code.replaceAll(/'/g, "\\'")
+                .replaceAll(/\n/g, '\\\\n')}&language=${language}`,
         { method: 'POST' }
     );
     psuedoUpdateSnippetCount();
@@ -122,19 +121,17 @@ function displaySnippets(snippets) {
         snippetType.className = 'snippet-type';
         snippetType.innerHTML = snippet.code_language;
         
-        console.log(snippet.code);
-
         // Add pre code for snippet highlighting
         const pre = document.createElement('pre');
         const code = document.createElement('code');
         code.className = `language-${snippet.code_language.toLowerCase()}`
-        code.innerHTML = snippet.code.replace('<br/>', '\n');
+        code.innerHTML = snippet.code.replaceAll(/\\n/g, '\n'); // replace string literal with new lines
         
         pre.append(code);
         snippetText.appendChild(pre);
 
         // snippetText.textContent = snippet.code;
-        snippetText.setAttribute("value", `${snippet.code.replace('<br/>', '\n')}`)
+        snippetText.setAttribute("value", `${snippet.code.replaceAll(/\\n/g, '\n')}`) // replace string literal with new lines
 
         snippetText.addEventListener("click", () => { copy(snippetText) });
 
@@ -142,6 +139,7 @@ function displaySnippets(snippets) {
         snippetBox.appendChild(snippetText);
         snippetBox.appendChild(snippetType);    
         container.appendChild(snippetBox);
+        
     });
 }
 
