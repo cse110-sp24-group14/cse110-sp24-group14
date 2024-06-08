@@ -139,8 +139,8 @@ function displaySnippets(snippets) {
         snippetText.addEventListener("click", () => { copy(snippetText) });
 
         // Add box to container
+        snippetBox.appendChild(snippetType);   
         snippetBox.appendChild(snippetText);
-        snippetBox.appendChild(snippetType);    
         container.appendChild(snippetBox);
         
     });
