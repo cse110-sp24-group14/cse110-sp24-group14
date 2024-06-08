@@ -1,7 +1,7 @@
 /**
  * Fetch data from json file and populate streak container
  */
-const fetchJson = () => {
+const fetchStreak = () => {
     fetch(`/streak`)
         .then((data) => data.json())
         .then((json) => {
@@ -17,7 +17,7 @@ const fetchJson = () => {
  */
 const populateStreak = (siteVisits) => {
 
-    const streak = document.getElementById("streak-days");
+    const streak = document.getElementById("streak-indicator");
     const streakText = document.getElementById("streak-text");
 
     const daysName = ["S", "M", "T", "W", "T", "F", "S"]
@@ -54,7 +54,7 @@ const populateStreak = (siteVisits) => {
         const dayImg = document.createElement("img");
         
         dayText.innerHTML = daysName[i];
-        dayImg.src = 'Fire.svg';
+        dayImg.src = './displayStreak/Fire.svg';
         
         // Identify non-streak days for styling
         if (streakAmt > 0 && i >= startCounter - streakStart && i <= 
@@ -104,7 +104,7 @@ const countStreak = (daysArr) => {
 
 // Fetch site visits from database and build streak container
 try {
-    fetchJson();
+    fetchStreak();
 } catch (error) {
     console.error(error);
 }

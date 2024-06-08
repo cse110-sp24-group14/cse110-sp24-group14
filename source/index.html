@@ -20,6 +20,9 @@
    <link rel="stylesheet" href="taskBox\taskbox.css" />
    <script src="taskBox\send_task.js"></script>
 
+   <link rel="stylesheet" href="displayStreak/displayStreak.css">
+   <script src="displayStreak/displayStreak.js"></script>
+
    <link rel="stylesheet" href="https://unpkg.com/@highlightjs/cdn-assets@11.7.0/styles/github.min.css" />
    <script src="https://unpkg.com/@highlightjs/cdn-assets@11.7.0/highlight.min.js"></script>
 </head>
@@ -92,6 +95,11 @@
             </div>
             <completed-statistics></completed-statistics>
             <snippets-statistics></snippets-statistics>
+
+            <div id="streak-container">
+               <p id="streak-text">You are on a x days streak!</p>
+               <div id="streak-indicator"></div>
+            </div>
          </section>
 
          </div>

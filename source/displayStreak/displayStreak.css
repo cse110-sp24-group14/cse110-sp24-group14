@@ -1,4 +1,4 @@
-#streak-container{
+#streak-container {
     display: flex;
     flex-direction: column;
     background-color: #F6F6F6;
@@ -24,24 +24,23 @@
     font-weight: 600;
 }
 
-#streak-days{
+#streak-indicator {
     display: flex;
     flex-direction: row;
     text-align: center;
     align-items: center;
     justify-content: center;
     gap: 8px;
-    
 }
 
-#streak-days > * > *{
+#streak-indicator > * > *{
     padding: 0px;
     margin: 0px;
     min-height: 20px;
     max-width: 20px;
 }
 
-#streak-days > * > p{
+#streak-indicator > * > p{
     color: #2D2E2E;
     opacity: 70%;
 }
