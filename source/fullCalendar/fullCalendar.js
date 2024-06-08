@@ -39,12 +39,17 @@ class FullCalendar extends HTMLElement {
 
             }
 
-            header button {
+            .header-content button {
                 background-color: transparent;
-                border: 1.5px solid rgba(35, 70, 84, 0.7);
+                border: 2px solid rgba(35, 70, 84, 0.7);
                 cursor: pointer;
-                padding: 8px 12px 8px 12px;
-                border-radius: 40%;
+                padding: 8px 15px 8px 15px;
+                border-radius: 400px;
+            }
+
+            /* rotating for next button */
+            #next svg {
+                transform: rotate(180deg); 
             }
 
             #close {
@@ -142,13 +147,25 @@ class FullCalendar extends HTMLElement {
         const currentTime = document.createElement('p');
         currentTime.id = 'curr-mont-year';
         
+        const arrowSVG = `
+            <svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                <rect width="19" height="19" fill="url(#pattern0_545_31)"/>
+                <defs>
+                <pattern id="pattern0_545_31" patternContentUnits="objectBoundingBox" width="1" height="1">
+                <use xlink:href="#image0_545_31" transform="scale(0.01)"/>
+                </pattern>
+                <image id="image0_545_31" width="100" height="100" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVUAAAACXBIWXMAAAsTAAALEwEAmpwYAAAC/klEQVR4nO2du2tUQRSHr4KNiCJWIii5ZyMxhSBpBcHsHBdMIc5cAtqLnYWgxiZ/g70aiI9CULC0TmMbH2CbztJOQdyV2Q0oPqKb3XvPYff74PS5vy9z5u6dGaYoAAAAAAAAAAAAAKxodap5CWlFNK6Vmp5NU4nGtfzss+3lU4U1Zbs6JJqeiqauaOpNeXUlxCetztWDljLeOgii56viGxMp2yPDQQDJXZWaHjU/Z9CmejtI6TY6p0g73rX+LxTnVWp1pzkh+c3CwUOL5wrpQWNCBq97Dh5a/VbOCCFqLwIhah8+QtQ+cISofcgIUftgEaL2YSLEQYCCEPvQBCH2QQlC7MMRhNgHIgixD0EcFd+ydKeA4kZ5IV4vNb1CiO1/6de8dlOsru7NX15nz1fHEGImJG6V7ers72s5tCwLGS+OX7xy+E/rEQhpVsTnsl3d2GlhCCFNtYgQ38904ul/rdIhpBkZ60eXlvb/z5IpQuptUZ9Eq+Vh1q4RUteo0PT6ZKhmhpGBkHpkdEXTvYWFa/uGlYGQ8beoj60QdTciEDL2FhVfzi1eOjKKDEbIWN6g0pft3xZ7RpWBkFGFhPihtRjPjEMEQkYeGXF9/lx1oBgzzbXYCdpKWmq8XdffjpDh54x3dclAyK7mjbSJEH/HEW7WJYWWxaQ+QQd2Aq+9voQoPwzdCZEfr8J8OvEkRPrFx0VnQlIuPr87E9IbtDAWqFwJkUELYwnXl5A0GC1scvAlRNgG5E+IDFoYG+VcVkjP2Urqb7Rssdna43GEkFY4juBvtGxwYMdcQrIenZOzpi4TUAhRewkIUfvgEaL2YSNE7QNGiNqHihC1DxIhDsIThNgHJgixD0kQYh+MIMQ+DJm2TycS4kPrBxbnVWq835wQrqvoubquIl9WwoUu6e9CQvx2Qi/PFU2SL8CybgvitPK2pKJp8sVX+QIs64cXbxXSptlNbX0pIT6mfaV+m8ojw0zGr3NKPjk7rRdLliHdanzOAAAAAAAAAAAAACh+4juxXJe8XjTN+wAAAABJRU5ErkJggg=="/>
+                </defs>
+            </svg>
+        `
+
         const prev = document.createElement('button');
         prev.id = "prev";
-        prev.innerHTML = '<img src="Previous.png" alt="Previous" />';
+        prev.innerHTML = arrowSVG;
 
         const next = document.createElement('button');
         next.id = "next";
-        next.innerHTML = '<img src="Next.png" alt="Next" />';
+        next.innerHTML = arrowSVG;
 
         const close = document.createElement('button');
         close.id = "close";
