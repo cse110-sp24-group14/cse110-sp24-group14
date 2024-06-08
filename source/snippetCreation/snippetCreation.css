@@ -34,6 +34,15 @@
 
   margin: 0px;
   padding: 0px;
+
+  /* Hide scrollbar for IE, Edge and Firefox */
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+#snippet ul::-webkit-scrollbar {
+  display: none;
 }
 
 /* Individual Entries */
@@ -89,7 +98,7 @@
   padding: 5px;
 }
 
-/* Snippet Form */
+/* Snippet Form Div */
 #snippet form {
   position: absolute;
   bottom: 10px;
@@ -110,10 +119,19 @@
   border: 2.5px solid #cccccc92;
   border-radius: 5px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-
+  
   box-sizing: border-box;
   overflow-y: auto;
   z-index: 1;
+
+  /* Hide scrollbar for IE, Edge and Firefox */
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+#code-area::-webkit-scrollbar {
+  display: none;
 }
 
 #snippet-form button {
