@@ -122,7 +122,7 @@ class SideCalendar extends HTMLElement {
             }
             
             table {
-                border-spacing: 0px 20px;
+                border-spacing: 0px 10px;
             }
             
             td {

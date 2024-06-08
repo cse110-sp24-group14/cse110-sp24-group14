@@ -2,42 +2,38 @@ body {
     margin: 0;
 }
 
-.row-button {
-    background-color: white;
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
-}
-
-.disabled {
-    cursor: not-allowed;
-    background-color: red;
-}
-
 main {
     display: flex;
     flex-direction: row;
 }
 
 article {
-    display: flex;
-    flex-direction: column;
-}
+    width: 100%;
 
-section {
     display: flex;
     flex-direction: row;
 
-    gap: 16px;
     padding: 20px;
 }
 
-#right-main {
-    display: flex;
-    flex-direction: column;
+section {
+    display: grid;
+    grid-template-rows: 3fr repeat(2, 0.5fr);
+    grid-template-columns: 1fr 1fr;
+
+    gap: 16px;
+    padding-left: 20px;
+    flex-grow: 1;
 }
 
-#main-stat-container {
-    display: flex;
-    flex-direction: row;
+#snippet {
+    grid-column: 1 / span 2
+}
+
+completed-statistics {
+    grid-row: 2 / 3;
+}
+
+snippets-statistics {
+    grid-row: 3 / 4;
 }

@@ -8,6 +8,8 @@
   color: #2D2E2EB2;
   background-color: #F6F6F6;
 
+  display: flex;
+  flex-direction: column;
   flex-grow: 1;
 } 
 
