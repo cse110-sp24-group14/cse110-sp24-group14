@@ -26,9 +26,6 @@ class CompletedStatistics extends HTMLElement {
         const numTasks = document.createElement('p');
         numTasks.id = "num-tasks";
 
-        const numIncompleteTasks = document.createElement('p');
-        numIncompleteTasks.id = "num-incomplete-tasks";
-
         const caption = document.createElement('p');
         caption.id = "task-caption"
         caption.innerText = "Total tasks completed";
@@ -133,8 +130,8 @@ class CompletedStatistics extends HTMLElement {
 
                 // Updates header task counter
                 const navDisplay = document.getElementById("tasks-completed");
-                if (data[0].CompletedCount == 1) {navDisplay.innerHTML = `${data[0].CompletedCount} task completed`;}
-                else {navDisplay.innerHTML = `${data[0].CompletedCount} tasks completed`;}
+                if (data[0].CompletedCount == 1) { navDisplay.innerHTML = `${data[0].CompletedCount} task completed`; }
+                else { navDisplay.innerHTML = `${data[0].CompletedCount} tasks completed`; }
             })
             .catch(error => console.error('Error fetching number of tasks completed:', error));
     }

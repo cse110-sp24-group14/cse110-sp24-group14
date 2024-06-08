@@ -110,7 +110,7 @@ const populateTable = (taskList) => {
 
         // add completion button if incomplete
         if (!task.completed) {
-            complete_button.addEventListener("click",() => {
+            complete_button.addEventListener("click", () => {
 
                 updateCompleted(task.id, true) // update database
                 psuedoUpdateCompletedTasks() // update statistics
@@ -211,13 +211,18 @@ const psuedoUpdateCompletedTasks = () => {
     const completeStats = document.querySelector("completed-statistics");
     const numTasks = completeStats.shadowRoot.getElementById("num-tasks");
     const headerNumCompleted = document.getElementById("tasks-completed");
-
+    const headerNumIncomplete = document.getElementById("tasks-to-go");
     const completedTasks = Number(numTasks.innerText) + 1;
 
     // Updates dashboard and header counter respectively
     numTasks.innerText = completedTasks;
-    if (completedTasks == 1) {headerNumCompleted.innerText = `1 task completed`;}
-    else {headerNumCompleted.innerText = `${completedTasks} tasks completed`;}
+    if (completedTasks == 1) {
+        headerNumCompleted.innerText = `1 task completed`;
+    }
+    else {
+        headerNumCompleted.innerText = `${completedTasks} tasks completed`;
+    }
+    headerNumIncomplete.innerText = (Number(headerNumIncomplete.innerText.split(" ")[0]) - 1) + " more to go!";
 }
 
 /**
@@ -235,8 +240,8 @@ const psuedoUpdateDelete = () => {
 
     // Updates dashboard and header counter respectively
     numTasks.innerText = completedTasks;
-    if (completedTasks == 1) {headerNumCompleted.innerText = `1 task completed`;}
-    else {headerNumCompleted.innerText = `${completedTasks} tasks completed`;}
+    if (completedTasks == 1) { headerNumCompleted.innerText = `1 task completed`; }
+    else { headerNumCompleted.innerText = `${completedTasks} tasks completed`; }
 }
 
 /**
