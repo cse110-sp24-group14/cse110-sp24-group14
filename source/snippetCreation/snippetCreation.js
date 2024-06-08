@@ -1,3 +1,5 @@
+/* global hljs */
+
 /**
  * Namespace for snippet creation functions
  * @namespace SnippetCreation
@@ -44,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /**
- * Create a POST request using fetch on the frontend
+ * Create a POST request using fetch on the frontend after cleaning up new lines and single quotes
  * 
  * @function snippetCompleted
  * @memberof SnippetCreation
@@ -57,7 +59,9 @@ document.addEventListener('DOMContentLoaded', () => {
  */
 const snippetCompleted = (code, language) => {
     fetch(
-        `/add-snippet?code=${code.replace(/'/g, "\\'")}&language=${language}`,
+        `/add-snippet?code=${
+            code.replaceAll(/'/g, "\\'")
+                .replaceAll(/\n/g, '\\\\n')}&language=${language}`,
         { method: 'POST' }
     );
     psuedoUpdateSnippetCount();
@@ -111,20 +115,34 @@ function displaySnippets(snippets) {
         // Code Snippet
         const snippetText = document.createElement('button');
         snippetText.className = "snippet-button";
-        snippetText.textContent = snippet.code;
-        snippetText.setAttribute("value", `${snippet.code}`)
-
-        snippetText.addEventListener("click", () => { copy(snippetText) });
 
         // Language
         const snippetType = document.createElement('p');
         snippetType.className = 'snippet-type';
-        snippetType.textContent = snippet.code_language;
+        snippetType.innerHTML = snippet.code_language;
+        
+        // Add pre code for snippet highlighting
+        const pre = document.createElement('pre');
+        const code = document.createElement('code');
+        code.className = `language-${snippet.code_language.toLowerCase()}`
+        code.innerHTML = snippet.code
+            .replaceAll(/\\n/g, '\n')
+            .replaceAll(/</g, '&lt;')
+            .replaceAll(/>/g, '&gt;') // replace string literal with new lines
+        
+        pre.append(code);
+        snippetText.appendChild(pre);
+
+        // snippetText.textContent = snippet.code;
+        snippetText.setAttribute("value", `${snippet.code.replaceAll(/\\n/g, '\n')}`) // replace string literal with new lines
+
+        snippetText.addEventListener("click", () => { copy(snippetText) });
 
         // Add box to container
         snippetBox.appendChild(snippetText);
         snippetBox.appendChild(snippetType);    
         container.appendChild(snippetBox);
+        
     });
 }
 
@@ -142,6 +160,7 @@ function displaySnippets(snippets) {
 async function retrieve(date) {
     const snippets = await fetchSnippets(date.toISOString().slice(0, 10));
     displaySnippets(snippets);
+    hljs.highlightAll(); // highlights based on language
 }
 
 /**
