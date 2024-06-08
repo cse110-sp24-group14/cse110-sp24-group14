@@ -2,7 +2,7 @@
 #snippet {
   display: block;
   position: absolute;
-  top: 1005px; /* CURRENT: header + 20px = 105px; PREV: 116px / 1024px */
+  top: 105px; /* CURRENT: header + 20px = 105px; PREV: 116px / 1024px */
   right: 1.4%; /* 20px / 1440px */
 
   height: 52.54%; /* 538px / 1024px */
