@@ -63,7 +63,7 @@ const populateStreak = (siteVisits) => {
         dayImg.src = 'displayStreak/Fire.svg';
         
         // Identify non-streak days for styling
-        if (streakAmt > 0 && i >= startCounter - streakStart && i <= 
+        if (streakAmt > 0 && i > startCounter - streakStart && i <= 
             startCounter){
 
             dayImg.classList.add("streak");
