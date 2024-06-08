@@ -125,7 +125,10 @@ function displaySnippets(snippets) {
         const pre = document.createElement('pre');
         const code = document.createElement('code');
         code.className = `language-${snippet.code_language.toLowerCase()}`
-        code.innerHTML = snippet.code.replaceAll(/\\n/g, '\n'); // replace string literal with new lines
+        code.innerHTML = snippet.code
+            .replaceAll(/\\n/g, '\n')
+            .replaceAll(/</g, '&lt;')
+            .replaceAll(/>/g, '&gt;') // replace string literal with new lines
         
         pre.append(code);
         snippetText.appendChild(pre);
