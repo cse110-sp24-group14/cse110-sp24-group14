@@ -324,7 +324,7 @@ class FullCalendar extends HTMLElement {
      */
     updateCalendarWithTasks() {
         // const calendar = this.shadowRoot.getElementById("calendar-display");
-         // For each task in the tasks list, find its date cell and create span element with in the cell
+        // For each task in the tasks list, find its date cell and create span element with in the cell
         this.tasks.forEach(task => {
             const taskDate = new Date(task.due_date).toLocaleDateString();
             const dayCell = this.shadowRoot.getElementById(taskDate);
