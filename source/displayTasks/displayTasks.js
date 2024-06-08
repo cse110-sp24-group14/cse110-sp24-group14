@@ -97,10 +97,54 @@ const populateTable = (taskList) => {
         row.classList.add(task.completed ? "complete" : "incomplete");
 
         const cell = document.createElement("td");
-
-        cell.innerHTML = task.title;
         cell.setAttribute("data-id", task.id);
         cell.classList.add("task");
+
+        const prioritySpan = document.createElement("span");
+        prioritySpan.classList.add("priority-tag");
+        // Set border and text color based on priority
+        let borderColor, textColor;
+        switch (task['priority_tag'].toLowerCase()) {
+            case 'high':
+                borderColor = '#fb6511';
+                textColor = '#fb6511';
+                break;
+            case 'medium':
+                borderColor = '#ffb400';
+                textColor = '#ffb400';
+                break;
+            case 'low':
+                borderColor = '#4caf50';
+                textColor = '#4caf50';
+                break;
+            default:
+                borderColor = 'gray';
+                textColor = 'gray';
+        }
+
+        prioritySpan.style.border = `1.5px solid ${borderColor}`;
+        prioritySpan.style.borderRadius = "5px";
+        prioritySpan.style.padding = "2px 5px";
+        prioritySpan.style.color = textColor;
+        prioritySpan.style.marginRight = "10px"; // Change to marginRight to create space between label and title
+        prioritySpan.style.fontStyle = "italic"; // Make the text italic
+        prioritySpan.style.whiteSpace = "nowrap"; // Ensure the text doesn't wrap
+
+        // Create a span for the bullet point
+        const bulletSpan = document.createElement("span");
+        bulletSpan.innerHTML = "&#8226;";
+        bulletSpan.style.fontSize = "2.5em"; // Adjust the font size to make it bigger
+        bulletSpan.style.verticalAlign = "middle"; // Align it vertically if needed
+
+        // Add the bullet point and priority text to the prioritySpan
+        prioritySpan.appendChild(bulletSpan);
+        prioritySpan.appendChild(document.createTextNode(` Priority: ${task['priority_tag'].charAt(0).toUpperCase() + task['priority_tag'].slice(1)}`)); 
+
+        cell.appendChild(prioritySpan);
+
+        const titleSpan = document.createElement("span");
+        titleSpan.innerHTML = task.title;
+        cell.appendChild(titleSpan);
 
         row.appendChild(cell);
 
@@ -169,7 +213,9 @@ const populateTable = (taskList) => {
     if (taskList.length === 0) {
         table.innerHTML = "No tasks. Add a task for the day!"
     }
+
 };
+
 
 /**
  * Creates the complete and delete buttons 
