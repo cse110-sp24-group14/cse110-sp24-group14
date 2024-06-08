@@ -42,7 +42,7 @@ class CreatedSnippets extends HTMLElement {
 
         styles.innerHTML = `
           #stats-div {
-              width: 300px;
+              width: inherit;
               height: 60px;
               
               background-color: #F6F6F6;

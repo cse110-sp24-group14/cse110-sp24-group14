@@ -4,6 +4,10 @@ html, body {
     height: 100%;
 }
 
+* {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
 main {
     display: flex;
     flex-direction: row;
@@ -25,7 +29,7 @@ section {
     grid-template-rows: 3fr repeat(2, 0.25fr);
     grid-template-columns: 0.5fr 1fr;
 
-    row-gap: 16px;
+    grid-gap: 16px 16px;
 
     padding-left: 20px;
     flex-grow: 1;
@@ -44,8 +48,6 @@ snippets-statistics {
 }
 
 #streak-container {
-    grid-column: 2 / 4 ;
+    /* grid-column: 2 / 4 ; */
     grid-row: 2 / 4;
-
-    margin-left: 16px;
 }
