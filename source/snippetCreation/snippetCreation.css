@@ -1,9 +1,9 @@
 /* Snippets Container */
 #snippet {
   display: block;
-  position: absolute;
-  top: 105px; /* CURRENT: header + 20px = 105px; PREV: 116px / 1024px */
-  right: 1.4%; /* 20px / 1440px */
+  position: relative;
+  padding: 10px;
+  margin: 10px;
 
   height: 52.54%; /* 538px / 1024px */
   width: 57.91%; /* 834px / 1440px */ 
