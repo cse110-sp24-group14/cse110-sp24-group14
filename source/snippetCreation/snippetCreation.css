@@ -69,10 +69,12 @@
   color: #2D2E2EB2;
 
   overflow-y: auto;
+  
+  cursor: pointer;
 }
 
 .snippet-box button:hover {
-  color: blue;
+  font-weight: bolder;
 }
 
 /* Snippet Form */
