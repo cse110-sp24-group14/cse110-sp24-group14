@@ -1,0 +1,17 @@
+body {
+    margin: 0;
+}
+
+main {
+    display: flex;
+    gap: 0px;
+}
+
+.calendar {
+    padding: 20px;
+    margin: 10px;
+    width: 1200px;
+    height: auto;
+    background-color: rgba(246, 246, 246, 1);
+}
+
