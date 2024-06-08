@@ -175,7 +175,6 @@ function psuedoUpdateSnippetCount() {
     numSnippets.innerText = Number(numSnippets.innerText) + 1;
 }
 
-// Copies a copy snippet's text to the user's clipboard
 let ongoing;    // define a global variable to access timeout on separate function call
 /**
  * Copies a copy snippet's text to the user's clipboard
