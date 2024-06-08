@@ -43,16 +43,16 @@ class CreatedSnippets extends HTMLElement {
         styles.innerHTML = `
           #stats-div {
               width: inherit;
-              height: 60px;
-              
+              height: 100%;
+
               background-color: #F6F6F6;
               border-radius: 12px;
-              
-              padding: 10px;
-          
+
               display: grid;
               grid-template-columns: 1fr 2fr;
               grid-template-rows: 25px 35px;
+
+              align-content: center;
           } 
           
           #svg-div {
