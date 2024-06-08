@@ -1,43 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Welcome Screen</title>
-  <link rel="stylesheet" href="welcome.css">
-</head>
-<body>
-  <div class="container">
-    <h1>Welcome</h1>
-    <div class="stats-container">
-      <div class="stats-section">
-        <h2>Streak</h2>
-        <div class="stat">
-          <span class="value">10 days </span>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Overview</title>
+    <link rel="stylesheet" href="welcome.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Overview</h1>
+      <div class="stats-container">
+        <div class="stats-section">
+          <div class="stat to-do">
+            <span class="value">0</span>
+            <span class="label">Tasks to do 💪</span>
+          </div>
+        </div>
+        <div class="stats-section">
+          <div class="stat completed">
+            <span class="value">0</span>
+            <span class="label">Tasks completed ✅</span>
+          </div>
+          <div class="stat snippet">
+            <span class="value">0</span>
+            <span class="label">Snippets 📝</span>
+          </div>
+        </div>
+        <div class="stats-section">
+          <div class="stat streak">
+            <span class="value">0</span>
+            <span class="label">days streak 🔥</span>
+          </div>
         </div>
       </div>
-      <div class="stats-section">
-        <h2>Tasks</h2>
-        <div class="stat">
-          <span class="value">50</span>
-          <span class="label">Tasks Added</span>
-        </div>
-        <div class="stat">
-          <span class="value">30</span>
-          <span class="label">Tasks Completed</span>
-        </div>
-      </div>
-      <div class="stats-section">
-        <h2>Snippets</h2>
-        <div class="stat">
-          <span class="value">20</span>
-          <span class="label">Snippets Added</span>
-        </div>
-      </div>
+      <button id="button">Continue to dashboard</button>
     </div>
-    <button id="button">Main Page</button>
-  </div>
 
-  <script src="welcome.js"></script>
-</body>
+    <script src="welcome.js"></script>
+  </body>
 </html>
