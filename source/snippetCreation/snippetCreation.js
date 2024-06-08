@@ -57,10 +57,9 @@ document.addEventListener('DOMContentLoaded', () => {
  */
 const snippetCompleted = (code, language) => {
     fetch(
-        `/add-snippet?code=${code}&language=${language}`,
+        `/add-snippet?code=${code.replace(/'/g, "\\'")}&language=${language}`,
         { method: 'POST' }
     );
-    retrieve();
     psuedoUpdateSnippetCount();
 }
 
