@@ -30,6 +30,8 @@
     align-items: center;
     justify-content: center;
     gap: 8px;
+
+    height: 80px;
 }
 
 #streak-indicator > * > * {

@@ -99,7 +99,9 @@ class SideCalendar extends HTMLElement {
 
                 border: none;
                 border-radius: 400px;
-                padding: 15px 15px;
+                padding: 15px 10px;
+
+                width: 100%;
 
                 background-color: #F6F6F6;
                 color: #234654;

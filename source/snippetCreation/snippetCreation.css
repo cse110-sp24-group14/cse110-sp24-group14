@@ -3,14 +3,12 @@
   width: 100%;
   border-radius: 12px;
 
-  justify-content: center;
-
   color: #2D2E2EB2;
   background-color: #F6F6F6;
 
   display: flex;
   flex-direction: column;
-  flex-grow: 1;
+  justify-content: space-between;
 } 
 
 /* Container Title */
@@ -30,8 +28,9 @@
 #snippet ul {
   list-style-type: none;
   justify-content: center;
-  height: 70%;
   overflow-y: auto;
+
+  max-height: 50%;
 
   margin: 0px;
   padding: 0px;

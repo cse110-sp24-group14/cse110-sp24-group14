@@ -29,7 +29,7 @@ const populateStreak = (siteVisits) => {
     });
 
     const streakAmt = countStreak(days);
-    streakText.innerHTML = `You are on a ${streakAmt} days streak!`;
+    streakText.innerHTML = `You are on a ${streakAmt} day streak!`;
 
     // Get current day and start of week to determine streak days
     const currentDate = new Date();
