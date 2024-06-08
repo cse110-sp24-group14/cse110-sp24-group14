@@ -2,14 +2,11 @@
 #snippet {
   display: block;
   position: relative;
-  padding: 10px;
   margin: 10px;
 
   height: 52.54%; /* 538px / 1024px */
   width: 57.91%; /* 834px / 1440px */ 
   border-radius: 12px;
-
-  justify-content: center;
 
   color: #2D2E2EB2;
   background-color: #F6F6F6;
@@ -32,7 +29,7 @@
 #snippet ul {
   list-style-type: none;
   justify-content: center;
-  height: 70%;
+  height: 63%;
   overflow-y: auto;
 
   margin: 0px;
@@ -42,24 +39,34 @@
 /* Individual Entries */
 .snippet-box {
   display: flex;
-  flex-direction: row;
-  justify-content: space-around;
+  flex-direction: column;
 
-  margin: 5px;
+  margin: 5px 10px;
+  border-radius: 5px;
+  background-color: #00000014;
 }
 
-/* Language */
+/* Snippet Language */
 .snippet-box .snippet-type {
-  width: 12%;
-  margin: 0;
-  padding: 15px 0px;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+
+  border-radius: 4px;
+  width: 50px;
+  margin: 8px;
+  margin-bottom: 0;
+  padding: 5px;
+
+  color: #BC6C25;
+  background-color: var(--primary-gray, #F6F6F6);
+  border: 1px solid #BC6C25;
 }
 
-/* Code Itself */
+/* Snippet Code */
 .snippet-box button {
-  width: 70%;
-  max-height: 100px;
-  margin: 0;
+  width: 100%;
+  margin: 0 10px 0 10px;
   word-wrap: break-word;
   white-space: normal;
 
@@ -71,56 +78,81 @@
   overflow-y: auto;
 }
 
-.snippet-box button:hover {
-  color: blue;
+/* Language Selection */
+#language-select {
+  position: absolute;
+  bottom: 20%;
+
+  border: transparent;
+  outline: none;
+  border-radius: 5px;
+  margin: 10px;
+  padding: 5px;
 }
 
 /* Snippet Form */
 #snippet form {
   position: absolute;
-  bottom: 0px;
+  bottom: 10px;
   width: 100%;
-  height: 15%;
+  height: 18%;
   
   display: flex;
   align-items: center;
-
-  border-radius: 0 0 12px 12px;
-  background-color: #e5c775;
 }
 
 #code-area {
-  display: flex;
-  align-items: center;
-  margin: 5px;
-  width: 60%;
-}
+  width: 100%;
+  height: 100%;
 
-#code-area label {
-  margin: 5px;
-}
+  background-color: #fff;
+  padding: 10px;
+  margin: 10px;
+  border: 2.5px solid #cccccc92;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
-#code-area textarea {
   box-sizing: border-box;
-  width: 80%;
-  height: 90%;
-  resize: none;
-}
-
-#language-area {
-  color: #2D2E2EB2;
-  width: 25%;
+  overflow-y: auto;
+  z-index: 1;
 }
 
 #snippet-form button {
-  margin: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  position: absolute;
+  right: 17px;
+  border-radius: 10%;
+  padding: 4px;
+
+  background-color: rgb(1, 64, 1);
+  border: none;
+  outline: none;
+  cursor: pointer;
+  z-index: 2;
+}
+
+#snippet-form button img {
+  width: 24px;
+  height: 24px;
+}
+
+#snippet-form button:hover {
+  background-color: rgb(0, 100, 0); /* Lighter green color */
+}
+
+#snippet-form button:active {
+  background-color: rgb(0, 128, 0); /* Darker green color for pressed effect */
+  box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.2); /* Pressed down effect */
 }
 
 #alert {
   opacity: 0;
   transition: 1s;
 
-  position: fixed;
+  position: absolute;
   inset: 0px;
   bottom: 10px;
   margin-top: auto;
@@ -139,6 +171,7 @@
 #alert.fade-in {
   opacity: 1;
   transition: 0.1s;
+  z-index: 2;
 }
 
 /* code highlighting format */
