@@ -100,7 +100,12 @@ class FullCalendar extends HTMLElement {
                 font-weight: 500;
                 font-size: 20px;
             }
-            
+        
+            td:hover {
+                background-color: rgba(229, 199, 117, 0.5);
+                cursor: pointer;
+            }
+
             .not-in-month {
                 background-color: rgba(231, 231, 231, 0.5);
             }
@@ -226,7 +231,7 @@ class FullCalendar extends HTMLElement {
             .then(response => response.json())
             .then(data => {
                 this.tasks = Array.isArray(data) ? data : []; // Ensure tasks is always an array
-                this.updateCalendarWithTasks();
+                this.updateCalendarWithTasks();// update the cuurent calendar month with tasks fetched
             })
             .catch(error => {
                 console.error('Error fetching tasks:', error);
@@ -293,6 +298,13 @@ class FullCalendar extends HTMLElement {
                                         </div>`;
                     dayOfWeek.id = new Date(currentDate.getFullYear(), currentDate.getMonth(), date).toLocaleDateString();
 
+                    //add the eventlistener to date cell, and pass the date as parameter when click to direct to main page
+                    dayOfWeek.addEventListener('click', ()=> {
+                        const dateStr = dayOfWeek.id;
+                        console.log('Date cell clicked:', dateStr); // Log the clicked date
+                        window.location.href = `/?date=${dateStr}`;
+                    });
+
                     date++;
                 } else {
                     dayOfWeek.innerHTML = '';
@@ -312,6 +324,7 @@ class FullCalendar extends HTMLElement {
      */
     updateCalendarWithTasks() {
         // const calendar = this.shadowRoot.getElementById("calendar-display");
+         // For each task in the tasks list, find its date cell and create span element with in the cell
         this.tasks.forEach(task => {
             const taskDate = new Date(task.due_date).toLocaleDateString();
             const dayCell = this.shadowRoot.getElementById(taskDate);
