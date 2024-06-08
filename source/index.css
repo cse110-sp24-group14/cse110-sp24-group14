@@ -56,3 +56,7 @@ snippets-statistics {
     grid-column-start: 3;
     grid-row: 2 / 4;
 }
+
+.taskbox {
+    grid-column: 1 / -1
+}

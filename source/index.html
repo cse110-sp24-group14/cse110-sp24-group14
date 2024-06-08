@@ -69,7 +69,6 @@
             <table id="task-table"></table>
          </div>
 
-
          <div id="snippet">
             <h1>Snippets</h1>
             <ul id="snippet-container"></ul>
@@ -92,12 +91,34 @@
                <button type="submit">Add Snippet</button>
             </form>
          </div>
+
          <completed-statistics></completed-statistics>
          <snippets-statistics></snippets-statistics>
 
          <div id="streak-container">
             <p id="streak-text">You are on a x days streak!</p>
             <div id="streak-indicator"></div>
+         </div>
+
+         <!--text box on the bottom, with the send button-->
+         <div class="taskbox">
+            <div class="info">
+               <span class="icon-info-sign">i</span>
+               <span class="extra-info">Add any tasks using the /task tag</span>
+            </div>
+            <div id="taskInput" contenteditable="true" class="editable-div"
+               placeholder="What would you like to do today?"></div>
+            <button class="add-task" type="button" id="sendTask">
+               <img src="taskBox/sendTask.png" alt="Send" />
+            </button>
+         </div>
+
+         <div id="popupForm" class="popup-form">
+            <form id="dueDateForm">
+               <label for="dueDate">Due Date:</label>
+               <input type="date" id="dueDate" name="dueDate" required>
+               <button type="submit">Submit</button>
+            </form>
          </div>
       </section>
    </main>
