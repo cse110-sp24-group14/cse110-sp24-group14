@@ -79,7 +79,6 @@ class SideCalendar extends HTMLElement {
         styles.innerHTML = `
             :host {
                 width: 130px;
-                height: 100%;
             
                 padding: 10px 5px;
             

@@ -7,6 +7,8 @@ header {
     background-color: #E5C775;
 
     font-family: sans-serif;
+
+    min-height: 50px;
 }
 
 .logo {

@@ -8,6 +8,11 @@ html, body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+body {
+    display: flex;
+    flex-direction: column;
+}
+
 main {
     display: flex;
     flex-direction: row;
@@ -48,6 +53,5 @@ snippets-statistics {
 }
 
 #streak-container {
-    /* grid-column: 2 / 4 ; */
     grid-row: 2 / 4;
 }
