@@ -64,40 +64,46 @@
    <main>
       <side-calendar></side-calendar>
       <section>
-         <div id="task-container">
-            <h1></h1>
-            <table id="task-table"></table>
-         </div>
 
-         <div id="snippet">
-            <h1>Snippets</h1>
-            <ul id="snippet-container"></ul>
-            <form id="snippet-form">
-               <div id="code-area">
-                  <label for="code-input">Code:</label>
-                  <textarea id="code-input" name="code" required></textarea>
+         <div id="main-display">
+
+            <div id="task-container">
+               <h1></h1>
+               <table id="task-table"></table>
+            </div>
+
+            <div id="snippet-and-stats">
+               <div id="snippet">
+                  <h1>Snippets</h1>
+                  <ul id="snippet-container"></ul>
+                  <form id="snippet-form">
+                     <div id="code-area">
+                        <label for="code-input">Code:</label>
+                        <textarea id="code-input" name="code" required></textarea>
+                     </div>
+
+                     <div id="language-area">
+                        <label for="language-select">Language:</label>
+                        <select id="language-select" name="language" required>
+                           <option value="">Select Language</option>
+                           <option value="JavaScript">JavaScript</option>
+                           <option value="HTML">HTML</option>
+                           <option value="CSS">CSS</option>
+                        </select>
+                     </div>
+
+                     <button type="submit">Add Snippet</button>
+                  </form>
                </div>
 
-               <div id="language-area">
-                  <label for="language-select">Language:</label>
-                  <select id="language-select" name="language" required>
-                     <option value="">Select Language</option>
-                     <option value="JavaScript">JavaScript</option>
-                     <option value="HTML">HTML</option>
-                     <option value="CSS">CSS</option>
-                  </select>
+               <completed-statistics></completed-statistics>
+               <snippets-statistics></snippets-statistics>
+
+               <div id="streak-container">
+                  <p id="streak-text">You are on a day streak!</p>
+                  <div id="streak-indicator"></div>
                </div>
-
-               <button type="submit">Add Snippet</button>
-            </form>
-         </div>
-
-         <completed-statistics></completed-statistics>
-         <snippets-statistics></snippets-statistics>
-
-         <div id="streak-container">
-            <p id="streak-text">You are on a  day streak!</p>
-            <div id="streak-indicator"></div>
+            </div>
          </div>
 
          <!--text box on the bottom, with the send button-->
@@ -120,6 +126,7 @@
                <button type="submit">Submit</button>
             </form>
          </div>
+
       </section>
    </main>
 
