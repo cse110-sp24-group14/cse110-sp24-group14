@@ -10,7 +10,7 @@ CREATE TABLE Tasks (
     completed BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    priority_tag ENUM('high', 'medium', 'low') NOT NULL DEFAULT 'low'
+    priority_tag ENUM('urgent', 'medium', 'deferred') NOT NULL DEFAULT 'deferred'
 );
 
 INSERT INTO Tasks (title, due_date)

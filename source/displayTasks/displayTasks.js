@@ -105,17 +105,17 @@ const populateTable = (taskList) => {
         // Set border and text color based on priority
         let borderColor, textColor;
         switch (task['priority_tag'].toLowerCase()) {
-            case 'high':
-                borderColor = '#fb6511';
-                textColor = '#fb6511';
+            case 'urgent':
+                borderColor = '#e65500';
+                textColor = '#e65500';
                 break;
             case 'medium':
-                borderColor = '#ffb400';
-                textColor = '#ffb400';
+                borderColor = '#d99100';
+                textColor = '#d99100';
                 break;
-            case 'low':
-                borderColor = '#4caf50';
-                textColor = '#4caf50';
+            case 'deferred':
+                borderColor = '#388e3c';
+                textColor = '#388e3c';
                 break;
             default:
                 borderColor = 'gray';
@@ -138,7 +138,7 @@ const populateTable = (taskList) => {
 
         // Add the bullet point and priority text to the prioritySpan
         prioritySpan.appendChild(bulletSpan);
-        prioritySpan.appendChild(document.createTextNode(` Priority: ${task['priority_tag'].charAt(0).toUpperCase() + task['priority_tag'].slice(1)}`)); 
+        prioritySpan.appendChild(document.createTextNode(` ${task['priority_tag'].charAt(0).toUpperCase() + task['priority_tag'].slice(1)}`)); 
 
         cell.appendChild(prioritySpan);
 

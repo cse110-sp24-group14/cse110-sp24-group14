@@ -29,6 +29,9 @@ const connection = mysql.createConnection({
  */
 const insertTask = (title, due_date, priority, callback) => {
     const query = 'INSERT INTO Tasks (title, due_date, priority_tag) VALUES (?, ?, ?)';
+    console.log('Inserting title:', title);
+    console.log('Inserting due_date:', due_date);
+    console.log('Inserting priority:', priority);
     connection.query(query, [title, due_date, priority], (error, results) => {
         if (error) {
             callback(error, null);
@@ -304,7 +307,7 @@ export const server = http.createServer((req, res) => {
             body += chunk.toString();
         });
         req.on('end', () => {
-            const { title, due_date, priority } = JSON.parse(body);
+            const { title, due_date, priority} = JSON.parse(body);
             insertTask(title, due_date, priority, (err) => {
                 if (err) {
                     console.log(err);

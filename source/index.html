@@ -69,10 +69,34 @@
         
          <!--text box on the bottom, with the send button-->
          <div class="taskbox">
-            <textarea id="taskInput" placeholder="What would you like to do today?"></textarea>
+            <div class="info">
+               <span class="icon-info-sign">i</span>
+               <span class="extra-info">Add any tasks using the /task tag</span>
+            </div>
+            <div id="taskInput" contenteditable="true" class="editable-div" placeholder="What would you like to do today?"></div>
             <button class="add-task" type="button" id="sendTask">
                <img src="taskBox/sendTask.png" alt="Send" />
             </button>
+         </div>
+
+         <div id="popupForm" class="popup-form">
+            <form id="dueDateForm">
+                <label for="dueDate">Due Date:</label>
+                <input type="date" id="dueDate" name="dueDate" required>
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+
+        <div id="priorityPopupForm" class="popup-form">
+            <form id="priorityForm">
+                <label for="priority">Priority:</label>
+                <select id="priority" name="priority" required>
+                    <option value="1">Urgent</option>
+                    <option value="2">Medium</option>
+                    <option value="3">Deferred</option>
+                </select>
+                <button type="submit">Submit</button>
+            </form>
          </div>
       </article>
    </main>
@@ -83,13 +107,6 @@
         <input type="text" id="title" name="title" required><br><br>
         <label for="due_date">Due Date:</label>
         <input type="date" id="due_date" name="due_date" required><br><br>
-        <label>Priority:</label>
-        <input type="radio" id="high" name="priority" value="high" required>
-        <label for="high">High</label>
-        <input type="radio" id="medium" name="priority" value="medium" required>
-        <label for="medium">Medium</label>
-        <input type="radio" id="low" name="priority" value="low" required>
-        <label for="low">Low</label><br><br>
         <button type="submit">Add Task</button>
     </form>
 
@@ -99,14 +116,13 @@
 
             const title = document.getElementById('title').value;
             const due_date = document.getElementById('due_date').value;
-            const priority = document.querySelector('input[name="priority"]:checked').value;
 
             fetch('/tasks', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ title, due_date, priority })
+                body: JSON.stringify({ title, due_date })
             })
             .then(response => response.json())
             .then(data => {
@@ -193,7 +209,7 @@
          <button type="submit">Add Snippet</button>
       </form>
    </div>
-
+   
    <div id="alert"></div>
 </body>
 
