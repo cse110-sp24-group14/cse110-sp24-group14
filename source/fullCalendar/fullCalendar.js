@@ -9,38 +9,109 @@ class FullCalendar extends HTMLElement {
     connectedCallback() {
         const styles = document.createElement("style");
         styles.innerHTML = `
+            * {
+                margin: 0;
+                padding: 0px;
+                box-sizing: border-box;
+                font-family: inherit;
+                font-weight: 500;
+                
+                
+            }
+
+            header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                gap: 20px; 
+                margin-bottom: 10px; 
+                font-size: 20px;
+                position: relative;
+            }
+
+            .header-content {
+                display: flex;
+                justify-content: center; /* Center the items within this container */
+                align-items: center;
+                flex: 1; /* Take up remaining space */
+                gap: 20px; /* Adjust spacing between inner elements */
+                
+
+            }
+
+            header button {
+                background-color: transparent;
+                border: 1.5px solid rgba(35, 70, 84, 0.7);
+                cursor: pointer;
+                padding: 8px 12px 8px 12px;
+                border-radius: 40%;
+            }
+
+            #close {
+                padding: 0;
+                border: none;
+                cursor: pointer;
+            }
+            
+            header p {
+                font-weight: bold; 
+            }
+
+            .calendar-container {
+                display: flex;
+                justify-content: center; 
+                align-items: center;
+            }
+
             table {
-                border-collapse: collapse;
+                border-collapse: separate; /* Change from collapse to separate */
+                border-spacing: 10px; /* Add this line to set the gap between cells */
+                width: 1000px;
+                height: 600px;
             }
             
             td, th {
-                border: 1px solid #ddd;
                 padding: 10px;
+                border-radius: 10%;
             }
             
+            th {
+                font-weight: 700;
+                font-size: 22px;
+            }
+
             .days-header {
                 width: 50px;
+                height: 34px;
             }
             
             td {
-                width: 50px;
-                height: 50px;
+                border: 1px solid #ddd;
+                background-color: rgba(229, 199, 117, 1);
+                width: 120px;
+                height: 100px;
                 vertical-align: top;
-                text-align: left;
-                font-size: x-small;
+                text-align: center;
+                font-weight: 500;
+                font-size: 20px;
             }
             
             .not-in-month {
                 background-color: rgba(231, 231, 231, 0.5);
             }
-            
+
+            .tasks {
+                max-height: 70px; /* Set a maximum height to limit tasks displayed */
+                overflow: hidden; /* Hide extra tasks */
+            }
             .task {
                 display: block;
-                background-color: #f5f5f5;
+                background-color: rgba(35, 70, 84, 1);
                 margin: 2px 0;
                 padding: 2px;
                 border-radius: 3px;
-                font-size: 10px;
+                font-size: 15px;
+                color: rgba(255, 255, 255, 0.8);
             }
         `;
 
@@ -48,9 +119,12 @@ class FullCalendar extends HTMLElement {
 
         this.createHeader();
 
+        const calendarContainer = document.createElement('div');
+        calendarContainer.className = 'calendar-container';
         const calendar = document.createElement('table');
-        calendar.id = 'calendar-display'
-        this.shadowRoot.appendChild(calendar);
+        calendar.id = 'calendar-display';
+        calendarContainer.appendChild(calendar);
+        this.shadowRoot.appendChild(calendarContainer);
 
         this.loadButtons();
         this.loadMonth(this.globalDate);
@@ -63,18 +137,25 @@ class FullCalendar extends HTMLElement {
      */
     createHeader() {
         const header = document.createElement('header');
+        const headerContent = document.createElement('div');
+        headerContent.className = 'header-content';
         const currentTime = document.createElement('p');
         currentTime.id = 'curr-mont-year';
         
         const prev = document.createElement('button');
         prev.id = "prev";
-        prev.innerText = "prev";
+        prev.innerHTML = '<img src="Previous.png" alt="Previous" />';
 
         const next = document.createElement('button');
         next.id = "next";
-        next.innerText = "next";
+        next.innerHTML = '<img src="Next.png" alt="Next" />';
 
-        header.append(currentTime, prev, next);
+        const close = document.createElement('button');
+        close.id = "close";
+        close.innerHTML = '<img src="Close.png" alt="Close" />';
+
+        headerContent.append(prev, currentTime, next);
+        header.append(headerContent, close);
 
         this.shadowRoot.appendChild(header);
     }
@@ -86,10 +167,11 @@ class FullCalendar extends HTMLElement {
      */
     loadMonth(currentDate) {
         const currHeader = this.shadowRoot.getElementById('curr-mont-year');
+    
+        const currentYear = currentDate.getFullYear();
+        const currentMonth = String(currentDate.getMonth() + 1).padStart(2, '0'); // Add leading zero if necessary
         
-        const currentMonthYear = currentDate.toLocaleString("en-US", {
-            month: "long", year: "numeric"
-        });
+        const currentMonthYear = `${currentYear}/${currentMonth}`;
         currHeader.innerText = currentMonthYear;
     }
 
@@ -146,7 +228,7 @@ class FullCalendar extends HTMLElement {
 
         calendar.innerHTML = '';
 
-        const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+        const days = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FEI', 'SAT'];
 
         // create days header
         const dayHeader = document.createElement("tr");
@@ -188,7 +270,10 @@ class FullCalendar extends HTMLElement {
                 
                 // if we HAVE started the month
                 if (previousMonthDates === startDay && date <= totalMonthDays) {
-                    dayOfWeek.innerHTML = date;
+                    dayOfWeek.innerHTML = `<div class="day-content" id="${new Date(currentDate.getFullYear(), currentDate.getMonth(), date).toLocaleDateString()}">
+                                            <div class="date">${date}</div>
+                                            <div class="tasks"></div>
+                                        </div>`;
                     dayOfWeek.id = new Date(currentDate.getFullYear(), currentDate.getMonth(), date).toLocaleDateString();
 
                     date++;
@@ -214,10 +299,11 @@ class FullCalendar extends HTMLElement {
             const taskDate = new Date(task.due_date).toLocaleDateString();
             const dayCell = this.shadowRoot.getElementById(taskDate);
             if (dayCell) {
+                const tasksContainer = dayCell.querySelector('.tasks');
                 const taskElement = document.createElement('span');
                 taskElement.className = 'task';
                 taskElement.textContent = task.title;
-                dayCell.appendChild(taskElement);
+                tasksContainer.appendChild(taskElement);
             }
         });
     }
