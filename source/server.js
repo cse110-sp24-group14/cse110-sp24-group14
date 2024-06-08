@@ -27,6 +27,16 @@ const fetchTasks = (callback) => {
     });
 };
 
+const fetchVisits = (callback) => {
+  connection.query("SELECT * FROM SiteVisits", (error, results) => {
+    if (error) {
+      callback(error, null);
+    } else {
+      callback(null, results);
+    }
+  });
+};
+
 
 // Create an HTTP server
 const server = http.createServer((req, res) => {
@@ -41,7 +51,17 @@ const server = http.createServer((req, res) => {
             }
         });
 
-    } else if (req.url === '/' && req.method === 'GET') {
+    } else if (req.url === "/visits" && req.method === "GET") {
+        fetchVisits((err, visits) => {
+          if (err) {
+            res.writeHead(500, { "Content-Type": "application/json" });
+            res.end(JSON.stringify({ error: "Internal Server Error" }));
+          } else {
+            res.writeHead(200, { "Content-Type": "application/json" });
+            res.end(JSON.stringify(visits));
+          }
+        });
+  } else if (req.url === '/' && req.method === 'GET') {
         fs.readFile(path.join(__dirname, 'index.html'), (err, data) => {
             if (err) {
                 res.writeHead(500, { 'Content-Type': 'text/html' });
