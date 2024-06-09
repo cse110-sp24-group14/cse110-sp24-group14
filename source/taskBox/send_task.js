@@ -4,10 +4,13 @@ function init() {
     const taskButton = document.getElementById('sendTask');
     const taskInput = document.getElementById('taskInput');
     const popupForm = document.getElementById('popupForm');
+    const priorityPopupForm = document.getElementById('priorityPopupForm');
     const dueDateForm = document.getElementById('dueDateForm');
+    const priorityForm = document.getElementById('priorityForm');
     const sidebar = document.querySelector("side-calendar");
 
     let taskTitle = '';
+    let due_date = '';
     //watching the input as always to see what command is out.
     taskInput.addEventListener('input', function () {
         const inputValue = taskInput.innerText;
@@ -21,8 +24,7 @@ function init() {
             // Extracted task
             const commandText = match[1];
             const titleText = match[2];
-            console.log(titleText);
-
+            
             taskInput.innerHTML = `<span class="task-command">${commandText}</span> ${titleText.trimStart()}`;
             moveCaretToEnd(taskInput);
             taskTitle = titleText;
@@ -39,14 +41,25 @@ function init() {
         popupForm.style.display = 'block';
     });
 
-    //once the popup form is finished submit it will POST the task
+    //once the date popup form is finished submit it will show the priority form
     dueDateForm.addEventListener('submit', (event) => {
         event.preventDefault();
+        due_date = document.getElementById('dueDate').value;
+        // Hide the popup form and show the priority form
+        popupForm.style.display = 'none';
+        priorityPopupForm.style.display = 'block';
+    });
 
-        const due_date = document.getElementById('dueDate').value;
+    //once the priority popup form is finished submit it will POST the task
+    priorityForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+
+        const priority = document.getElementById('priority').value;
+        console.log(priority);
         const data = {
             title: taskTitle,
-            due_date: due_date
+            due_date: due_date,
+            priority: priority
         };
         fetch('/tasks', {
             method: 'POST',
@@ -64,9 +77,10 @@ function init() {
                 console.error('Error:', error);
             });
 
-        // Hide the popup form and reset the task title
-        popupForm.style.display = 'none';
+        // Hide the priority form and reset the task title and due date
+        priorityPopupForm.style.display = 'none';
         taskTitle = '';
+        due_date = '';
         // disable button again
         taskButton.disabled = true;
     });
