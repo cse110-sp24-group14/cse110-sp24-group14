@@ -21,8 +21,7 @@ function init() {
             // Extracted task
             const commandText = match[1];
             const titleText = match[2];
-            console.log(titleText);
-
+            
             taskInput.innerHTML = `<span class="task-command">${commandText}</span> ${titleText.trimStart()}`;
             moveCaretToEnd(taskInput);
             taskTitle = titleText;
