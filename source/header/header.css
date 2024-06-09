@@ -161,3 +161,28 @@ header {
         margin-left: 5px;
     }
 }
+
+@media (max-width: 321px) {
+    .stat {
+        height: auto;
+        padding: 1px;
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .stat p {
+        font-size: 13px;
+    }
+
+    .menu {
+        width: 100%;
+        margin-left: 15px;
+        padding: 0 5px;
+        gap: 1px; 
+    }
+
+
+
+
+
+}
