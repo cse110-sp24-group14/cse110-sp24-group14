@@ -291,6 +291,9 @@ class SideCalendar extends HTMLElement {
         };
     }
 
+    /**
+     * Prevents body scrolling when mosue is over table
+     */
     preventScrollOnTable() {
         const table = this.shadowRoot.querySelector('table')
         const body = document.querySelector('body');
