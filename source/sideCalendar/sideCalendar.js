@@ -244,8 +244,15 @@ class SideCalendar extends HTMLElement {
         });
 
         this.shadowRoot.appendChild(nextWeekButton);
-
-        this.setGlobalDate(new Date);
+        
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('date')) {
+            const date = new Date(urlParams.get('date'));
+            this.setGlobalDate(date);
+        } else {
+            this.setGlobalDate(new Date());
+        }
+        
     }
 
     /**
