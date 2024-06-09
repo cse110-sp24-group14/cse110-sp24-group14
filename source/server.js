@@ -460,6 +460,16 @@ export const server = http.createServer((req, res) => {
                 }
             });
         });
+    } else if (pathname === '/fullCalendar/index.html' && req.method === 'GET') {
+        fs.readFile(path.join(__dirname, 'fullCalendar', 'index.html'), (err, data) => {
+            if (err) {
+                res.writeHead(500, { 'Content-Type': 'text/html' });
+                res.end('<h1>Internal Server Error</h1>');
+            } else {
+                res.writeHead(200, { 'Content-Type': 'text/html' });
+                res.end(data);
+            }
+        });
     // Update the condition for serving CSS files
     } else if (pathname.endsWith('.css') && req.method === 'GET') {
         serveStaticFile(res, req.url.slice(1), 'text/css');

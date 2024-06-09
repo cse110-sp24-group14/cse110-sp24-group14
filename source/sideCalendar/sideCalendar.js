@@ -113,6 +113,10 @@ class SideCalendar extends HTMLElement {
                 background-color: white;
             }
 
+            #full-calendar {
+                background-color: rgba(229, 199, 117, 1);
+            }
+
             p {
                 margin: 0;
             }
@@ -179,6 +183,9 @@ class SideCalendar extends HTMLElement {
 
         this.shadowRoot.appendChild(styles);
 
+        const fullCalendarButton = document.createElement('button');
+        fullCalendarButton.id = "full-calendar";
+
         const lastWeekButton = document.createElement('button');
         lastWeekButton.id = "last-week"
 
@@ -197,6 +204,19 @@ class SideCalendar extends HTMLElement {
                 </defs>
             </svg>
         `
+        // img for full calendar button
+        const calendarImg = `<img src="../sideCalendar/Calendar.png" alt="full calendar png" />`;
+
+        // add full calendar button
+        fullCalendarButton.innerHTML = calendarImg;
+        fullCalendarButton.innerHTML += "<p>Calender</p>";
+        fullCalendarButton.addEventListener("click", () => {
+            const year = this.globalDate.getFullYear();
+            const month = this.globalDate.getMonth() + 1; // JS months are 0-based
+            window.location.href = `/fullCalendar/index.html?year=${year}&month=${month}`;
+        });
+
+        this.shadowRoot.appendChild(fullCalendarButton);
 
         // add last week button
         lastWeekButton.innerHTML = arrowSVG;
