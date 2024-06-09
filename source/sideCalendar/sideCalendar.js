@@ -87,6 +87,8 @@ class SideCalendar extends HTMLElement {
                 display: flex;
                 flex-direction: column;
                 align-items: center;
+
+                gap: 5px;
             }
 
             button {
