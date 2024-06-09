@@ -34,9 +34,9 @@ function init() {
             taskInput.innerHTML = inputValue;  // Reset the innerHTML if no match
             moveCaretToEnd(taskInput);
             taskButton.disabled = true;
+            restoreCursorPosition(taskInput, savedPosition);
         }
 
-        restoreCursorPosition(taskInput, savedPosition);
     });
 
     //once click send , it will triger the popup Form
