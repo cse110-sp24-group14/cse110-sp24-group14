@@ -61,6 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Set time out to three seconds to account for the second the element fades in
         ongoing = setTimeout(function () {
             text.classList.remove("fade-in");
+            snippetButton.disabled = true;
         }, 2000); 
 
         document.getElementById("code-area").innerHTML = '';
