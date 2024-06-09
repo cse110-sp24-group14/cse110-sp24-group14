@@ -105,21 +105,21 @@ const populateTable = (taskList) => {
         // Set border and text color based on priority
         let borderColor, textColor;
         switch (task['priority_tag'].toLowerCase()) {
-            case 'urgent':
-                borderColor = '#e65500';
-                textColor = '#e65500';
-                break;
-            case 'medium':
-                borderColor = '#d99100';
-                textColor = '#d99100';
-                break;
-            case 'deferred':
-                borderColor = '#388e3c';
-                textColor = '#388e3c';
-                break;
-            default:
-                borderColor = 'gray';
-                textColor = 'gray';
+        case 'urgent':
+            borderColor = '#e65500';
+            textColor = '#e65500';
+            break;
+        case 'medium':
+            borderColor = '#d99100';
+            textColor = '#d99100';
+            break;
+        case 'deferred':
+            borderColor = '#388e3c';
+            textColor = '#388e3c';
+            break;
+        default:
+            borderColor = 'gray';
+            textColor = 'gray';
         }
 
         prioritySpan.style.border = `1.5px solid ${borderColor}`;
