@@ -21,10 +21,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }();
 
-    snippetObserver.update(new Date()); // initial load date
-
     const sidebar = document.querySelector("side-calendar");
     sidebar.addObserver(snippetObserver);
+
+    snippetObserver.update(sidebar.todayDate); // initial load date
 
     const code = document.getElementById('code-area')
     const language = document.getElementById('language-select')
@@ -43,7 +43,11 @@ document.addEventListener('DOMContentLoaded', () => {
         event.preventDefault();
         const codeText = code.innerHTML;
         const languageChoice = language.value;
-        snippetCompleted(codeText, languageChoice);
+        snippetCompleted(codeText, languageChoice, sidebar.todayDate.toLocaleDateString('en-CA', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit'
+        }));
 
         // Alert message
         let text = document.getElementById("alert");
@@ -57,6 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Set time out to three seconds to account for the second the element fades in
         ongoing = setTimeout(function () {
             text.classList.remove("fade-in");
+            snippetButton.disabled = true;
         }, 2000); 
 
         document.getElementById("code-area").innerHTML = '';
@@ -72,15 +77,16 @@ document.addEventListener('DOMContentLoaded', () => {
  * @memberof SnippetCreation
  * @param {string} code - the value of the code snippet the user types
  * @param {string} language - the language of the snippet the user selects
+ * @param {string} date - the date the snippet was created
  * 
  * @example
  * // add snippet "console.log("Hello")" in javascript
  * snippetCompleted("console.log(\"Hello\")", "JavaScript");
  */
-const snippetCompleted = (code, language) => {
+const snippetCompleted = (code, language, date) => {
     fetch(
         `/add-snippet?code=${code.replaceAll(/'/g, "\\'")
-            .replaceAll(/\n/g, '\\\\n')}&language=${language}`,
+            .replaceAll(/\n/g, '\\\\n')}&language=${language}&date=${date}`,
         { method: 'POST' }
     );
     psuedoUpdateSnippetCount();
@@ -176,7 +182,12 @@ function displaySnippets(snippets) {
  * retrieve(new Date(2024, 5, 7));
  */
 async function retrieve(date) {
-    const snippets = await fetchSnippets(date.toISOString().slice(0, 10));
+    // prevents timezone issues with manual iso string conversion
+    const snippets = await fetchSnippets(`${date.toLocaleDateString('en-CA', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit'
+    })}`);
     displaySnippets(snippets);
     hljs.highlightAll(); // highlights based on language
 }
