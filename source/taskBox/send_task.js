@@ -4,9 +4,7 @@ function init() {
     const taskButton = document.getElementById('sendTask');
     const taskInput = document.getElementById('taskInput');
     const popupForm = document.getElementById('popupForm');
-    const priorityPopupForm = document.getElementById('priorityPopupForm');
     const dueDateForm = document.getElementById('dueDateForm');
-    const priorityForm = document.getElementById('priorityForm');
     const sidebar = document.querySelector("side-calendar");
 
     let taskTitle = '';
@@ -39,20 +37,15 @@ function init() {
     taskButton.addEventListener('click', () => {
         taskInput.innerHTML = ''; // Clear the text area
         popupForm.style.display = 'block';
+
+        const formTaskTitle = document.getElementById('taskTitle');
+        formTaskTitle.innerHTML = taskTitle;
     });
 
     //once the date popup form is finished submit it will show the priority form
     dueDateForm.addEventListener('submit', (event) => {
         event.preventDefault();
         due_date = document.getElementById('dueDate').value;
-        // Hide the popup form and show the priority form
-        popupForm.style.display = 'none';
-        priorityPopupForm.style.display = 'block';
-    });
-
-    //once the priority popup form is finished submit it will POST the task
-    priorityForm.addEventListener('submit', (event) => {
-        event.preventDefault();
 
         const priority = document.getElementById('priority').value;
         console.log(priority);
@@ -77,8 +70,8 @@ function init() {
                 console.error('Error:', error);
             });
 
-        // Hide the priority form and reset the task title and due date
-        priorityPopupForm.style.display = 'none';
+        // Hide the popup form and reset the task title and due date
+        popupForm.style.display = 'none';
         taskTitle = '';
         due_date = '';
         // disable button again
