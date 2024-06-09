@@ -27,9 +27,12 @@ const connection = mysql.createConnection({
  * @memberof Server
  * @param {function} callback 
  */
-const insertTask = (title, due_date, callback) => {
-    const query = 'INSERT INTO Tasks (title, due_date) VALUES (?, ?)';
-    connection.query(query, [title, due_date], (error, results) => {
+const insertTask = (title, due_date, priority, callback) => {
+    const query = 'INSERT INTO Tasks (title, due_date, priority_tag) VALUES (?, ?, ?)';
+    console.log('Inserting title:', title);
+    console.log('Inserting due_date:', due_date);
+    console.log('Inserting priority:', priority);
+    connection.query(query, [title, due_date, priority], (error, results) => {
         if (error) {
             callback(error, null);
         } else {
@@ -48,7 +51,11 @@ const insertTask = (title, due_date, callback) => {
 const addStreaks = (callback) => {
     const today = new Date();
     today.setHours(0, 0, 0, 0);  // Set to the start of the day
-    const formattedDate = today.toISOString().split('T')[0];  // Format date as YYYY-MM-DD
+    const formattedDate = today.toLocaleDateString('en-CA', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit'
+    }).split('T')[0];  // Format date as YYYY-MM-DD
 
     // First, check if there's already a visit for today
     const checkQuery = 'SELECT * FROM SiteVisits WHERE visit_date = ?';
@@ -244,14 +251,15 @@ const deleteTask = (taskId, callback) => {
  * @memberof Server
  * @param {string} code - code content of snippet
  * @param {string} language - language of the code in snippet
+ * @param {string} date - date the snippet was created
  * @param {function} callback - handles the outcome of the fetch
  * 
  * @example
  * // add snippet to database
  * addSnippet("console.log('Hello World!)", "JavaScript", callback)
  */
-const addSnippet = (code, language, callback) => {
-    const sqlQuery = `INSERT INTO Snippets (code, code_language) VALUES ('${code}', '${language}')`;
+const addSnippet = (code, language, date, callback) => {
+    const sqlQuery = `INSERT INTO Snippets (code, code_language, created_date) VALUES ('${code}', '${language}', '${date}')`;
     connection.query(sqlQuery, (error, results) => {
         if (error) {
             callback(error, null);
@@ -301,10 +309,10 @@ export const server = http.createServer((req, res) => {
             body += chunk.toString();
         });
         req.on('end', () => {
-            const parsedBody = JSON.parse(body);
-            const { title, due_date } = parsedBody;
-            insertTask(title, due_date, (err) => {
+            const { title, due_date, priority} = JSON.parse(body);
+            insertTask(title, due_date, priority, (err) => {
                 if (err) {
+                    console.log(err);
                     res.writeHead(500, { 'Content-Type': 'application/json' });
                     res.end(JSON.stringify({ error: 'Internal Server Error' }));
                 } else {
@@ -414,7 +422,8 @@ export const server = http.createServer((req, res) => {
         // adds a snippet entry
         const code = query.get('code');
         const language = query.get('language');
-        addSnippet(code, language, (err, result) => {
+        const date = query.get('date');
+        addSnippet(code, language, date, (err, result) => {
             if (err) {
                 res.writeHead(500, { 'Content-Type': 'application/json' });
                 res.end(JSON.stringify({ error: 'Internal Server Error' }));

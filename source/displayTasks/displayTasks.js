@@ -81,7 +81,8 @@ const deleteTask = (id) => {
         "due_date": "2024-05-31T07:00:00.000Z",
         "completed": 1,
         "created_at": "2024-06-07T15:17:40.000Z",
-        "updated_at": "2024-06-07T15:47:42.000Z"
+        "updated_at": "2024-06-07T15:47:42.000Z",
+        "priority": "low"
         }
     ]);
  */
@@ -96,10 +97,54 @@ const populateTable = (taskList) => {
         row.classList.add(task.completed ? "complete" : "incomplete");
 
         const cell = document.createElement("td");
-
-        cell.innerHTML = task.title;
         cell.setAttribute("data-id", task.id);
         cell.classList.add("task");
+
+        const prioritySpan = document.createElement("span");
+        prioritySpan.classList.add("priority-tag");
+        // Set border and text color based on priority
+        let borderColor, textColor;
+        switch (task['priority_tag'].toLowerCase()) {
+        case 'urgent':
+            borderColor = '#e65500';
+            textColor = '#e65500';
+            break;
+        case 'medium':
+            borderColor = '#d99100';
+            textColor = '#d99100';
+            break;
+        case 'deferred':
+            borderColor = '#388e3c';
+            textColor = '#388e3c';
+            break;
+        default:
+            borderColor = 'gray';
+            textColor = 'gray';
+        }
+
+        prioritySpan.style.border = `1.5px solid ${borderColor}`;
+        prioritySpan.style.borderRadius = "5px";
+        prioritySpan.style.padding = "2px 5px";
+        prioritySpan.style.color = textColor;
+        prioritySpan.style.marginRight = "10px"; // Change to marginRight to create space between label and title
+        prioritySpan.style.fontStyle = "italic"; // Make the text italic
+        prioritySpan.style.whiteSpace = "nowrap"; // Ensure the text doesn't wrap
+
+        // Create a span for the bullet point
+        const bulletSpan = document.createElement("span");
+        bulletSpan.innerHTML = "&#8226;";
+        bulletSpan.style.fontSize = "2.5em"; // Adjust the font size to make it bigger
+        bulletSpan.style.verticalAlign = "middle"; // Align it vertically if needed
+
+        // Add the bullet point and priority text to the prioritySpan
+        prioritySpan.appendChild(bulletSpan);
+        prioritySpan.appendChild(document.createTextNode(` ${task['priority_tag'].charAt(0).toUpperCase() + task['priority_tag'].slice(1)}`)); 
+
+        cell.appendChild(prioritySpan);
+
+        const titleSpan = document.createElement("span");
+        titleSpan.innerHTML = task.title;
+        cell.appendChild(titleSpan);
 
         row.appendChild(cell);
 
@@ -110,7 +155,7 @@ const populateTable = (taskList) => {
 
         // add completion button if incomplete
         if (!task.completed) {
-            complete_button.addEventListener("click",() => {
+            complete_button.addEventListener("click", () => {
 
                 updateCompleted(task.id, true) // update database
                 psuedoUpdateCompletedTasks() // update statistics
@@ -168,7 +213,9 @@ const populateTable = (taskList) => {
     if (taskList.length === 0) {
         table.innerHTML = "No tasks. Add a task for the day!"
     }
+
 };
+
 
 /**
  * Creates the complete and delete buttons 
@@ -260,7 +307,12 @@ window.addEventListener("DOMContentLoaded", () => {
          */
         update(date) {
             try {
-                fetchJson(date.toISOString().slice(0, 10));
+                const normalizedDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+                fetchJson(normalizedDate.toLocaleDateString('en-CA', {
+                    year: 'numeric',
+                    month: '2-digit',
+                    day: '2-digit'
+                }));
                 addDateToHeader(date);
             } catch (error) {
                 console.error(error);
