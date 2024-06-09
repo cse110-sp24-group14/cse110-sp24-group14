@@ -149,6 +149,32 @@ class SideCalendar extends HTMLElement {
             #today-cell {
                 background-color: #045a7c;
             }
+
+            @media (max-width: 768px) {
+                :host {
+                    width: 100%;
+                }
+
+                button {
+                    padding: 10px;
+                    flex: 1;
+                }
+
+                table {
+                    display: flex;
+                    flex-direction: row;
+                    overflow-x: auto;
+                    width: 100%;
+                }
+
+                td {
+                    width: auto;
+                    flex: 1;
+                    padding: 5px;
+                }
+
+                
+            }
         `;
 
         this.shadowRoot.appendChild(styles);
