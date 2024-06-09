@@ -132,7 +132,6 @@ const fetchVisits = (callback) => {
         if (error) {
             callback(error, null);
         } else {
-            console.log(results);
             callback(null, results);
         }
     });
@@ -153,7 +152,6 @@ const fetchVisits = (callback) => {
  */
 const fetchTasksDue = (year, month, callback) => {
     const sqlQuery = 'SELECT * FROM Tasks WHERE YEAR(due_date) = ? AND MONTH(due_date) = ? AND completed = 0';
-    console.log('Executing query:', sqlQuery, 'with parameters:', year, month);
     connection.execute(sqlQuery, [year, month], (error, results) => {
         if (error) {
             console.error('Error fetching tasks for month:', error);
@@ -300,7 +298,6 @@ const fetchSnippets = (date, callback) => {
  * @memberof Server
  */
 export const server = http.createServer((req, res) => {
-    // console.log("Running")
     const parsedUrl = new URL(req.url, `http://${req.headers.host}`);
     const pathname = parsedUrl.pathname;
     const query = parsedUrl.searchParams;
@@ -359,7 +356,6 @@ export const server = http.createServer((req, res) => {
     } else if (pathname === '/tasks-this-month' && req.method === 'GET') {
         const year = parseInt(query.get('year'), 10);
         const month = parseInt(query.get('month'), 10);
-        console.log('Received request for tasks this month:', year, month);
         // Ensure year and month are valid
         if (!isNaN(year) && !isNaN(month)) {
             fetchTasksDue(year, month, (err, tasks) => {
@@ -449,7 +445,6 @@ export const server = http.createServer((req, res) => {
             }
         });
     } else if (pathname === '/' && req.method === 'GET') {
-        console.log('Home page accessed');
         addStreaks((err, results) => {
             if (err) {
                 console.error('Error adding streak:', err);
