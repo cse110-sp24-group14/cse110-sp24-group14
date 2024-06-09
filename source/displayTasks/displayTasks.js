@@ -260,7 +260,8 @@ window.addEventListener("DOMContentLoaded", () => {
          */
         update(date) {
             try {
-                fetchJson(date.toISOString().slice(0, 10));
+                const normalizedDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+                fetchJson(normalizedDate.toISOString().slice(0, 10));
                 addDateToHeader(date);
             } catch (error) {
                 console.error(error);

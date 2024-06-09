@@ -17,7 +17,8 @@ document.addEventListener('DOMContentLoaded', () => {
          * @param {Date} date - new date to fetch snippets from and display  
          */
         update(date) {
-            retrieve(date);
+            const normalizedDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+            retrieve(normalizedDate.toISOString().slice(0, 10));
         }
     }();
 
