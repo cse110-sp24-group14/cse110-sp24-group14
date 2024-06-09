@@ -133,8 +133,8 @@ const populateTable = (taskList) => {
         // Create a span for the bullet point
         const bulletSpan = document.createElement("span");
         bulletSpan.innerHTML = "&#8226;";
-        bulletSpan.style.fontSize = "2.5em"; // Adjust the font size to make it bigger
-        bulletSpan.style.verticalAlign = "middle"; // Align it vertically if needed
+        bulletSpan.style.fontSize = "0.9em"; // Adjust the font size to make it match figma design
+        bulletSpan.style.alignItems = "center";
 
         // Add the bullet point and priority text to the prioritySpan
         prioritySpan.appendChild(bulletSpan);
