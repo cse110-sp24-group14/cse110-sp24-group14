@@ -81,6 +81,7 @@
 #language-select {
   position: absolute;
   bottom: 20%;
+  right: 1%;
 
   border: transparent;
   outline: none;

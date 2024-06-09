@@ -41,6 +41,8 @@ document.addEventListener('DOMContentLoaded', () => {
             text.classList.remove("fade-in");
         }, 2000); // Set time out to three seconds to account for the second the element fades in
 
+        document.getElementById("code-area").innerHTML = '';
+
         retrieve(sidebar.globalDate);
     });
 });
