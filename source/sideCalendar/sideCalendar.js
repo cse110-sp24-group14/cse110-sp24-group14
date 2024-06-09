@@ -165,10 +165,13 @@ class SideCalendar extends HTMLElement {
                     flex-direction: row;
                     overflow-x: auto;
                     width: 100%;
+
+                    justify-content: center;
+                    gap: 5px;
                 }
 
                 td {
-                    width: auto;
+                    width: 50px;
                     flex: 1;
                     padding: 5px;
                 }
