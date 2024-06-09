@@ -59,8 +59,8 @@ document.addEventListener('DOMContentLoaded', () => {
  */
 const snippetCompleted = (code, language) => {
 
-    // percents cause errors when URI encoding
-    const noPercentCode = code.replace(/%/g, '%25');
+    // percents and single quotes cause errors when URI encoding
+    const noPercentCode = code.replace(/%/g, '%25').replaceAll(/'/g, "\\'");
 
     fetch(
         `/add-snippet?code=${encodeURIComponent(noPercentCode)}&language=${language}`,
@@ -126,8 +126,10 @@ function displaySnippets(snippets) {
         // Add pre code for snippet highlighting
         const pre = document.createElement('pre');
         const code = document.createElement('code');
-        code.className = `language-${snippet.code_language.toLowerCase()}`
-        code.innerHTML = decodeURIComponent(snippet.code);
+        code.className = `language-${snippet.code_language.toLowerCase()}` // recognizes selected language
+
+        // removes < and > to prevent HTML injection
+        code.innerHTML = decodeURIComponent(snippet.code).replaceAll('<', '&lt;').replaceAll('>', '&gt;');
         
         pre.append(code);
         snippetText.appendChild(pre);
