@@ -21,7 +21,6 @@ class CreatedSnippets extends HTMLElement {
 
         const numSnippets = document.createElement('p');
         numSnippets.id = "num-snippets";
-        console.log(numSnippets.innerHTML);
 
         const caption = document.createElement('p');
         caption.id = "snippet-caption"
@@ -42,17 +41,17 @@ class CreatedSnippets extends HTMLElement {
 
         styles.innerHTML = `
           #stats-div {
-              width: 300px;
-              height: 60px;
-              
+              width: inherit;
+              height: 100%;
+
               background-color: #F6F6F6;
               border-radius: 12px;
-              
-              padding: 10px;
-          
+
               display: grid;
               grid-template-columns: 1fr 2fr;
               grid-template-rows: 25px 35px;
+
+              align-content: center;
           } 
           
           #svg-div {

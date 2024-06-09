@@ -45,17 +45,17 @@ class CompletedStatistics extends HTMLElement {
 
         styles.innerHTML = `
             #statistics-div {
-                width: 300px;
-                height: 60px;
+                width: inherit;
+                height: 100%;
                 
                 background-color: #F6F6F6;
                 border-radius: 12px;
-                
-                padding: 10px;
-            
+
                 display: grid;
                 grid-template-columns: 1fr 2fr;
                 grid-template-rows: 25px 35px;
+
+                align-content: center;
             } 
             
             #svg-div {
