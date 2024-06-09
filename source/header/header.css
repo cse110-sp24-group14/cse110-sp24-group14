@@ -67,6 +67,8 @@ header {
     height: 50px;
     gap: 14px;
     margin-left: 150px;
+    min-width: 170px;
+    max-width: 250px;
 }
 
 .menu a {
@@ -111,6 +113,11 @@ header {
     .stat {
         min-width: 0px;
         max-width: none;
+    }
+
+    .menu {
+        min-width: 150px;
+        max-width: 200px;
     }
 }
 
@@ -158,6 +165,11 @@ header {
         font-size: 15px;
     }
 
+    .menu {
+        min-width: 100px;
+        max-width: 150px;
+        padding-left: 15px;
+    }
 
     .menu a {
         margin-left: 5px;
