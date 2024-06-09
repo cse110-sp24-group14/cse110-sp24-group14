@@ -6,26 +6,29 @@ function init() {
     const popupForm = document.getElementById('popupForm');
     const dueDateForm = document.getElementById('dueDateForm');
     const sidebar = document.querySelector("side-calendar");
-    
+
     let taskTitle = '';
     //watching the input as always to see what command is out.
-    taskInput.addEventListener('input', function() {
+    taskInput.addEventListener('input', function () {
         const inputValue = taskInput.innerText;
         const taskRegex = /^(\/task\s)(.*)/;
         const match = inputValue.match(taskRegex);
 
         if (match) {
+
+            taskButton.disabled = false;
+
             // Extracted task
             const commandText = match[1];
             const titleText = match[2];
-            console.log(titleText);
-
+            
             taskInput.innerHTML = `<span class="task-command">${commandText}</span> ${titleText.trimStart()}`;
             moveCaretToEnd(taskInput);
             taskTitle = titleText;
         } else {
             taskInput.innerHTML = inputValue;  // Reset the innerHTML if no match
             moveCaretToEnd(taskInput);
+            taskButton.disabled = true;
         }
     });
 
@@ -63,6 +66,8 @@ function init() {
         // Hide the popup form and reset the task title
         popupForm.style.display = 'none';
         taskTitle = '';
+        // disable button again
+        taskButton.disabled = true;
     });
 
     // always make sure the caret is to the end of the text.
