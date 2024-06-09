@@ -131,21 +131,19 @@ header {
     }
 
     .header-content {
-        flex-direction: column wrap;
-        align-items: center;
+        align-items: flex-end;
         gap: 10px;
-        width: 100%;
+
+        margin-left: -50px;
     }
 
     .stat-container {
         flex-direction: row;
         justify-content: center;
         gap: 15px;
-        max-width: 100%;
+        
         max-height: 40%;
-        margin-right: 70px;
-        margin-bottom: 3px;
-        margin-top: 5px;
+        margin: 5px 3px;
     }
 
     .stat {
@@ -163,5 +161,11 @@ header {
 
     .menu a {
         margin-left: 5px;
+    }
+}
+
+@media (max-width: 321px) {
+    .stat p {
+        font-size: 12px;
     }
 }

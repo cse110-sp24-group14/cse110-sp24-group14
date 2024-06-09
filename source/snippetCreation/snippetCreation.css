@@ -204,3 +204,10 @@
   padding: 0 !important;
   margin: 0 !important;
 }
+
+/* media query to hide snippet container for mobile devices */
+@media (max-width: 426px){
+  #snippet{
+    display: none;
+  }
+}
