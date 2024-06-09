@@ -6,6 +6,7 @@ function init() {
     const popupForm = document.getElementById('popupForm');
     const dueDateForm = document.getElementById('dueDateForm');
     const sidebar = document.querySelector("side-calendar");
+    const status = document.getElementById('taskStatus');
 
     let taskTitle = '';
     let due_date = '';
@@ -22,7 +23,7 @@ function init() {
             // Extracted task
             const commandText = match[1];
             const titleText = match[2];
-            
+
             taskInput.innerHTML = `<span class="task-command">${commandText}</span> ${titleText.trimStart()}`;
             moveCaretToEnd(taskInput);
             taskTitle = titleText;
@@ -36,7 +37,7 @@ function init() {
     //once click send , it will triger the popup Form
     taskButton.addEventListener('click', () => {
         taskInput.innerHTML = ''; // Clear the text area
-        popupForm.style.display = 'block';
+        popupForm.classList.remove('hidden');
 
         const formTaskTitle = document.getElementById('taskTitle');
         formTaskTitle.innerHTML = taskTitle;
@@ -63,19 +64,27 @@ function init() {
         })
             .then(response => response.json())
             .then(data => {
-                alert(data.message);
+                popupForm.classList.add('hidden');
+                
+                status.classList.remove('hidden');
+
+                status.innerHTML = data.message;
+
                 sidebar.setGlobalDate(sidebar.globalDate); // Re-trigger date update
             })
             .catch((error) => {
                 console.error('Error:', error);
             });
 
-        // Hide the popup form and reset the task title and due date
-        popupForm.style.display = 'none';
-        taskTitle = '';
-        due_date = '';
-        // disable button again
-        taskButton.disabled = true;
+
+        setTimeout(() => {
+            // Hide the popup form and reset the task title and due date
+            status.classList.add('hidden');
+            taskTitle = '';
+            due_date = '';
+            // disable button again
+            taskButton.disabled = true;
+        }, 1000)
     });
 
     // always make sure the caret is to the end of the text.

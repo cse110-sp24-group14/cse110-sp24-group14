@@ -79,8 +79,7 @@
     padding: 2px 6px;
 }
 
-.popup-form {
-    display: none;
+.popup-form, #taskStatus {
     position: fixed;
     left: 50%;
     top: 50%;
@@ -93,6 +92,15 @@
     z-index: 999;
 
     width: 200px;
+    
+    visibility: visible;
+    opacity: 1;
+    transition: 0.1s;
+}
+
+.hidden {
+    visibility: hidden !important;
+    opacity: 0 !important;
 }
 
 .popup-form form {
@@ -151,11 +159,16 @@
 
     cursor: pointer;
 
-    transition: 0.2s;
+    transition: 0.5s;
 }
 
 .popup-form form button:hover {
     background-color: #3c738a;
+}
+
+#taskStatus {
+    background-color: #E5C775;
+    text-align: center;
 }
 
 .info {
