@@ -127,7 +127,7 @@ function displaySnippets(snippets) {
         const pre = document.createElement('pre');
         const code = document.createElement('code');
         code.className = `language-${snippet.code_language.toLowerCase()}`
-        code.innerText = decodeURIComponent(snippet.code)
+        code.innerHTML = decodeURIComponent(snippet.code);
         
         pre.append(code);
         snippetText.appendChild(pre);
