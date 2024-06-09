@@ -181,8 +181,19 @@ header {
         gap: 1px; 
     }
 
+}
 
+@media (max-width: 375px) {
 
+    .menu {
+        width: 100%;
+        margin-left: 15px;
+        padding: 0 5px;
+        gap: 1px; 
+    }
 
+    .stat p {
+        font-size: 14px;
+    }
 
 }
