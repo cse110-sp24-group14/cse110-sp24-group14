@@ -17,7 +17,7 @@ const fetchJsonStreaks = () => {
  */
 const populateStreak = (siteVisits) => {
 
-    const streak = document.getElementById("streak-days");
+    const streak = document.getElementById("streak-indicator");
     const streakText = document.getElementById("streak-text");
 
     const daysName = ["S", "M", "T", "W", "T", "F", "S"]
@@ -64,7 +64,7 @@ const populateStreak = (siteVisits) => {
         const dayImg = document.createElement("img");
         
         dayText.innerHTML = daysName[i];
-        dayImg.src = 'displayStreak/Fire.svg';
+        dayImg.src = './displayStreak/Fire.svg';
         
         // Identify non-streak days for styling
         if (streakAmt == 1) { // Handles 1 day streak case

@@ -7,9 +7,9 @@
 
    <link rel="stylesheet" href="index.css">
    <link rel="stylesheet" href="header/header.css">
-    <link rel="stylesheet" href="snippetCreation/snippetCreation.css">
+   <link rel="stylesheet" href="snippetCreation/snippetCreation.css">
    <script src="sideCalendar/sideCalendar.js"></script>
-    <script src="snippetCreation/snippetCreation.js"></script>
+   <script src="snippetCreation/snippetCreation.js"></script>
    <script src="taskCompleted/taskCompleted.js"></script>
    <script src="snippetDisplay/snippetDisplay.js"></script>
 
@@ -22,11 +22,17 @@
    <!--taskbox script and stylesheet -->
    <link rel="stylesheet" href="taskBox\taskbox.css" />
    <script src="taskBox\send_task.js"></script>
+
+   <link rel="stylesheet" href="displayStreak/displayStreak.css">
+   <script src="displayStreak/displayStreak.js"></script>
+
+   <link rel="stylesheet" href="https://unpkg.com/@highlightjs/cdn-assets@11.7.0/styles/github.min.css" />
+   <script src="https://unpkg.com/@highlightjs/cdn-assets@11.7.0/highlight.min.js"></script>
 </head>
 
 <body>
    <header>
-      <img src="header/assets/Logo.svg" alt="team logo" class="logo">  
+      <img src="header/assets/Logo.svg" alt="team logo" class="logo">
 
       <div class="header-content">
 
@@ -59,98 +65,57 @@
 
    <main>
       <side-calendar></side-calendar>
-      <article>
-         <section>
+      <section>
+
+         <div id="main-display">
+
             <div id="task-container">
-               <h1>Today's Tasks</h1>
+               <h1></h1>
                <table id="task-table"></table>
             </div>
-            <completed-statistics></completed-statistics>
-            <snippets-statistics></snippets-statistics>
-         </section>
-        
+            <div id="snippet-and-stats">
+               <div id="snippet">
+                  <h1>Snippets</h1>
+                  <ul id="snippet-container"></ul>
+                  <select id="language-select" name="language" required>
+                     <option value="">Select Language</option>
+                     <option value="JavaScript">JavaScript</option>
+                     <option value="HTML">HTML</option>
+                     <option value="CSS">CSS</option>
+                  </select>
+                  <form id="snippet-form">
+                     <div id="code-area" contenteditable="plaintext-only" class="editable-div" placeholder="Add code here"></div>
+                     <button disabled type="submit">
+                        <img src="taskBox/sendTask.png" alt="Send" />
+                        <span class="invalid-tip">Input both text AND language!</span>
+                     </button>
+                     <div id="alert"></div>
+                  </form>
+               </div>      
+
+               <completed-statistics></completed-statistics>
+               <snippets-statistics></snippets-statistics>
+
+               <div id="streak-container">
+                  <p id="streak-text">You are on a day streak!</p>
+                  <div id="streak-indicator"></div>
+               </div>
+            </div>
+         </div>
+
          <!--text box on the bottom, with the send button-->
          <div class="taskbox">
-            <textarea id="taskInput" placeholder="What would you like to do today?"></textarea>
-            <button class="add-task" type="button" id="sendTask">
+            <div class="info">
+               <span class="icon-info-sign">i</span>
+               <span class="extra-info">Add any tasks using the /task tag</span>
+            </div>
+            <div id="taskInput" contenteditable="true" class="editable-div" placeholder="What would you like to do today?"></div>
+            <button disabled class="add-task" type="button" id="sendTask">
                <img src="taskBox/sendTask.png" alt="Send" />
+               <span class="invalid-tip">No /task found!</span>
             </button>
          </div>
-      </article>
-   </main>
 
-   <h1>Add Task</h1>
-    <form id="taskForm">
-        <label for="title">Title:</label>
-        <input type="text" id="title" name="title" required><br><br>
-        <label for="due_date">Due Date:</label>
-        <input type="date" id="due_date" name="due_date" required><br><br>
-        <button type="submit">Add Task</button>
-    </form>
-
-    <script>
-        document.getElementById('taskForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-
-            const title = document.getElementById('title').value;
-            const due_date = document.getElementById('due_date').value;
-
-            fetch('/tasks', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ title, due_date })
-            })
-            .then(response => response.json())
-            .then(data => {
-                alert(data.message);
-                document.getElementById('taskForm').reset();
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-        });
-    </script>
-
-   <!-- 
-      Commented because we will not use this exact code in this table format
-      but we will use this route for the task list
-   -->
-   <!-- <table id="tasksTable" border="1">
-      <thead>
-          <tr>
-              <th>Title</th>
-              <th>Due Date</th>
-              <th>Completed</th>
-          </tr>
-      </thead>
-      <tbody>
-      </tbody>
-  </table>
-
-    <script>
-       function fetchTasks() {
-         fetch('/tasks')
-             .then(response => response.json())
-             .then(data => {
-                 const tableBody = document.querySelector('#tasksTable tbody');
-                 tableBody.innerHTML = '';
-                 data.forEach(task => {
-                     const row = document.createElement('tr');
-                     row.innerHTML = `
-                         <td>${task.title}</td>
-                         <td>${task.due_date}</td>
-                         <td>${task.completed != 0}</td>
-                     `;
-                     tableBody.appendChild(row);
-                 });
-             })
-             .catch(error => console.error('Error fetching data:', error));
-         }
-         fetchTasks()
-    </script> -->
-  
     <!--text box on the bottom, with the send button-->
      <div class="taskbox">
       <div class="info">
@@ -164,37 +129,36 @@
            </svg>
         </button>
      </div>
+         
+     <div id="popupForm" class="popup-form">
+        <form id="dueDateForm">
+           <label for="dueDate">Due Date:</label>
+           <input type="date" id="dueDate" name="dueDate" required>
+           <button type="submit">Submit</button>
+        </form>
+     </div>
 
-   <!-- Snippets Container -->
-   <div id="snippet">
-      <h1>Snippets</h1>
-      <ul id="snippet-container"></ul>
-      <form id="snippet-form">
-         <div id="code-area">
-            <label for="code-input">Code:</label>
-            <textarea id="code-input" name="code" required></textarea>
-         </div>
-
-         <div id="language-area">
-            <label for="language-select">Language:</label>
-            <select id="language-select" name="language" required>
-               <option value="">Select Language</option>
-               <option value="JavaScript">JavaScript</option>
-               <option value="HTML">HTML</option>
-               <option value="CSS">CSS</option>
+     <div id="priorityPopupForm" class="popup-form">
+        <form id="priorityForm">
+            <label for="priority">Priority:</label>
+            <select id="priority" name="priority" required>
+                <option value="1">Urgent</option>
+                <option value="2">Medium</option>
+                <option value="3">Deferred</option>
             </select>
-         </div>
-
-         <button type="submit">Add Snippet</button>
-      </form>
-   </div>
-   <div id="alert"></div>
+            <button type="submit">Submit</button>
+        </form>
+     </div>
+  </article>
+</main>
 
    <!-- Mini-Streak Container -->
    <div id="streak-container" class="hidden">
       <p id="streak-text">You are on a x days streak!</p>
       <div id="streak-days"></div>
     </div>
+  </section>
+ </main>
 </body>
 
 </html>
