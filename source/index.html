@@ -136,31 +136,6 @@
       </article>
    </main>
 
-    <script>
-        document.getElementById('taskForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-
-            const title = document.getElementById('title').value;
-            const due_date = document.getElementById('due_date').value;
-
-            fetch('/tasks', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ title, due_date })
-            })
-            .then(response => response.json())
-            .then(data => {
-                alert(data.message);
-                document.getElementById('taskForm').reset();
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-        });
-    </script>
-
 
       </section>
    </main>
