@@ -110,7 +110,7 @@ const populateTable = (taskList) => {
 
         // add completion button if incomplete
         if (!task.completed) {
-            complete_button.addEventListener("click",() => {
+            complete_button.addEventListener("click", () => {
 
                 updateCompleted(task.id, true) // update database
                 psuedoUpdateCompletedTasks() // update statistics
@@ -261,7 +261,11 @@ window.addEventListener("DOMContentLoaded", () => {
         update(date) {
             try {
                 const normalizedDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-                fetchJson(normalizedDate.toISOString().slice(0, 10));
+                fetchJson(normalizedDate.toLocaleDateString('en-CA', {
+                    year: 'numeric',
+                    month: '2-digit',
+                    day: '2-digit'
+                }));
                 addDateToHeader(date);
             } catch (error) {
                 console.error(error);

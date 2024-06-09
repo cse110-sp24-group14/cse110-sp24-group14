@@ -17,27 +17,30 @@ document.addEventListener('DOMContentLoaded', () => {
          * @param {Date} date - new date to fetch snippets from and display  
          */
         update(date) {
-            const normalizedDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-            retrieve(normalizedDate.toISOString().slice(0, 10));
+            retrieve(date);
         }
     }();
 
-    snippetObserver.update(new Date()); // initial load date
-
     const sidebar = document.querySelector("side-calendar");
     sidebar.addObserver(snippetObserver);
+
+    snippetObserver.update(sidebar.todayDate); // initial load date
 
     const snippetForm = document.getElementById('snippet-form');
     snippetForm.addEventListener('submit', (event) => {
         event.preventDefault();
         const code = document.getElementById('code-input').value;
         const language = document.getElementById('language-select').value;
-        snippetCompleted(code, language);
+        snippetCompleted(code, language, sidebar.todayDate.toLocaleDateString('en-CA', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit'
+        }));
         // Alert message
         let text = document.getElementById("alert");
         text.textContent = "Snippet added!";
-        if (text.classList.contains("fade-in")) {clearTimeout(ongoing);}    // if prev call in action: reset timer
-        else {text.classList.add("fade-in");}                               // else, create message
+        if (text.classList.contains("fade-in")) { clearTimeout(ongoing); }    // if prev call in action: reset timer
+        else { text.classList.add("fade-in"); }                               // else, create message
         ongoing = setTimeout(function () {
             text.classList.remove("fade-in");
         }, 2000); // Set time out to three seconds to account for the second the element fades in
@@ -53,16 +56,16 @@ document.addEventListener('DOMContentLoaded', () => {
  * @memberof SnippetCreation
  * @param {string} code - the value of the code snippet the user types
  * @param {string} language - the language of the snippet the user selects
+ * @param {string} date - the date the snippet was created
  * 
  * @example
  * // add snippet "console.log("Hello")" in javascript
  * snippetCompleted("console.log(\"Hello\")", "JavaScript");
  */
-const snippetCompleted = (code, language) => {
+const snippetCompleted = (code, language, date) => {
     fetch(
-        `/add-snippet?code=${
-            code.replaceAll(/'/g, "\\'")
-                .replaceAll(/\n/g, '\\\\n')}&language=${language}`,
+        `/add-snippet?code=${code.replaceAll(/'/g, "\\'")
+            .replaceAll(/\n/g, '\\\\n')}&language=${language}&date=${date}`,
         { method: 'POST' }
     );
     psuedoUpdateSnippetCount();
@@ -121,7 +124,7 @@ function displaySnippets(snippets) {
         const snippetType = document.createElement('p');
         snippetType.className = 'snippet-type';
         snippetType.innerHTML = snippet.code_language;
-        
+
         // Add pre code for snippet highlighting
         const pre = document.createElement('pre');
         const code = document.createElement('code');
@@ -130,7 +133,7 @@ function displaySnippets(snippets) {
             .replaceAll(/\\n/g, '\n')
             .replaceAll(/</g, '&lt;')
             .replaceAll(/>/g, '&gt;') // replace string literal with new lines
-        
+
         pre.append(code);
         snippetText.appendChild(pre);
 
@@ -141,9 +144,9 @@ function displaySnippets(snippets) {
 
         // Add box to container
         snippetBox.appendChild(snippetText);
-        snippetBox.appendChild(snippetType);    
+        snippetBox.appendChild(snippetType);
         container.appendChild(snippetBox);
-        
+
     });
 }
 
@@ -159,7 +162,12 @@ function displaySnippets(snippets) {
  * retrieve(new Date(2024, 5, 7));
  */
 async function retrieve(date) {
-    const snippets = await fetchSnippets(date.toISOString().slice(0, 10));
+    // prevents timezone issues with manual iso string conversion
+    const snippets = await fetchSnippets(`${date.toLocaleDateString('en-CA', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit'
+    })}`);
     displaySnippets(snippets);
     hljs.highlightAll(); // highlights based on language
 }
@@ -192,8 +200,8 @@ function copy(button) {
     // Alert message
     let text = document.getElementById("alert");
     text.textContent = "Copied to clipboard!";
-    if (text.classList.contains("fade-in")) {clearTimeout(ongoing);}    // if prev call in action: reset timer
-    else {text.classList.add("fade-in");}                               // else, create message
+    if (text.classList.contains("fade-in")) { clearTimeout(ongoing); }    // if prev call in action: reset timer
+    else { text.classList.add("fade-in"); }                               // else, create message
     ongoing = setTimeout(function () {
         text.classList.remove("fade-in");
     }, 2000); // Set time out to three seconds to account for the second the element fades in
