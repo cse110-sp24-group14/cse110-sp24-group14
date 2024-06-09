@@ -46,10 +46,12 @@ function init() {
     //once the date popup form is finished submit it will show the priority form
     dueDateForm.addEventListener('submit', (event) => {
         event.preventDefault();
-        due_date = document.getElementById('dueDate').value;
+        const dueInput = document.getElementById('dueDate')
+        due_date = dueInput.value;
 
-        const priority = document.getElementById('priority').value;
-        console.log(priority);
+        const priorityInput = document.getElementById('priority')
+        const priority = priorityInput.value;
+
         const data = {
             title: taskTitle,
             due_date: due_date,
@@ -82,6 +84,13 @@ function init() {
             status.classList.add('hidden');
             taskTitle = '';
             due_date = '';
+            
+            // reset date input
+            dueInput.value = '';
+
+            // reset selection input
+            priorityInput.selectedIndex = 0;
+
             // disable button again
             taskButton.disabled = true;
         }, 1000)
