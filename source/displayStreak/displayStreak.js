@@ -28,14 +28,18 @@ const populateStreak = (siteVisits) => {
         days.push(day.visit_date);
     });
 
-    // Updates the dashboard streak
+    // Updates the dashboard and header streaks
     const streakAmt = countStreak(days);
-    streakText.innerHTML = `You are on a ${streakAmt} days streak!`;
-
-    // Updates the header streak
     const headerStreak = document.getElementById("header-streak-days");
-    if (streakAmt == 1) {headerStreak.innerHTML = `${streakAmt} day streak!`;}
-    else {headerStreak.innerHTML = `${streakAmt} days streak!`;}
+
+    if (streakAmt == 1) { // Handles 1 day streak case
+        streakText.innerHTML = `You are on a ${streakAmt} day streak!`;
+        headerStreak.innerHTML = `${streakAmt} day streak!`;
+    }
+    else { // Handles streaks > 1 
+        streakText.innerHTML = `You are on a ${streakAmt} days streak!`;
+        headerStreak.innerHTML = `${streakAmt} days streak!`;
+    }
 
     // Get current day and start of week to determine streak days
     const currentDate = new Date();
@@ -63,11 +67,15 @@ const populateStreak = (siteVisits) => {
         dayImg.src = 'displayStreak/Fire.svg';
         
         // Identify non-streak days for styling
-        if (streakAmt > 0 && i > startCounter - streakStart && i <= 
-            startCounter){
-
+        if (streakAmt == 1) { // Handles 1 day streak case
+            if (i == (startCounter)) {
+                dayImg.classList.add("streak");
+            } else {
+                dayImg.classList.add("not-streak");
+            }
+        } else if (streakAmt > 0 && i >= startCounter - streakStart && i <= 
+            startCounter){ // Handles streaks > 1
             dayImg.classList.add("streak");
-            
         } else {
             dayImg.classList.add("not-streak");
         }
