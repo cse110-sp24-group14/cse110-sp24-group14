@@ -21,7 +21,6 @@ class CreatedSnippets extends HTMLElement {
 
         const numSnippets = document.createElement('p');
         numSnippets.id = "num-snippets";
-        console.log(numSnippets.innerHTML);
 
         const caption = document.createElement('p');
         caption.id = "snippet-caption"

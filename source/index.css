@@ -31,3 +31,27 @@ section {
     gap: 16px;
     padding: 20px;
 }
+
+.invalid-tip {
+    visibility: hidden;
+    opacity: 0;
+    transition: 0.2s;
+    width: 100px;
+
+    position: absolute;
+    z-index: 1;
+    right: 40px;
+
+    border-radius: 10px;
+    padding: 10px;
+
+    background-color: rgb(173, 16, 37);;
+    color: white;
+
+    font-weight: bold;    
+}
+
+button:disabled:hover .invalid-tip {
+    opacity: 1;
+    visibility: visible;
+}
