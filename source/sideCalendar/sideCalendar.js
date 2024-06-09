@@ -200,6 +200,8 @@ class SideCalendar extends HTMLElement {
         this.shadowRoot.appendChild(nextWeekButton);
 
         this.setGlobalDate(new Date);
+
+        this.preventScrollOnTable();
     }
 
     /**
@@ -287,6 +289,30 @@ class SideCalendar extends HTMLElement {
             }
             this.setGlobalDate(dateTemp);
         };
+    }
+
+    preventScrollOnTable() {
+        const table = this.shadowRoot.querySelector('table')
+        const body = document.querySelector('body');
+
+        let mouseIsOver = false;
+
+        table.onmouseover = () => {
+            mouseIsOver = true
+        }
+
+        table.onmouseleave = () => {
+            mouseIsOver = false;
+        }
+
+        // prevents body scrolling when over table
+        body.addEventListener('wheel', (e) => {
+            if (mouseIsOver) {
+                e.preventDefault();
+                e.stopPropagation();
+                return false;
+            }
+        }, { passive: false });
     }
 }
 
