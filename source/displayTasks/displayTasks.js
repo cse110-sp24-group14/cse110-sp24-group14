@@ -150,8 +150,14 @@ const populateTable = (taskList) => {
 
             // decrement complete statistic ONLY if completed
             if (row.className === "complete") {
-                psuedoUpdateDelete();
+                psuedoUpdateDeleteCompleteTasks();
             }
+
+            //decrement "more tasks to go" statistic ONLY if delete operation is done on incomplte task
+            if (row.className === "incomplete") {
+                pseudoUpdateDeleteIncompleteTasks();
+            }
+
         });
 
         buttonContainer.appendChild(delete_button);
@@ -226,16 +232,26 @@ const psuedoUpdateCompletedTasks = () => {
 }
 
 /**
- * Decrements 1 from number of completed tasks for the statistics element
+ * Decrements 1 from number of incompleted tasks for the statistics element
  * 
- * @function psuedoUpdateDelete
+ * @function psuedoUpdateDeleteIncompleteTasks
  * @memberof DisplayTasks
  */
-const psuedoUpdateDelete = () => {
+const pseudoUpdateDeleteIncompleteTasks = () => {
+    const headerNumIncomplete = document.getElementById("tasks-to-go");
+    headerNumIncomplete.innerText = (Number(headerNumIncomplete.innerText.split(" ")[0]) - 1) + " more to go!";
+}
+
+/**
+ * Decrements 1 from number of completed tasks for the statistics element
+ * 
+ * @function psuedoUpdateDeleteCompleteTasks
+ * @memberof DisplayTasks
+ */
+const psuedoUpdateDeleteCompleteTasks = () => {
     const completeStats = document.querySelector("completed-statistics");
     const numTasks = completeStats.shadowRoot.getElementById("num-tasks");
     const headerNumCompleted = document.getElementById("tasks-completed");
-
     const completedTasks = Number(numTasks.innerText) - 1;
 
     // Updates dashboard and header counter respectively
