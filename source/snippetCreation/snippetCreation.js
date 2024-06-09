@@ -58,10 +58,12 @@ document.addEventListener('DOMContentLoaded', () => {
  * snippetCompleted("console.log(\"Hello\")", "JavaScript");
  */
 const snippetCompleted = (code, language) => {
+
+    // percents cause errors when URI encoding
+    const noPercentCode = code.replace(/%/g, '%25');
+
     fetch(
-        `/add-snippet?code=${
-            code.replaceAll(/'/g, "\\'")
-                .replaceAll(/\n/g, '\\\\n')}&language=${language}`,
+        `/add-snippet?code=${encodeURIComponent(noPercentCode)}&language=${language}`,
         { method: 'POST' }
     );
     psuedoUpdateSnippetCount();
@@ -125,16 +127,13 @@ function displaySnippets(snippets) {
         const pre = document.createElement('pre');
         const code = document.createElement('code');
         code.className = `language-${snippet.code_language.toLowerCase()}`
-        code.innerHTML = snippet.code
-            .replaceAll(/\\n/g, '\n')
-            .replaceAll(/</g, '&lt;')
-            .replaceAll(/>/g, '&gt;') // replace string literal with new lines
+        code.innerText = decodeURIComponent(snippet.code)
         
         pre.append(code);
         snippetText.appendChild(pre);
 
         // snippetText.textContent = snippet.code;
-        snippetText.setAttribute("value", `${snippet.code.replaceAll(/\\n/g, '\n')}`) // replace string literal with new lines
+        snippetText.setAttribute("value", decodeURIComponent(snippet.code)) // replace string literal with new lines
 
         snippetText.addEventListener("click", () => { copy(snippetText) });
 
