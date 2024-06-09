@@ -206,7 +206,7 @@
 }
 
 /* media query to hide snippet container for mobile devices */
-@media (max-width: 426px){
+@media (max-width: 768px){
   #snippet{
     display: none;
   }

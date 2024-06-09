@@ -92,7 +92,29 @@ class CompletedStatistics extends HTMLElement {
             
             #task-caption {
                 color: #2D2E2EB2;
-            }        
+            } 
+            
+            @media (max-width: 768px) {
+                
+                #svg-div {
+                    width: 40px;
+                    height: 40px;
+                }
+                
+                #svg-div svg {
+                    width: 30px;
+                    height: 30px;
+                }
+
+                #num-tasks {
+                    font-size: 20px;
+                }
+
+                #statistics-div {
+                    width: 100%;
+                }
+
+            }
         `;
 
         this.shadowRoot.appendChild(styles);

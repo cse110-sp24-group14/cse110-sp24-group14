@@ -76,3 +76,14 @@ h1 {
 .row-image {
     margin: 2px;
 }
+
+@media (max-width: 768px) {
+    #task-container {
+        width: 100%;
+    }
+
+    #task-container > table > tr {
+        
+        width: 80%;
+    }
+}
