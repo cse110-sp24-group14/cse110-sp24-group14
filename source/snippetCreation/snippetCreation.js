@@ -1,3 +1,5 @@
+/* global hljs */
+
 /**
  * Namespace for snippet creation functions
  * @namespace SnippetCreation
@@ -24,27 +26,47 @@ document.addEventListener('DOMContentLoaded', () => {
     const sidebar = document.querySelector("side-calendar");
     sidebar.addObserver(snippetObserver);
 
+    const code = document.getElementById('code-area')
+    const language = document.getElementById('language-select')
+    const snippetButton = document.querySelector('#snippet-form button');
+
+    code.addEventListener('input', () => {
+        validate(code, language, snippetButton);
+    })
+
+    language.addEventListener('change', () => {
+        validate(code, language, snippetButton);
+    })
+
     const snippetForm = document.getElementById('snippet-form');
     snippetForm.addEventListener('submit', (event) => {
         event.preventDefault();
-        const code = document.getElementById('code-input').value;
-        const language = document.getElementById('language-select').value;
-        snippetCompleted(code, language);
+        const codeText = code.innerHTML;
+        const languageChoice = language.value;
+        snippetCompleted(codeText, languageChoice);
+
         // Alert message
         let text = document.getElementById("alert");
         text.textContent = "Snippet added!";
-        if (text.classList.contains("fade-in")) {clearTimeout(ongoing);}    // if prev call in action: reset timer
-        else {text.classList.add("fade-in");}                               // else, create message
+        if (text.classList.contains("fade-in")) { // if prev call in action: reset timer
+            clearTimeout(ongoing);
+        } else { // else, create message
+            text.classList.add("fade-in");
+        }
+        
+        // Set time out to three seconds to account for the second the element fades in
         ongoing = setTimeout(function () {
             text.classList.remove("fade-in");
-        }, 2000); // Set time out to three seconds to account for the second the element fades in
+        }, 2000); 
+
+        document.getElementById("code-area").innerHTML = '';
 
         retrieve(sidebar.globalDate);
     });
 });
 
 /**
- * Create a POST request using fetch on the frontend
+ * Create a POST request using fetch on the frontend after cleaning up new lines and single quotes
  * 
  * @function snippetCompleted
  * @memberof SnippetCreation
@@ -57,7 +79,8 @@ document.addEventListener('DOMContentLoaded', () => {
  */
 const snippetCompleted = (code, language) => {
     fetch(
-        `/add-snippet?code=${code.replace(/'/g, "\\'")}&language=${language}`,
+        `/add-snippet?code=${code.replaceAll(/'/g, "\\'")
+            .replaceAll(/\n/g, '\\\\n')}&language=${language}`,
         { method: 'POST' }
     );
     psuedoUpdateSnippetCount();
@@ -111,19 +134,32 @@ function displaySnippets(snippets) {
         // Code Snippet
         const snippetText = document.createElement('button');
         snippetText.className = "snippet-button";
-        snippetText.textContent = snippet.code;
-        snippetText.setAttribute("value", `${snippet.code}`)
-
-        snippetText.addEventListener("click", () => { copy(snippetText) });
 
         // Language
         const snippetType = document.createElement('p');
         snippetType.className = 'snippet-type';
-        snippetType.textContent = snippet.code_language;
+        snippetType.innerHTML = snippet.code_language;
+
+        // Add pre code for snippet highlighting
+        const pre = document.createElement('pre');
+        const code = document.createElement('code');
+        code.className = `language-${snippet.code_language.toLowerCase()}`
+        code.innerHTML = snippet.code
+            .replaceAll(/\\n/g, '\n')
+            .replaceAll(/</g, '&lt;')
+            .replaceAll(/>/g, '&gt;') // replace string literal with new lines
+
+        pre.append(code);
+        snippetText.appendChild(pre);
+
+        // snippetText.textContent = snippet.code;
+        snippetText.setAttribute("value", `${snippet.code.replaceAll(/\\n/g, '\n')}`) // replace string literal with new lines
+
+        snippetText.addEventListener("click", () => { copy(snippetText) });
 
         // Add box to container
+        snippetBox.appendChild(snippetType);
         snippetBox.appendChild(snippetText);
-        snippetBox.appendChild(snippetType);    
         container.appendChild(snippetBox);
     });
 }
@@ -142,6 +178,7 @@ function displaySnippets(snippets) {
 async function retrieve(date) {
     const snippets = await fetchSnippets(date.toISOString().slice(0, 10));
     displaySnippets(snippets);
+    hljs.highlightAll(); // highlights based on language
 }
 
 /**
@@ -156,7 +193,6 @@ function psuedoUpdateSnippetCount() {
     numSnippets.innerText = Number(numSnippets.innerText) + 1;
 }
 
-// Copies a copy snippet's text to the user's clipboard
 let ongoing;    // define a global variable to access timeout on separate function call
 /**
  * Copies a copy snippet's text to the user's clipboard
@@ -172,9 +208,26 @@ function copy(button) {
     // Alert message
     let text = document.getElementById("alert");
     text.textContent = "Copied to clipboard!";
-    if (text.classList.contains("fade-in")) {clearTimeout(ongoing);}    // if prev call in action: reset timer
-    else {text.classList.add("fade-in");}                               // else, create message
+    if (text.classList.contains("fade-in")) { clearTimeout(ongoing); }    // if prev call in action: reset timer
+    else { text.classList.add("fade-in"); }                               // else, create message
     ongoing = setTimeout(function () {
         text.classList.remove("fade-in");
     }, 2000); // Set time out to three seconds to account for the second the element fades in
+}
+
+/**
+ * Validates whether the user input is valid to submit or not
+ * 
+ * @function validate
+ * @memberof SnippetCreation
+ * @param {HTMLElement} code - editable code area element
+ * @param {HTMLElement} language - language selector element
+ * @param {HTMLElement} button - button that submits the form
+ */
+function validate(code, language, button) {
+    if (code.innerText === '' || language.value === '') {
+        button.disabled = true;
+    } else {
+        button.disabled = false;
+    }
 }

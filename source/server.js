@@ -135,7 +135,7 @@ const fetchVisits = (callback) => {
 };
 
 /**
- * Gets tasks for the current month you are at
+ *  * Gets tasks which are not completed for the current month you are at
  *
  * @function fetchTasksDue
  * @memberof Server
@@ -148,7 +148,7 @@ const fetchVisits = (callback) => {
  * fetchTasksDue(2022, 6, callback);
  */
 const fetchTasksDue = (year, month, callback) => {
-    const sqlQuery = 'SELECT * FROM Tasks WHERE YEAR(due_date) = ? AND MONTH(due_date) = ?';
+    const sqlQuery = 'SELECT * FROM Tasks WHERE YEAR(due_date) = ? AND MONTH(due_date) = ? AND completed = 0';
     console.log('Executing query:', sqlQuery, 'with parameters:', year, month);
     connection.execute(sqlQuery, [year, month], (error, results) => {
         if (error) {
@@ -442,7 +442,7 @@ export const server = http.createServer((req, res) => {
                 res.end(JSON.stringify(snippets));
             }
         });
-    } else if (req.url === '/' && req.method === 'GET') {
+    } else if (pathname === '/' && req.method === 'GET') {
         console.log('Home page accessed');
         addStreaks((err, results) => {
             if (err) {

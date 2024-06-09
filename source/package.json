@@ -25,6 +25,7 @@
     "verbose": true
   },
   "dependencies": {
+    "highlight.js": "^11.9.0",
     "jsdoc": "^4.0.3",
     "mysql2": "^3.9.7",
     "puppeteer": "^22.10.0",
