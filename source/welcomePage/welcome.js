@@ -61,6 +61,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     document.querySelector(".to-do .value").innerHTML = tasks_todo;
     document.querySelector(".completed .value").innerHTML = tasks_complete;
     document.querySelector(".streak .value").innerHTML = streaks;
+    document.querySelector(".snippet .value").innerHTML = num_snippets;
   } catch (error) {
     console.log(error);
   }
