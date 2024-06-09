@@ -8,6 +8,7 @@ function init() {
     const dueDateForm = document.getElementById('dueDateForm');
     const priorityForm = document.getElementById('priorityForm');
     const sidebar = document.querySelector("side-calendar");
+    const headerNumIncomplete = document.getElementById("tasks-to-go");
 
     let taskTitle = '';
     let due_date = '';
@@ -72,6 +73,7 @@ function init() {
             .then(data => {
                 alert(data.message);
                 sidebar.setGlobalDate(sidebar.globalDate); // Re-trigger date update
+                headerNumIncomplete.innerText = (Number(headerNumIncomplete.innerText.split(" ")[0]) + 1) + " more to go!";
             })
             .catch((error) => {
                 console.error('Error:', error);
