@@ -3,11 +3,54 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+        <link rel="stylesheet" href="../header/header.css">
+        <link rel="stylesheet" href="fullCalendar.css">
         <script src="./fullCalendar.js"></script>
+        <script src="../sideCalendar/sideCalendar.js"></script>
+        <script src="fullCalendar/fullCalendar_interaction.js"></script>
+
     </head>
     <body>
-        <!-- Full-sized Calendar --> 
-        <full-calendar></full-calendar>
+      <header>
+         <img src="../header/assets/Logo.svg" alt="team logo" class="logo">  
+   
+         <div class="header-content">
+   
+            <div class="stat-container">
+               <div class="stat">
+                  <img src="../header/assets/Fire.svg" alt="Streak fire">
+                  <div class="stat-text">
+                     <p class="header-stat" id="streak-days">31 days streak</p>
+                     <p class="stat-caption" id="streak-caption">You are on fire!</p>
+                  </div>
+               </div>
+   
+               <div class="stat">
+                  <p id="check">✅</p>
+                  <div class="stat-text">
+                     <p class="header-stat" id="tasks-completed">20 tasks completed</p>
+                     <p class="stat-caption" id="tasks-to-go">7 tasks to go</p>
+                  </div>
+               </div>
+            </div>
+   
+            <div class="menu">
+               <a href="#">Support</a>
+               <a href="#">Settings</a>
+               <img src="../header/assets/Account.svg" alt="Person icon" class="profile-icon">
+            </div>
+   
+         </div>
+   
+      </header>
+      <main>
+         <side-calendar></side-calendar>
+         
+         <!-- Full-sized Calendar --> 
+         <full-calendar class="calendar"></full-calendar>
+
+      </main>
+
+
     </body>
 </html>

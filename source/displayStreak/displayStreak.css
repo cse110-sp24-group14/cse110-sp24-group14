@@ -1,0 +1,51 @@
+#streak-container {
+    display: flex;
+    flex-direction: column;
+    background-color: #F6F6F6;
+    border-radius: 12px;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+
+    font-family: "verdana", sans-serif;
+    min-width: 100px;
+    min-height: 90px;
+    padding: 5px 0px;
+
+}
+
+#streak-container > p {
+    margin-bottom: 15px;
+    margin-top: 0px;
+    color: #2D2E2E;
+
+    font-size: 24px;
+    font-weight: 600;
+}
+
+#streak-indicator {
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    height: 80px;
+}
+
+#streak-indicator > * > * {
+    padding: 0px;
+    margin: 0px;
+    min-height: 40px;
+    max-width: 40px;
+}
+
+#streak-indicator > * > p{
+    color: #2D2E2E;
+    opacity: 70%;
+}
+
+.not-streak{
+    filter: grayscale(1);
+}

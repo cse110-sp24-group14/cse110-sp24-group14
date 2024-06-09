@@ -1,0 +1,152 @@
+
+
+.taskbox {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    background-color: #fff;
+    border: 2.5px solid #cccccc92;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    position: relative;
+    box-sizing: border-box;
+    padding: 10px;
+}
+
+#taskInput {
+    border: none;
+    padding: 10px;
+    flex-grow: 1;
+    font-size: 16px;
+    outline: none;
+    width: 100%;
+    height: 100px;
+    height: 100px;
+    resize: none;
+    box-sizing: border-box;
+}
+
+.editable-div:empty:before {
+    content: attr(placeholder);
+    color: #bbb;
+}
+
+
+.taskbox button {
+    background-color: rgb(1, 64, 1);
+    border: none;
+    padding: 3px;
+    cursor: pointer;
+    outline: none;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    border-radius: 10%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    transition: 0.3s;
+}
+
+.taskbox button img {
+    width: 24px;
+    height: 24px;
+}
+
+.taskbox button:hover {
+    background-color: rgb(0, 100, 0); /* Lighter green color */
+}
+
+.taskbox button:active {
+    background-color: rgb(0, 128, 0); /* Darker green color for pressed effect */
+    box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.2); /* Pressed down effect */
+}
+
+.taskbox button:disabled {
+    background-color: rgb(173, 16, 37);
+}
+
+.taskbox button:disabled:hover {
+    background-color: rgb(173, 16, 37);
+}
+
+.task-command {
+    display: inline-block;
+    background-color: lightblue;
+    border-radius: 12px;
+    padding: 2px 6px;
+}
+
+.popup-form {
+    display: none;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    z-index: 999;
+}
+
+.popup-form form {
+    display: flex;
+    flex-direction: column;
+}
+
+.popup-form form label,
+.popup-form form input,
+.popup-form form button {
+    margin: 5px 0;
+}
+
+.info {
+    font-size: 20px;
+    width: fit-content;
+    margin-left: 5px;
+    padding-right: 5px;
+    border-radius: 15px;
+
+    display: flex;
+    flex-direction: row;
+
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.info:hover {
+    background-color: #2D2E2E;
+}
+
+.extra-info {
+    display: none;
+    font-size: 12px;
+    color: white;
+    height: 100%;
+
+    margin-left: 2px;
+}
+
+.info:hover .extra-info {
+    display: block;
+}
+
+.icon-info-sign {
+    width: 20px;
+    height: 20px;
+    
+    font-size: 20px;
+    line-height: 20px;
+    text-align: center;
+
+    border-radius: 50%;
+    background-color: #78ADC1;
+    color: white;
+    cursor: help;
+    font-weight: bold;
+}
+

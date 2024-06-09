@@ -9,7 +9,8 @@ CREATE TABLE Tasks (
     due_date DATE,
     completed BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    priority_tag ENUM('urgent', 'medium', 'deferred') NOT NULL DEFAULT 'deferred'
 );
 
 INSERT INTO Tasks (title, due_date)
@@ -17,7 +18,18 @@ VALUES
 ('Buy groceries', '2024-05-22'),
 ('Prepare presentation', '2024-05-19'),
 ('Fix bug #1234', '2024-05-20'),
-('Plan team meeting', '2024-05-25');
+('Plan team meeting', '2024-05-31'),
+('Task 1', '2024-05-31'),
+('Task 2', '2024-05-31'),
+('Task 3', '2024-05-31');
+
+
+INSERT INTO Tasks (title, due_date, completed)
+VALUES 
+('Buy groceries', '2024-05-22', TRUE),
+('Task 4', '2024-05-31', TRUE),
+('Task 5', '2024-05-31', TRUE),
+('Task 6', '2024-05-31', TRUE);
 
 
 CREATE TABLE Tags (
@@ -71,4 +83,15 @@ INSERT INTO SiteVisits (visit_date) VALUES
     ('2024-05-21'),
     ('2024-05-22'),
     ('2024-05-24'),
+    ('2024-06-02'),
+    ('2024-06-01'),
+    ('2024-05-31'),
+    ('2024-06-04'),
+    ('2024-06-03'),
     ('2024-05-25');
+
+CREATE TABLE Snippets (
+    code TEXT NOT NULL,
+    code_language VARCHAR(50) NOT NULL,
+    created_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
