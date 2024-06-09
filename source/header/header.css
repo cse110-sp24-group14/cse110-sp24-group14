@@ -9,6 +9,7 @@ header {
 
 .logo {
     margin-left: 25px;
+    width: 60px;
 }
 
 .header-content {
@@ -78,6 +79,9 @@ header {
     background-color: #234654;
     padding: 12px;
     border-radius: 50%;
+
+    width: 25px;
+    height: 25px;
 }
 
 /* tablet css */
