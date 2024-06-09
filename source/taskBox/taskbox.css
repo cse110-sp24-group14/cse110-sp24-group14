@@ -103,6 +103,16 @@
     opacity: 0 !important;
 }
 
+#closeButton {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    cursor: pointer;
+
+    font-size: 20px;
+    font-weight: bolder;
+}
+
 .popup-form form {
     display: flex;
     flex-direction: column;

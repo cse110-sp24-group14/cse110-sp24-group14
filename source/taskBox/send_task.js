@@ -3,10 +3,14 @@ window.addEventListener('DOMContentLoaded', init);
 function init() {
     const taskButton = document.getElementById('sendTask');
     const taskInput = document.getElementById('taskInput');
+    const closeButton = document.getElementById('closeButton');
     const popupForm = document.getElementById('popupForm');
     const dueDateForm = document.getElementById('dueDateForm');
     const sidebar = document.querySelector("side-calendar");
     const status = document.getElementById('taskStatus');
+
+    const dueInput = document.getElementById('dueDate')
+    const priorityInput = document.getElementById('priority')
 
     let taskTitle = '';
     let due_date = '';
@@ -43,13 +47,24 @@ function init() {
         formTaskTitle.innerHTML = taskTitle;
     });
 
+    closeButton.addEventListener('click', () => {
+        popupForm.classList.add('hidden');
+
+        // reset date input
+        dueInput.value = '';
+
+        // reset selection input
+        priorityInput.selectedIndex = 0;
+
+        // disable button again
+        taskButton.disabled = true;
+    })
+
     //once the date popup form is finished submit it will show the priority form
     dueDateForm.addEventListener('submit', (event) => {
         event.preventDefault();
-        const dueInput = document.getElementById('dueDate')
-        due_date = dueInput.value;
 
-        const priorityInput = document.getElementById('priority')
+        due_date = dueInput.value;
         const priority = priorityInput.value;
 
         const data = {
