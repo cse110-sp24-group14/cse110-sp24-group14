@@ -101,15 +101,6 @@
       </article>
    </main>
 
-   <h1>Add Task</h1>
-    <form id="taskForm">
-        <label for="title">Title:</label>
-        <input type="text" id="title" name="title" required><br><br>
-        <label for="due_date">Due Date:</label>
-        <input type="date" id="due_date" name="due_date" required><br><br>
-        <button type="submit">Add Task</button>
-    </form>
-
     <script>
         document.getElementById('taskForm').addEventListener('submit', function(event) {
             event.preventDefault();
@@ -172,20 +163,6 @@
          }
          fetchTasks()
     </script> -->
-  
-    <!--text box on the bottom, with the send button-->
-     <div class="taskbox">
-      <div class="info">
-         <span class="icon-info-sign">i</span>
-         <span class="extra-info">Add any tasks using the /task tag</span>
-      </div>
-        <textarea id="taskInput" placeholder="What would you like to do today?"></textarea>
-        <button class="add-task" type="button" id="sendTask">
-           <svg width = "24" height = "24" viewBox = "0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M2 21L23 12L2 3V10L17 12L2 14V21Z" fill="white" ></path>
-           </svg>
-        </button>
-     </div>
 
    <div id="snippet">
       <h1>Snippets</h1>
