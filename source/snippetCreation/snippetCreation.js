@@ -83,7 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
  * // add snippet "console.log("Hello")" in javascript
  * snippetCompleted("console.log(\"Hello\")", "JavaScript");
  */
-const snippetCompleted = (code, language) => {
+const snippetCompleted = (code, language, date) => {
 
     // percents and single quotes cause errors when URI encoding
     const noPercentCode = code.replace(/%/g, '%25').replaceAll(/'/g, "\\'");
