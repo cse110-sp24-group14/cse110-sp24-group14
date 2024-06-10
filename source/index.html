@@ -25,16 +25,32 @@
 
    <link rel="stylesheet" href="https://unpkg.com/@highlightjs/cdn-assets@11.7.0/styles/github.min.css" />
    <script src="https://unpkg.com/@highlightjs/cdn-assets@11.7.0/highlight.min.js"></script>
+
+   <!--"icon-info-sign" displays "extra-info" when tabbed on-->
+   <script>
+      document.addEventListener('DOMContentLoaded', () => {
+          const infoSign = document.querySelector('.icon-info-sign');
+          const infoContainer = document.querySelector('.info');
+
+          infoSign.addEventListener('focus', () => {
+              infoContainer.classList.add('focus');
+          });
+
+          infoSign.addEventListener('blur', () => {
+              infoContainer.classList.remove('focus');
+          });
+      });
+  </script>
 </head>
 
 <body>
    <header>
-      <img src="header/assets/Logo.svg" alt="team logo" class="logo">
+      <img src="header/assets/Logo.svg" alt="team logo" class="logo" tabindex="0">
 
       <div class="header-content">
 
          <div class="stat-container">
-            <div class="stat">
+            <div class="stat" tabindex="0">
                <img src="./header/assets/Fire.svg" alt="Streak fire">
                <div class="stat-text">
                   <p class="header-stat" id="header-streak-days"></p>
@@ -42,7 +58,7 @@
                </div>
             </div>
 
-            <div class="stat">
+            <div class="stat" tabindex="0">
                <p id="check">✅</p>
                <div class="stat-text">
                   <p class="header-stat" id="tasks-completed"></p>
@@ -52,8 +68,8 @@
          </div>
 
          <div class="menu">
-            <a href="about/about.html">About Us</a>
-            <img src="header/assets/Account.svg" alt="Person icon" class="profile-icon">
+            <a href="about/about.html" tabindex="0">About Us</a>
+            <img src="header/assets/Account.svg" alt="Person icon" class="profile-icon" tabindex="0">
          </div>
 
       </div>
@@ -61,14 +77,14 @@
    </header>
 
    <main>
-      <side-calendar></side-calendar>
+      <side-calendar tabindex="0"></side-calendar>
       <section>
 
          <div id="main-display">
 
             <div id="task-container">
                <h1></h1>
-               <table id="task-table"></table>
+               <table id="task-table" tabindex="0"></table>
             </div>
             <div id="snippet-and-stats">
                <div id="snippet">
