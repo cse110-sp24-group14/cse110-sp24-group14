@@ -14,11 +14,15 @@ window.addEventListener('DOMContentLoaded', init);
 function init() {
     const taskButton = document.getElementById('sendTask');
     const taskInput = document.getElementById('taskInput');
+    const closeButton = document.getElementById('closeButton');
     const popupForm = document.getElementById('popupForm');
-    const priorityPopupForm = document.getElementById('priorityPopupForm');
     const dueDateForm = document.getElementById('dueDateForm');
-    const priorityForm = document.getElementById('priorityForm');
     const sidebar = document.querySelector("side-calendar");
+    const status = document.getElementById('taskStatus');
+
+    const dueInput = document.getElementById('dueDate')
+    const priorityInput = document.getElementById('priority')
+    
     const headerNumIncomplete = document.getElementById("tasks-to-go");
 
     let taskTitle = '';
@@ -37,7 +41,7 @@ function init() {
             // Extracted task
             const commandText = match[1];
             const titleText = match[2];
-            
+
             taskInput.innerHTML = `<span class="task-command">${commandText}</span> ${titleText.trimStart()}`;
             moveCaretToEnd(taskInput);
             taskTitle = titleText;
@@ -67,24 +71,32 @@ function init() {
     //once click send , it will triger the popup Form
     taskButton.addEventListener('click', () => {
         taskInput.innerHTML = ''; // Clear the text area
-        popupForm.style.display = 'block';
+        popupForm.classList.remove('hidden');
+
+        const formTaskTitle = document.getElementById('taskTitle');
+        formTaskTitle.innerHTML = taskTitle;
     });
+
+    closeButton.addEventListener('click', () => {
+        popupForm.classList.add('hidden');
+
+        // reset date input
+        dueInput.value = '';
+
+        // reset selection input
+        priorityInput.selectedIndex = 0;
+
+        // disable button again
+        taskButton.disabled = true;
+    })
 
     //once the date popup form is finished submit it will show the priority form
     dueDateForm.addEventListener('submit', (event) => {
         event.preventDefault();
-        due_date = document.getElementById('dueDate').value;
-        // Hide the popup form and show the priority form
-        popupForm.style.display = 'none';
-        priorityPopupForm.style.display = 'block';
-    });
 
-    //once the priority popup form is finished submit it will POST the task
-    priorityForm.addEventListener('submit', (event) => {
-        event.preventDefault();
+        due_date = dueInput.value;
+        const priority = priorityInput.value;
 
-        const priority = document.getElementById('priority').value;
-        console.log(priority);
         const data = {
             title: taskTitle,
             due_date: due_date,
@@ -99,7 +111,16 @@ function init() {
         })
             .then(response => response.json())
             .then(data => {
-                alert(data.message);
+                popupForm.classList.add('hidden');
+                
+                status.classList.remove('hidden');
+
+                if (data.message === undefined) {
+                    status.innerHTML = "Adding task error! Please try again.";
+                } else {
+                    status.innerHTML = data.message;
+                }
+
                 sidebar.setGlobalDate(sidebar.globalDate); // Re-trigger date update
                 headerNumIncomplete.innerText = (Number(headerNumIncomplete.innerText.split(" ")[0]) + 1) + " more to go!";
             })
@@ -107,12 +128,22 @@ function init() {
                 console.error('Error:', error);
             });
 
-        // Hide the priority form and reset the task title and due date
-        priorityPopupForm.style.display = 'none';
-        taskTitle = '';
-        due_date = '';
-        // disable button again
-        taskButton.disabled = true;
+
+        setTimeout(() => {
+            // Hide the popup form and reset the task title and due date
+            status.classList.add('hidden');
+            taskTitle = '';
+            due_date = '';
+            
+            // reset date input
+            dueInput.value = '';
+
+            // reset selection input
+            priorityInput.selectedIndex = 0;
+
+            // disable button again
+            taskButton.disabled = true;
+        }, 1000)
     });
 
     /**
