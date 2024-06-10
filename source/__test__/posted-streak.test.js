@@ -11,7 +11,9 @@ describe('Testing the addStreaks function', () => {
     /**
      * Function to add a site visit streak
      * 
-     * @param {Function} callback callback function to handle the results
+     * @function addStreaks
+     * @memberof UnitTests
+     * @param {function} callback callback function to handle the results
      */
     const addStreaks = (callback) => {
         // First, check if there's already a visit for today

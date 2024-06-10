@@ -8,8 +8,8 @@ describe('Testing the delete task SQL query', () => {
      * Queries and tests deleting specified task
      * 
      * @param {number} int - id of the task to be updated
-     * @param {Function} done - callback function to end async tests
-     * @param {Number} actual - actual count of completed tasks in database 
+     * @param {function} done - callback function to end async tests
+     * @param {number} actual - actual count of completed tasks in database 
      */
     const queryDeleteTask = (id, done, actual) => {
 
