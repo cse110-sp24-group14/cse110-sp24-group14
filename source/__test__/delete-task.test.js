@@ -34,7 +34,7 @@ describe('Testing the delete task SQL query', () => {
             FROM Tasks
         `
 
-        db.get(sqlQuery, (err, _) => {
+        db.get(sqlQuery, (err) => {
             if (err) {
                 done(err);
             } else {
