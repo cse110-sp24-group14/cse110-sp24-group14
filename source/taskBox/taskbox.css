@@ -122,6 +122,17 @@
     background-color: #2D2E2E;
 }
 
+/*Added to handle when info icon tabbed*/
+.info:focus-within {
+    background-color: #2D2E2E;
+    width: 200px;
+    text-align: left !important;
+}
+
+.info:focus-within .extra-info {
+    display: block;
+}
+
 .extra-info {
     display: none;
     font-size: 12px;
