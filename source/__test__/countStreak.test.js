@@ -3,8 +3,6 @@ import { expect, describe, test } from '@jest/globals';
 /**
  * Counts the consecutive days given an array of dates
  * 
- * @function countStreak
- * @memberof UnitTests
  * @param {string[]} daysArr - array of all dates user visited the page
  * @returns {number} consecutiveDays - the number of consecutive days visited
  * 

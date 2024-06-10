@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - staging
-      - edward/async-jest-fails
 
 jobs:
   deploy:

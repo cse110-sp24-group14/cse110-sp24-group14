@@ -7,8 +7,6 @@ describe('Testing update completed SQL query', () => {
     /**
      * Queries and tests updating the completed state of tasks
      * 
-     * @function queryUpdateCompleted
-     * @memberof UnitTests
      * @param {number} int - id of the task to be updated
      * @param {boolean} completed - state of completed to update to
      * @param {function} done - callback function to end async tests

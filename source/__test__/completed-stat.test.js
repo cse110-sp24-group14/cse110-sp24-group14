@@ -1,8 +1,3 @@
-/**
- * Namespace for all unit tests
- * @namespace UnitTests
- */
-
 import sqlite3 from 'sqlite3';
 
 describe('Testing the completed statistic SQL query', () => {
@@ -12,8 +7,6 @@ describe('Testing the completed statistic SQL query', () => {
     /**
      * Queries and tests the number of completed tasks in database
      * 
-     * @function queryCompletedCount
-     * @memberof UnitTests
      * @param {function} done - callback function to end async tests
      * @param {number} actual - actual count of completed tasks in database 
      * 
