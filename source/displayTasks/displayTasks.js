@@ -352,9 +352,11 @@ window.addEventListener("DOMContentLoaded", () => {
             }
         }
     }();
-
-    taskObserver.update(new Date()); // initial load date
-
+    
     const sidebar = document.querySelector("side-calendar");
+
+    taskObserver.update(sidebar.globalDate); // initial load date
+
+    
     sidebar.addObserver(taskObserver);
 })
