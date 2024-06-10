@@ -30,7 +30,7 @@ function init() {
             taskInput.innerHTML = `<span class="task-command">${commandText}</span> ${titleText.trimStart()}`;
             moveCaretToEnd(taskInput);
             taskTitle = titleText;
-            
+
         } else if (match) {
 
             taskButton.disabled = false;
@@ -115,85 +115,85 @@ function init() {
         sel.addRange(range);
     }
 
-/**
- * Returns the current cursor position
- *
- * @param {HTMLElement} el - The element to save the cursor position from
- * @returns {number} - The index of the cursor position within the element's text
- */
-function saveCursorPosition(el) {
-
-    // Gets the user's selection
-    const selection = window.getSelection();
-
-    const range = selection.getRangeAt(0);
-    const preSelectionRange = range.cloneRange();
-
-    // Select the text content
-    preSelectionRange.selectNodeContents(el);
-
-    /* Sets the end of the range to be at the cursor position
-     * preSelectionRange is the beginning of the text to the cursor position 
+    /**
+     * Returns the current cursor position
+     *
+     * @param {HTMLElement} el - The element to save the cursor position from
+     * @returns {number} - The index of the cursor position within the element's text
      */
-    preSelectionRange.setEnd(range.startContainer, range.startOffset);
+    function saveCursorPosition(el) {
 
-    // The length represents the index position
-    return preSelectionRange.toString().length;
-}
+        // Gets the user's selection
+        const selection = window.getSelection();
 
-/**
- * Sets the cursor's position in an element
- *
- * @param {HTMLElement} el - The element to restore the cursor position to
- * @param {number} savedPosition - The index of the cursor position within the element's text
- */
-function restoreCursorPosition(el, savedPosition) {
+        const range = selection.getRangeAt(0);
+        const preSelectionRange = range.cloneRange();
 
-    const selection = window.getSelection();
-    const range = document.createRange();
+        // Select the text content
+        preSelectionRange.selectNodeContents(el);
 
-    // Start the range at the beginning of the element's text
-    range.setStart(el, 0);
-    range.collapse(true);
+        /* Sets the end of the range to be at the cursor position
+        * preSelectionRange is the beginning of the text to the cursor position 
+        */
+        preSelectionRange.setEnd(range.startContainer, range.startOffset);
 
-    // Use a stack to traverse the text nodes
-    let nodeStack = [el], node, charIndex = 0, foundStart = false, stop = false;
-
-    // Traverse all the nodes in the element until we find the saved cursor position.
-    while (!stop && (node = nodeStack.pop())) {
-        if (node.nodeType === 3) { // Check node is text
-
-            // Calculate one character over
-            const nextCharIndex = charIndex + node.length;
-            
-            // If we find the cursor position
-            if (!foundStart && savedPosition >= charIndex && savedPosition <= nextCharIndex) {
-
-                // Set the start of the range to the saved cursor position
-                range.setStart(node, savedPosition - charIndex);
-                range.collapse(true);
-                foundStart = true;
-                stop = true;
-            }
-
-            // Move to the next character
-            charIndex = nextCharIndex;
-
-        } else {
-
-            // If the node is not a text node, add its children to the stack
-            let i = node.childNodes.length;
-            while (i--) {
-                nodeStack.push(node.childNodes[i]);
-            }
-
-        }
+        // The length represents the index position
+        return preSelectionRange.toString().length;
     }
 
-    selection.removeAllRanges();
+    /**
+     * Sets the cursor's position in an element
+     *
+     * @param {HTMLElement} el - The element to restore the cursor position to
+     * @param {number} savedPosition - The index of the cursor position within the element's text
+     */
+    function restoreCursorPosition(el, savedPosition) {
 
-    // Set the current cursor selection to the cursor range
-    selection.addRange(range);
-}
+        const selection = window.getSelection();
+        const range = document.createRange();
+
+        // Start the range at the beginning of the element's text
+        range.setStart(el, 0);
+        range.collapse(true);
+
+        // Use a stack to traverse the text nodes
+        let nodeStack = [el], node, charIndex = 0, foundStart = false, stop = false;
+
+        // Traverse all the nodes in the element until we find the saved cursor position.
+        while (!stop && (node = nodeStack.pop())) {
+            if (node.nodeType === 3) { // Check node is text
+
+                // Calculate one character over
+                const nextCharIndex = charIndex + node.length;
+                
+                // If we find the cursor position
+                if (!foundStart && savedPosition >= charIndex && savedPosition <= nextCharIndex) {
+
+                    // Set the start of the range to the saved cursor position
+                    range.setStart(node, savedPosition - charIndex);
+                    range.collapse(true);
+                    foundStart = true;
+                    stop = true;
+                }
+
+                // Move to the next character
+                charIndex = nextCharIndex;
+
+            } else {
+
+                // If the node is not a text node, add its children to the stack
+                let i = node.childNodes.length;
+                while (i--) {
+                    nodeStack.push(node.childNodes[i]);
+                }
+
+            }
+        }
+
+        selection.removeAllRanges();
+
+        // Set the current cursor selection to the cursor range
+        selection.addRange(range);
+    }
 
 }
