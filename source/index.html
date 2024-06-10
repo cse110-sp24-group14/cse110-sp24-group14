@@ -5,23 +5,23 @@
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-   <link rel="stylesheet" href="index.css">
-   <link rel="stylesheet" href="header/header.css">
-   <link rel="stylesheet" href="snippetCreation/snippetCreation.css">
-   <script src="sideCalendar/sideCalendar.js"></script>
-   <script src="snippetCreation/snippetCreation.js"></script>
-   <script src="taskCompleted/taskCompleted.js"></script>
-   <script src="snippetDisplay/snippetDisplay.js"></script>
+   <link rel="stylesheet" href="./index.css">
+   <link rel="stylesheet" href="./header/header.css">
+   <link rel="stylesheet" href="./snippetCreation/snippetCreation.css">
+   <script src="./sideCalendar/sideCalendar.js"></script>
+   <script src="./snippetCreation/snippetCreation.js"></script>
+   <script src="./taskCompleted/taskCompleted.js"></script>
+   <script src="./snippetDisplay/snippetDisplay.js"></script>
+   
+   <script src="./displayTasks/displayTasks.js"></script>
+   <link rel="stylesheet" href="./displayTasks/displayTasks.css">
 
-   <script src="displayTasks/displayTasks.js"></script>
-   <link rel="stylesheet" href="displayTasks/displayTasks.css">
-
-   <script src="displayStreak/displayStreak.js"></script>
-   <link rel="stylesheet" href="displayStreak/displayStreak.css">
+   <script src="./displayStreak/displayStreak.js"></script>
+   <link rel="stylesheet" href="./displayStreak/displayStreak.css">
 
    <!--taskbox script and stylesheet -->
-   <link rel="stylesheet" href="taskBox\taskbox.css" />
-   <script src="taskBox\send_task.js"></script>
+   <link rel="stylesheet" href="./taskBox\taskbox.css" />
+   <script src="./taskBox\send_task.js"></script>
 
    <link rel="stylesheet" href="https://unpkg.com/@highlightjs/cdn-assets@11.7.0/styles/github.min.css" />
    <script src="https://unpkg.com/@highlightjs/cdn-assets@11.7.0/highlight.min.js"></script>
@@ -52,8 +52,8 @@
          </div>
 
          <div class="menu">
-            <a href="about/about.html">About Us</a>
-            <img src="header/assets/Account.svg" alt="Person icon" class="profile-icon">
+            <a href="about/about.html" tabindex="0">About Us</a>
+            <img src="header/assets/Account.svg" alt="Person icon" class="profile-icon" tabindex="0">
          </div>
 
       </div>
@@ -74,15 +74,15 @@
                <div id="snippet">
                   <h1>Snippets</h1>
                   <ul id="snippet-container"></ul>
-                  <select id="language-select" name="language" required>
+                  <select id="language-select" name="language" required tabindex="0">
                      <option value="">Select Language</option>
                      <option value="JavaScript">JavaScript</option>
                      <option value="HTML">HTML</option>
                      <option value="CSS">CSS</option>
                   </select>
                   <form id="snippet-form">
-                     <div id="code-area" contenteditable="plaintext-only" class="editable-div" placeholder="Add code here"></div>
-                     <button disabled type="submit">
+                     <div id="code-area" contenteditable="plaintext-only" class="editable-div" placeholder="Add code here" tabindex="0"></div>
+                     <button disabled type="submit" tabindex="0">
                         <img src="taskBox/sendTask.png" alt="Send" />
                         <span class="invalid-tip">Input both text AND language!</span>
                      </button>
@@ -103,35 +103,34 @@
          <!--text box on the bottom, with the send button-->
          <div class="taskbox">
             <div class="info">
-               <span class="icon-info-sign">i</span>
+               <span class="icon-info-sign" tabindex="0">i</span>
                <span class="extra-info">Add any tasks using the /task tag</span>
             </div>
-            <div id="taskInput" contenteditable="true" class="editable-div" placeholder="What would you like to do today?"></div>
-            <button disabled class="add-task" type="button" id="sendTask">
+            <div id="taskInput" contenteditable="true" class="editable-div" placeholder="What would you like to do today?" tabindex="0"></div>
+            <button disabled class="add-task" type="button" id="sendTask" tabindex="0">
                <img src="taskBox/sendTask.png" alt="Send" />
                <span class="invalid-tip">No /task found!</span>
             </button>
          </div>
 
-         <div id="popupForm" class="popup-form">
+         <div id="popupForm" class="popup-form hidden" tabindex="0">
+            <div id="closeButton">x</div>
             <form id="dueDateForm">
+               <strong>Adding Task:</strong>
+               <p id="taskTitle"></p>
                <label for="dueDate">Due Date:</label>
                <input type="date" id="dueDate" name="dueDate" required>
-               <button type="submit">Submit</button>
-            </form>
-        </div>
 
-        <div id="priorityPopupForm" class="popup-form">
-            <form id="priorityForm">
-                <label for="priority">Priority:</label>
+               <label for="priority">Priority:</label>
                 <select id="priority" name="priority" required>
                     <option value="1">Urgent</option>
                     <option value="2">Medium</option>
                     <option value="3">Deferred</option>
                 </select>
-                <button type="submit">Submit</button>
+                <button type="submit" tabindex="0">Submit</button>
             </form>
-         </div>
+        </div>
+        <div id="taskStatus" class="hidden">Task added successfully</div>
       </article>
    </main>
 

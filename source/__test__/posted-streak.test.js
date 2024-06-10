@@ -11,7 +11,7 @@ describe('Testing the addStreaks function', () => {
     /**
      * Function to add a site visit streak
      * 
-     * @param {Function} callback callback function to handle the results
+     * @param {function} callback callback function to handle the results
      */
     const addStreaks = (callback) => {
         // First, check if there's already a visit for today
@@ -22,7 +22,6 @@ describe('Testing the addStreaks function', () => {
                 callback(checkError);
             } else if (checkResult) {
                 // If a record for today exists, do nothing (or handle as needed)
-                console.log('Record already exists for today');
                 callback(null, { message: 'Visit already recorded for today' });
             } else {
                 // If no record for today exists, insert a new record
@@ -59,7 +58,6 @@ describe('Testing the addStreaks function', () => {
             // Verify the new record
             db.get('SELECT * FROM SiteVisits WHERE visit_date = ?', [formattedDate], (err, row) => {
                 if (err) return done(err);
-                console.log('Row:', row);
                 expect(row).toBeDefined();
                 done();
             });

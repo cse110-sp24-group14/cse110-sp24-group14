@@ -9,8 +9,12 @@ describe('Testing update completed SQL query', () => {
      * 
      * @param {number} int - id of the task to be updated
      * @param {boolean} completed - state of completed to update to
-     * @param {Function} done - callback function to end async tests
-     * @param {Number} actual - actual count of completed tasks in database 
+     * @param {function} done - callback function to end async tests
+     * @param {number} actual - actual count of completed tasks in database 
+     * 
+     * @example
+     * // Sets task with id 1 to completed and expects it to be completed
+     * queryUpdateCompleted(1, true, done, 1)
      */
     const queryUpdateCompleted = (id, completed, done, actual) => {
 

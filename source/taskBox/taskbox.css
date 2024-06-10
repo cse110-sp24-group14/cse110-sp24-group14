@@ -79,28 +79,106 @@
     padding: 2px 6px;
 }
 
-.popup-form {
-    display: none;
+.popup-form, #taskStatus {
     position: fixed;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
     padding: 20px;
     background-color: white;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    
     border-radius: 5px;
     z-index: 999;
+
+    width: 200px;
+    
+    visibility: visible;
+    opacity: 1;
+    transition: 0.1s;
+}
+
+.hidden {
+    visibility: hidden !important;
+    opacity: 0 !important;
+}
+
+#closeButton {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    cursor: pointer;
+
+    font-size: 20px;
+    font-weight: bolder;
 }
 
 .popup-form form {
     display: flex;
     flex-direction: column;
+
+    justify-content: center;
+    align-items: center;
 }
 
-.popup-form form label,
+.popup-form form * {
+    width: 100%;
+    height: 25px;
+    text-align: center;
+    
+    border-radius: 5px;
+}
+
+/* Display task title */
+.popup-form form p {
+    background-color: #00000014;
+    
+    width: 90%;
+    padding: 10px;
+    margin: 8px;
+
+    text-align: left;
+
+    /* preventing overflowing for long task  */
+    overflow-y: auto;
+    word-wrap: break-word;
+}
+
+/* spaces out different inputs */
+.popup-form form label {
+    margin: 10px 0 5px 0;
+}
+
+/* consistent borders for input */
 .popup-form form input,
+.popup-form form select {
+    border: 1px solid #0000006e;
+}
+
+/* task form submit button */
 .popup-form form button {
-    margin: 5px 0;
+    margin-top: 20px;
+
+    background-color: #234654;
+    border-color: white;
+    
+    color: white;
+    font-weight: bold;
+
+    height: 45px;
+
+    cursor: pointer;
+
+    transition: 0.5s;
+}
+
+.popup-form form button:hover {
+    background-color: #3c738a;
+}
+
+#taskStatus {
+    background-color: #E5C775;
+    text-align: center;
 }
 
 .info {
@@ -120,6 +198,17 @@
 
 .info:hover {
     background-color: #2D2E2E;
+}
+
+/*Added to handle when info icon tabbed*/
+.info:focus-within {
+    background-color: #2D2E2E;
+    width: 200px;
+    text-align: left !important;
+}
+
+.info:focus-within .extra-info {
+    display: block;
 }
 
 .extra-info {

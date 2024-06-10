@@ -5,7 +5,7 @@ USE prod;
 
 CREATE TABLE Tasks (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    title VARCHAR(255) NOT NULL,
+    title LONGTEXT NOT NULL,
     due_date DATE,
     completed BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

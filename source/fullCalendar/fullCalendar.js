@@ -137,8 +137,7 @@ class FullCalendar extends HTMLElement {
         this.shadowRoot.appendChild(calendarContainer);
 
         this.loadButtons();
-        this.loadMonth(this.globalDate);
-        this.loadCalendar(this.globalDate);
+        this.loadInitialDate();
         this.fetchTasks(this.globalDate); // Fetch tasks after rendering the calendar
     }
 
@@ -217,6 +216,23 @@ class FullCalendar extends HTMLElement {
             this.loadCalendar(this.globalDate);
             this.fetchTasks(this.globalDate);
         });
+    }
+
+    /**
+     * search for parameter, if there is load it
+     *
+     */
+    loadInitialDate() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const year = parseInt(urlParams.get('year'), 10);
+        const month = parseInt(urlParams.get('month'), 10) - 1; // JS months are 0-based
+
+        if (!isNaN(year) && !isNaN(month)) {
+            this.globalDate = new Date(year, month, 1);
+        }
+
+        this.loadMonth(this.globalDate);
+        this.loadCalendar(this.globalDate);
     }
 
     /**
@@ -302,7 +318,7 @@ class FullCalendar extends HTMLElement {
                     dayOfWeek.addEventListener('click', ()=> {
                         const dateStr = dayOfWeek.id;
                         console.log('Date cell clicked:', dateStr); // Log the clicked date
-                        window.location.href = `/?date=${dateStr}`;
+                        window.location.href = `/index.html?date=${dateStr}`;
                     });
 
                     date++;
