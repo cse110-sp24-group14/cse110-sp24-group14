@@ -2,7 +2,7 @@
  * Namespace for sending task inputs
  * @namespace SendTasks
  */
-
+// sample comment
 window.addEventListener('DOMContentLoaded', init);
 
 /**
