@@ -483,7 +483,7 @@ export const server = http.createServer((req, res) => {
                 }
             });
         });
-    } else if (pathname === '/main/index.html' && req.method === 'GET') {
+    } else if (pathname === '/index.html' && req.method === 'GET') {
         fs.readFile(path.join(__dirname, 'index.html'), (err, data) => {
             if (err) {
                 res.writeHead(500, { 'Content-Type': 'text/html' });
