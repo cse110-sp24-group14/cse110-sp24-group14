@@ -133,8 +133,8 @@ const populateTable = (taskList) => {
         // Create a span for the bullet point
         const bulletSpan = document.createElement("span");
         bulletSpan.innerHTML = "&#8226;";
-        bulletSpan.style.fontSize = "2.5em"; // Adjust the font size to make it bigger
-        bulletSpan.style.verticalAlign = "middle"; // Align it vertically if needed
+        bulletSpan.style.fontSize = "0.9em"; // Adjust the font size to make it match figma design
+        bulletSpan.style.alignItems = "center";
 
         // Add the bullet point and priority text to the prioritySpan
         prioritySpan.appendChild(bulletSpan);
@@ -195,8 +195,14 @@ const populateTable = (taskList) => {
 
             // decrement complete statistic ONLY if completed
             if (row.className === "complete") {
-                psuedoUpdateDelete();
+                psuedoUpdateDeleteCompleteTasks();
             }
+
+            //decrement "more tasks to go" statistic ONLY if delete operation is done on incomplte task
+            if (row.className === "incomplete") {
+                pseudoUpdateDeleteIncompleteTasks();
+            }
+
         });
 
         buttonContainer.appendChild(delete_button);
@@ -257,21 +263,48 @@ const addButtons = () => {
 const psuedoUpdateCompletedTasks = () => {
     const completeStats = document.querySelector("completed-statistics");
     const numTasks = completeStats.shadowRoot.getElementById("num-tasks");
+    const headerNumCompleted = document.getElementById("tasks-completed");
+    const headerNumIncomplete = document.getElementById("tasks-to-go");
+    const completedTasks = Number(numTasks.innerText) + 1;
 
-    numTasks.innerText = Number(numTasks.innerText) + 1;
+    // Updates dashboard and header counter respectively
+    numTasks.innerText = completedTasks;
+    if (completedTasks == 1) {
+        headerNumCompleted.innerText = `1 task completed`;
+    }
+    else {
+        headerNumCompleted.innerText = `${completedTasks} tasks completed`;
+    }
+    headerNumIncomplete.innerText = (Number(headerNumIncomplete.innerText.split(" ")[0]) - 1) + " more to go!";
+}
+
+/**
+ * Decrements 1 from number of incompleted tasks for the statistics element
+ * 
+ * @function psuedoUpdateDeleteIncompleteTasks
+ * @memberof DisplayTasks
+ */
+const pseudoUpdateDeleteIncompleteTasks = () => {
+    const headerNumIncomplete = document.getElementById("tasks-to-go");
+    headerNumIncomplete.innerText = (Number(headerNumIncomplete.innerText.split(" ")[0]) - 1) + " more to go!";
 }
 
 /**
  * Decrements 1 from number of completed tasks for the statistics element
  * 
- * @function psuedoUpdateDelete
+ * @function psuedoUpdateDeleteCompleteTasks
  * @memberof DisplayTasks
  */
-const psuedoUpdateDelete = () => {
+const psuedoUpdateDeleteCompleteTasks = () => {
     const completeStats = document.querySelector("completed-statistics");
     const numTasks = completeStats.shadowRoot.getElementById("num-tasks");
+    const headerNumCompleted = document.getElementById("tasks-completed");
+    const completedTasks = Number(numTasks.innerText) - 1;
 
-    numTasks.innerText = Number(numTasks.innerText) - 1;
+    // Updates dashboard and header counter respectively
+    numTasks.innerText = completedTasks;
+    if (completedTasks == 1) { headerNumCompleted.innerText = `1 task completed`; }
+    else { headerNumCompleted.innerText = `${completedTasks} tasks completed`; }
 }
 
 /**
