@@ -5,8 +5,7 @@ import puppeteer from 'puppeteer';
  * 
  * 1. FOLLOW THE STEPS TO START THE SERVER
  * 2. CHANGE THE FILE NAME TO [original-file-name-here].test.stat.js
- * 3. MAKE SURE THERE ARE INCOMPLETE TASKS TO MARK COMPLETE
- * 4. npm run test
+ * 3. npm run test
  *  
  */
 
@@ -56,8 +55,6 @@ describe('End to end test for last and next week buttons to scroll in sidebar ca
 
             // sets the old selected date back 7 days
             dateFormatOldSelected.setDate(dateFormatOldSelected.getDate() - 7);
-
-            console.log(dateFormatOldSelected.toDateString(), dateFormatNewSelected.toDateString());
             
             try {
                 // rewinded old date should be equal to new selected date

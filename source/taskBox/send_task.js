@@ -2,11 +2,10 @@
  * Namespace for sending task inputs
  * @namespace SendTasks
  */
-
 window.addEventListener('DOMContentLoaded', init);
 
 /**
- * Initializes the send task functions
+ * Initializes send task functions
  * 
  * @function init
  * @memberof SendTasks
@@ -88,7 +87,7 @@ function init() {
         // reset selection input
         priorityInput.selectedIndex = 0;
 
-        // disable button again
+        // disable submission button
         taskButton.disabled = true;
     })
 

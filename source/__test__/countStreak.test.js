@@ -1,5 +1,15 @@
 import { expect, describe, test } from '@jest/globals';
 
+/**
+ * Counts the consecutive days given an array of dates
+ * 
+ * @param {string[]} daysArr - array of all dates user visited the page
+ * @returns {number} consecutiveDays - the number of consecutive days visited
+ * 
+ * @example
+ * // counts the number of consecutive days visited for these 4 dates (should be 3)
+ * countStreak(['2024-06-06', '2024-06-05', '2024-06-04', '2024-06-02'])
+ */
 const countStreak = (daysArr) => {
 
     let consecutiveDays = 1;
