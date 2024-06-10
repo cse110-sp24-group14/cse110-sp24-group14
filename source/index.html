@@ -45,12 +45,12 @@
 
 <body>
    <header>
-      <img src="header/assets/Logo.svg" alt="team logo" class="logo" tabindex="0">
+      <img src="header/assets/Logo.svg" alt="team logo" class="logo">
 
       <div class="header-content">
 
          <div class="stat-container">
-            <div class="stat" tabindex="0">
+            <div class="stat">
                <img src="./header/assets/Fire.svg" alt="Streak fire">
                <div class="stat-text">
                   <p class="header-stat" id="header-streak-days"></p>
@@ -58,7 +58,7 @@
                </div>
             </div>
 
-            <div class="stat" tabindex="0">
+            <div class="stat">
                <p id="check">✅</p>
                <div class="stat-text">
                   <p class="header-stat" id="tasks-completed"></p>
@@ -77,19 +77,19 @@
    </header>
 
    <main>
-      <side-calendar tabindex="0"></side-calendar>
+      <side-calendar></side-calendar>
       <section>
 
          <div id="main-display">
 
             <div id="task-container">
                <h1></h1>
-               <table id="task-table" tabindex="0"></table>
+               <table id="task-table"></table>
             </div>
             <div id="snippet-and-stats">
-               <div id="snippet" tabindex="0">
+               <div id="snippet">
                   <h1>Snippets</h1>
-                  <ul id="snippet-container" tabindex="0"></ul>
+                  <ul id="snippet-container"></ul>
                   <select id="language-select" name="language" required tabindex="0">
                      <option value="">Select Language</option>
                      <option value="JavaScript">JavaScript</option>
@@ -106,10 +106,10 @@
                   </form>
                </div>      
 
-               <completed-statistics tabindex="0"></completed-statistics>
-               <snippets-statistics tabindex="0"></snippets-statistics>
+               <completed-statistics></completed-statistics>
+               <snippets-statistics></snippets-statistics>
 
-               <div id="streak-container" tabindex="0">
+               <div id="streak-container">
                   <p id="streak-text">You are on a day streak!</p>
                   <div id="streak-indicator"></div>
                </div>
