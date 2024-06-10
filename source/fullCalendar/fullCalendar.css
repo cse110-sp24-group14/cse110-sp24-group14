@@ -15,3 +15,10 @@ main {
     background-color: rgba(246, 246, 246, 1);
 }
 
+
+.menu #dashboard{
+    background-color: #234654;
+    border-radius: 400px;
+    padding: 16px;
+    color: var(--primary-beige, #FEFAE0);
+}
