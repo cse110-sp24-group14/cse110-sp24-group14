@@ -87,6 +87,8 @@ class SideCalendar extends HTMLElement {
                 display: flex;
                 flex-direction: column;
                 align-items: center;
+
+                gap: 5px;
             }
 
             button {
@@ -157,11 +159,14 @@ class SideCalendar extends HTMLElement {
             @media (max-width: 768px) {
                 :host {
                     width: 100%;
+
+                    gap: 0px;
                 }
 
                 button {
                     padding: 10px;
                     flex: 1;
+                    margin: 0px 10px
                 }
 
                 table {
@@ -177,7 +182,18 @@ class SideCalendar extends HTMLElement {
                     padding: 5px;
                 }
 
-                
+                button {
+                    display: none;
+                }
+
+                #full-calendar {
+                    display: flex;
+                    flex-direction: row;
+                }
+
+                #full-calendar p {
+                    display: none;
+                }
             }
         `;
 
@@ -205,10 +221,18 @@ class SideCalendar extends HTMLElement {
             </svg>
         `
         // img for full calendar button
-        const calendarImg = `<img src="../sideCalendar/Calendar.png" alt="full calendar png" />`;
-
+        const calendarSVG = `<svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <rect width="19" height="19" fill="url(#pattern0_545_31)"/>
+        <defs>
+        <pattern id="pattern0_545_31" patternContentUnits="objectBoundingBox" width="1" height="1">
+        <use xlink:href="#image0_545_31" transform="scale(0.01)"/>
+        </pattern>
+        <image id="image0_545_31" width="100" height="100" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAATCAYAAAByUDbMAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAEeSURBVHgB7ZK9TgJBEMf/c3t3sTIWxpLoXSx8Au30IrkEbQSx9BHs7GxITHwBXsDEUgs7Cwvt6AklnwkVFQkNcBzDXMH3XbgQCgr+2ezOzu78ZiYZIERW8iGBXE5DhBLXGSvMvxRw7N6fk8YNu1C8RGiizK2htMppMn22+EYTyNXdgTL0JxBfiPsG4D8GaiEBJ7I7Yv7IWfL73lv9/7sdvOnjT8pUL3I8T/nkiOUgWilJmJICOmK/zrdJOMQ6IthjU8MGpS/ce8R4REwNCR8UBWPGoPL79YmYstzs++x9o23uYNsEk5kxbTd9FCcw+Edgc9Y3nbMhVYVmgFXTdrPd1Tjak8mUeGotwXxvkFemvi/AWJUJKFhl3/Py2HqNABpcPbpaByT7AAAAAElFTkSuQmCC"/>
+        </defs>
+        </svg>`;
+            
         // add full calendar button
-        fullCalendarButton.innerHTML = calendarImg;
+        fullCalendarButton.innerHTML = calendarSVG;
         fullCalendarButton.innerHTML += "<p>Calender</p>";
         fullCalendarButton.addEventListener("click", () => {
             const year = this.globalDate.getFullYear();
