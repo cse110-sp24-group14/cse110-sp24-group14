@@ -1,5 +1,16 @@
+/**
+ * Namespace for sending task inputs
+ * @namespace SendTasks
+ */
+
 window.addEventListener('DOMContentLoaded', init);
 
+/**
+ * Initializes the send task functions
+ * 
+ * @function init
+ * @memberof SendTasks
+ */
 function init() {
     const taskButton = document.getElementById('sendTask');
     const taskInput = document.getElementById('taskInput');
@@ -104,7 +115,13 @@ function init() {
         taskButton.disabled = true;
     });
 
-    // always make sure the caret is to the end of the text.
+    /**
+     * Always make sure the caret is to the end of the text.
+     * 
+     * @function moveCaretToEnd
+     * @memberof SendTasks
+     * @param {HTMLElement} el - The element to move the cursor position to the end in
+     */
     function moveCaretToEnd(el) {
         el.focus();
         const range = document.createRange();
@@ -118,6 +135,8 @@ function init() {
     /**
      * Returns the current cursor position
      *
+     * @function saveCursorPosition
+     * @memberof SendTasks
      * @param {HTMLElement} el - The element to save the cursor position from
      * @returns {number} - The index of the cursor position within the element's text
      */
@@ -144,6 +163,8 @@ function init() {
     /**
      * Sets the cursor's position in an element
      *
+     * @function restoreCursorPosition
+     * @memberof SendTasks
      * @param {HTMLElement} el - The element to restore the cursor position to
      * @param {number} savedPosition - The index of the cursor position within the element's text
      */
@@ -195,5 +216,4 @@ function init() {
         // Set the current cursor selection to the cursor range
         selection.addRange(range);
     }
-
 }
