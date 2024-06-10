@@ -123,6 +123,41 @@ class FullCalendar extends HTMLElement {
                 font-size: 15px;
                 color: rgba(255, 255, 255, 0.8);
             }
+
+            @media (max-width: 768px) {
+                :host {
+                    width: 100%;
+                }
+                .header-content {
+                    display: flex;
+                    justify-content: space-between; /* Center the items within this container */
+                    align-items: center;
+                    flex: 1; /* Take up remaining space */
+                    gap: 20px; /* Adjust spacing between inner elements */
+                    
+    
+                }
+                
+                #close {
+                    display: none;
+                }
+
+                .header-content button {
+                    margin: 10px
+                }
+
+                td {
+                    width: 50px;
+                }
+
+                table {
+                    border-collapse: separate; /* Change from collapse to separate */
+                    border-spacing: 3px; /* Add this line to set the gap between cells */
+                    width: auto;
+                    height: 800px;
+                }
+            }
+
         `;
 
         this.shadowRoot.appendChild(styles);
