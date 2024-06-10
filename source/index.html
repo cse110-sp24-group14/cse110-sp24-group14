@@ -12,7 +12,7 @@
    <script src="snippetCreation/snippetCreation.js"></script>
    <script src="taskCompleted/taskCompleted.js"></script>
    <script src="snippetDisplay/snippetDisplay.js"></script>
-
+   
    <script src="displayTasks/displayTasks.js"></script>
    <link rel="stylesheet" href="displayTasks/displayTasks.css">
 
@@ -113,17 +113,15 @@
             </button>
          </div>
 
-         <div id="popupForm" class="popup-form" tabindex="0">
+         <div id="popupForm" class="popup-form hidden" tabindex="0">
+            <div id="closeButton">x</div>
             <form id="dueDateForm">
+               <strong>Adding Task:</strong>
+               <p id="taskTitle"></p>
                <label for="dueDate">Due Date:</label>
                <input type="date" id="dueDate" name="dueDate" required>
-               <button type="submit" tabindex="0">Submit</button>
-            </form>
-        </div>
 
-        <div id="priorityPopupForm" class="popup-form" tabindex="0">
-            <form id="priorityForm">
-                <label for="priority">Priority:</label>
+               <label for="priority">Priority:</label>
                 <select id="priority" name="priority" required>
                     <option value="1">Urgent</option>
                     <option value="2">Medium</option>
@@ -131,7 +129,8 @@
                 </select>
                 <button type="submit" tabindex="0">Submit</button>
             </form>
-         </div>
+        </div>
+        <div id="taskStatus" class="hidden">Task added successfully</div>
       </article>
    </main>
 

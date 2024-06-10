@@ -7,18 +7,22 @@ describe('Testing the completed statistic SQL query', () => {
     /**
      * Queries and tests the number of completed tasks in database
      * 
-     * @param {Function} done - callback function to end async tests
-     * @param {Number} actual - actual count of completed tasks in database 
-     */
+     * @param {function} done - callback function to end async tests
+     * @param {number} actual - actual count of completed tasks in database 
+     * 
+     * @example
+     * // Expects the query to return 0 completed tasks
+     * queryCompletedCount(done, 0) 
+     */ 
     const queryCompletedCount = (done, actual) => {
 
         const sqlQuery = `
-        SELECT CASE
-                WHEN COUNT(*) > 0 THEN (SELECT SUM(completed) FROM Tasks) 
-                ELSE 0
-            END AS CompletedCount
-        FROM Tasks
-    `
+            SELECT CASE
+                    WHEN COUNT(*) > 0 THEN (SELECT SUM(completed) FROM Tasks) 
+                    ELSE 0
+                END AS CompletedCount
+            FROM Tasks
+        `
 
         db.get(sqlQuery, (err, row) => {
             if (err) {
