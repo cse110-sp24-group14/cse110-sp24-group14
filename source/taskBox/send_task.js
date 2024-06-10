@@ -85,7 +85,11 @@ function init() {
                 
                 status.classList.remove('hidden');
 
-                status.innerHTML = data.message;
+                if (data.message === undefined) {
+                    status.innerHTML = "Adding task error! Please try again.";
+                } else {
+                    status.innerHTML = data.message;
+                }
 
                 sidebar.setGlobalDate(sidebar.globalDate); // Re-trigger date update
             })
