@@ -6,7 +6,7 @@
 window.addEventListener('DOMContentLoaded', init);
 
 /**
- * Initializes the send task functions
+ * Initializes send task functions
  * 
  * @function init
  * @memberof SendTasks
