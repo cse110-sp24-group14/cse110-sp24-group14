@@ -15,9 +15,7 @@ function init() {
     const taskInput = document.getElementById('taskInput');
     const closeButton = document.getElementById('closeButton');
     const popupForm = document.getElementById('popupForm');
-    const priorityPopupForm = document.getElementById('priorityPopupForm');
     const dueDateForm = document.getElementById('dueDateForm');
-    const priorityForm = document.getElementById('priorityForm');
     const sidebar = document.querySelector("side-calendar");
     const status = document.getElementById('taskStatus');
 
@@ -163,6 +161,18 @@ function init() {
         sel.removeAllRanges();
         sel.addRange(range);
     }
+
+    // "icon-info-sign" displays "extra-info" when tabbed on
+    const infoSign = document.querySelector('.icon-info-sign');
+    const infoContainer = document.querySelector('.info');
+
+    infoSign.addEventListener('focus', () => {
+        infoContainer.classList.add('focus');
+    });
+
+    infoSign.addEventListener('blur', () => {
+        infoContainer.classList.remove('focus');
+    });
 
     /**
      * Returns the current cursor position

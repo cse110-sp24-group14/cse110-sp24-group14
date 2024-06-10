@@ -204,9 +204,11 @@ class SideCalendar extends HTMLElement {
 
         const lastWeekButton = document.createElement('button');
         lastWeekButton.id = "last-week"
+        lastWeekButton.setAttribute("tabindex", 0);
 
         const nextWeekButton = document.createElement('button');
         nextWeekButton.id = "next-week"
+        nextWeekButton.setAttribute("tabindex", 0);
 
         // svg for next and last week button icons
         const arrowSVG = `
