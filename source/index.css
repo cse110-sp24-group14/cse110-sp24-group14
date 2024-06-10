@@ -11,6 +11,21 @@ html, body {
 body {
     display: flex;
     flex-direction: column;
+
+    /* welcome page fade */
+    animation: appear 0.5s linear;
+}
+
+@keyframes appear {
+    0% {
+        opacity: 0;
+    }
+    30% {
+        opacity: 0.5;
+    }
+    100% {
+        opacity: 1;
+    }
 }
 
 main {

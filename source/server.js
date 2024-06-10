@@ -473,7 +473,7 @@ export const server = http.createServer((req, res) => {
                 console.error('Error adding streak:', err);
             }
             console.log('Added streak:', results);
-            fs.readFile(path.join(__dirname, 'index.html'), (err, data) => {
+            fs.readFile(path.join(__dirname, 'welcomePage', 'welcome.html'), (err, data) => {
                 if (err) {
                     res.writeHead(500, { 'Content-Type': 'text/html' });
                     res.end('<h1>Internal Server Error</h1>');
@@ -482,6 +482,16 @@ export const server = http.createServer((req, res) => {
                     res.end(data);
                 }
             });
+        });
+    } else if (pathname === '/main/index.html' && req.method === 'GET') {
+        fs.readFile(path.join(__dirname, 'index.html'), (err, data) => {
+            if (err) {
+                res.writeHead(500, { 'Content-Type': 'text/html' });
+                res.end('<h1>Internal Server Error</h1>');
+            } else {
+                res.writeHead(200, { 'Content-Type': 'text/html' });
+                res.end(data);
+            }
         });
     } else if (pathname === '/fullCalendar/index.html' && req.method === 'GET') {
         fs.readFile(path.join(__dirname, 'fullCalendar', 'index.html'), (err, data) => {
