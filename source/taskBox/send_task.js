@@ -19,7 +19,7 @@ function init() {
         const taskRegex = /^(\/task\s)(.*)/;
         const match = inputValue.match(taskRegex);
 
-        if (match) {
+        if (match && match[2].trimStart().length <= 2) {
 
             taskButton.disabled = false;
 
@@ -30,11 +30,25 @@ function init() {
             taskInput.innerHTML = `<span class="task-command">${commandText}</span> ${titleText.trimStart()}`;
             moveCaretToEnd(taskInput);
             taskTitle = titleText;
+            
+        } else if (match) {
+
+            taskButton.disabled = false;
+
+            // Extracted task
+            const commandText = match[1];
+            const titleText = match[2];
+            
+            taskInput.innerHTML = `<span class="task-command">${commandText}</span> ${titleText.trimStart()}`;
+            restoreCursorPosition(taskInput, savedPosition);
+            taskTitle = titleText;
+
         } else {
+
             taskInput.innerHTML = inputValue;  // Reset the innerHTML if no match
-            moveCaretToEnd(taskInput);
             taskButton.disabled = true;
             restoreCursorPosition(taskInput, savedPosition);
+
         }
 
     });
