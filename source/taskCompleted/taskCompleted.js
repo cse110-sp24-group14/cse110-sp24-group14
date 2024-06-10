@@ -35,6 +35,7 @@ class CompletedStatistics extends HTMLElement {
         this.loadStyles();
         this.loadSVG();
         this.fetchNumCompleted();
+        this.fetchNumIncomplete();
     }
 
     /**
@@ -45,17 +46,17 @@ class CompletedStatistics extends HTMLElement {
 
         styles.innerHTML = `
             #statistics-div {
-                width: 300px;
-                height: 60px;
+                width: inherit;
+                height: 100%;
                 
                 background-color: #F6F6F6;
                 border-radius: 12px;
-                
-                padding: 10px;
-            
+
                 display: grid;
                 grid-template-columns: 1fr 2fr;
                 grid-template-rows: 25px 35px;
+
+                align-content: center;
             } 
             
             #svg-div {
@@ -91,7 +92,29 @@ class CompletedStatistics extends HTMLElement {
             
             #task-caption {
                 color: #2D2E2EB2;
-            }        
+            } 
+            
+            @media (max-width: 768px) {
+                
+                #svg-div {
+                    width: 40px;
+                    height: 40px;
+                }
+                
+                #svg-div svg {
+                    width: 30px;
+                    height: 30px;
+                }
+
+                #num-tasks {
+                    font-size: 20px;
+                }
+
+                #statistics-div {
+                    width: 100%;
+                }
+
+            }
         `;
 
         this.shadowRoot.appendChild(styles);
@@ -116,17 +139,37 @@ class CompletedStatistics extends HTMLElement {
     }
 
     /**
-     * Fetches data for overall task completion statistics 
+     * Fetches data for overall task completion statistics + updates HTML elements to display appropriately
+     * @function fetchNumCompleted
      */
     fetchNumCompleted() {
         fetch('/num-completed')
             .then(response => response.json())
             .then(data => {
+                // Updates dashboard task counter
                 const paragraph = this.shadowRoot.getElementById("num-tasks");
                 paragraph.innerHTML = data[0].CompletedCount;
+
+                // Updates header task counter
+                const navDisplay = document.getElementById("tasks-completed");
+                if (data[0].CompletedCount == 1) { navDisplay.innerHTML = `${data[0].CompletedCount} task completed`; }
+                else { navDisplay.innerHTML = `${data[0].CompletedCount} tasks completed`; }
             })
             .catch(error => console.error('Error fetching number of tasks completed:', error));
-    }    
+    }
+    /**
+     * Fetches data for number of incomplete tasks + update HTML element appropriately
+     * @function fetchNumIncomplete
+     */
+    fetchNumIncomplete() {
+        fetch('/num-incomplete-tasks')
+            .then(response => response.json())
+            .then(data => {
+                const tasksLeft = document.getElementById("tasks-to-go");
+                tasksLeft.innerHTML = `${data[0].incomplete} more to go!`;
+            })
+            .catch(error => console.error('Error fetching number of tasks completed:', error));
+    }
 }
 
 customElements.define("completed-statistics", CompletedStatistics)

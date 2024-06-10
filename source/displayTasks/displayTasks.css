@@ -3,18 +3,20 @@ h1 {
     color: #2D2E2EB2;
     font-size: 24px;
 
+    font-weight: 500;
+
     margin: 15px 0px;
 }
 
 #task-container {
     background-color: #F6F6F6;
-    padding: 10px;
     border-radius: 12px;
 
-    width: 350px;
-    height: 500px;
+    width: 500px;
+    height: 800px;
 
-    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
 }
 
 #task-container > table {
@@ -25,7 +27,10 @@ h1 {
     align-items: center;
     gap: 12px;
 
-    padding: 2.5px;
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    height: 100%;
 }
 
 #task-container > table > tr {
@@ -70,4 +75,15 @@ h1 {
 
 .row-image {
     margin: 2px;
+}
+
+@media (max-width: 768px) {
+    #task-container {
+        width: 100%;
+    }
+
+    #task-container > table > tr {
+        
+        width: 80%;
+    }
 }

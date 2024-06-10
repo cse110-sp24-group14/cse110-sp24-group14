@@ -1,4 +1,4 @@
-#streak-container{
+#streak-container {
     display: flex;
     flex-direction: column;
     background-color: #F6F6F6;
@@ -8,44 +8,81 @@
     justify-content: center;
 
     font-family: "verdana", sans-serif;
-    width: 100%;
     min-width: 100px;
-    max-width: 200px;
     min-height: 90px;
-    font-size: 12px;
-    padding: 5px 20px 5px 20px;
+    padding: 5px 0px;
 
 }
 
-#streak-container > p{
+#streak-container > p {
     margin-bottom: 15px;
     margin-top: 0px;
     color: #2D2E2E;
+
+    font-size: 24px;
     font-weight: 600;
 }
 
-#streak-days{
+#streak-indicator {
     display: flex;
     flex-direction: row;
     text-align: center;
     align-items: center;
     justify-content: center;
     gap: 8px;
-    
+
+    height: 80px;
 }
 
-#streak-days > * > *{
+#streak-indicator > * > * {
     padding: 0px;
     margin: 0px;
-    min-height: 20px;
-    max-width: 20px;
+    min-height: 40px;
+    max-width: 40px;
 }
 
-#streak-days > * > p{
+#streak-indicator > * > p{
     color: #2D2E2E;
     opacity: 70%;
 }
 
 .not-streak{
     filter: grayscale(1);
+}
+
+@media (max-width: 768px) {
+    :host {
+        width: 100%;
+    }
+
+    #streak-indicator > * > * {
+        padding: 0px;
+        margin: 0px;
+        min-height: 20px;
+        max-width: 20px;
+    }
+
+    #streak-indicator > * > p{
+        color: #2D2E2E;
+        opacity: 70%;
+        font-size: 20px;
+    }
+
+    #streak-container > p {
+        margin-bottom: 10px;
+        margin-top: 0px;
+        color: #2D2E2E;
+    
+        font-size: 20px;
+        font-weight: 600;
+    }
+
+    #streak-indicator {
+        height: 40px;
+        gap: 4px;
+    }
+
+    #streak-container{
+        width: 100%;
+    }
 }

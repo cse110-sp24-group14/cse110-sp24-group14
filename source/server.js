@@ -27,11 +27,12 @@ const connection = mysql.createConnection({
  * @memberof Server
  * @param {function} callback 
  */
-const insertTask = (title, due_date, callback) => {
-    const query = 'INSERT INTO Tasks (title, due_date) VALUES (?, ?)';
+const insertTask = (title, due_date, priority, callback) => {
+    const query = 'INSERT INTO Tasks (title, due_date, priority_tag) VALUES (?, ?, ?)';
     console.log('Inserting title:', title);
     console.log('Inserting due_date:', due_date);
-    connection.query(query, [title, due_date], (error, results) => {
+    console.log('Inserting priority:', priority);
+    connection.query(query, [title, due_date, priority], (error, results) => {
         if (error) {
             callback(error, null);
         } else {
@@ -50,7 +51,11 @@ const insertTask = (title, due_date, callback) => {
 const addStreaks = (callback) => {
     const today = new Date();
     today.setHours(0, 0, 0, 0);  // Set to the start of the day
-    const formattedDate = today.toISOString().split('T')[0];  // Format date as YYYY-MM-DD
+    const formattedDate = today.toLocaleDateString('en-CA', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit'
+    }).split('T')[0];  // Format date as YYYY-MM-DD
 
     // First, check if there's already a visit for today
     const checkQuery = 'SELECT * FROM SiteVisits WHERE visit_date = ?';
@@ -73,7 +78,6 @@ const addStreaks = (callback) => {
         }
     });
 };
-
 
 /**
  * Fetch all the tasks of for a specified date
@@ -116,7 +120,6 @@ const fetchNumSnippets = (callback) => {
     });
 };
 
-
 /**
  * Gets all dates of site visits
  * 
@@ -127,7 +130,6 @@ const fetchVisits = (callback) => {
         if (error) {
             callback(error, null);
         } else {
-            console.log(results);
             callback(null, results);
         }
     });
@@ -148,7 +150,6 @@ const fetchVisits = (callback) => {
  */
 const fetchTasksDue = (year, month, callback) => {
     const sqlQuery = 'SELECT * FROM Tasks WHERE YEAR(due_date) = ? AND MONTH(due_date) = ? AND completed = 0';
-    console.log('Executing query:', sqlQuery, 'with parameters:', year, month);
     connection.execute(sqlQuery, [year, month], (error, results) => {
         if (error) {
             console.error('Error fetching tasks for month:', error);
@@ -158,7 +159,7 @@ const fetchTasksDue = (year, month, callback) => {
         }
     });
 };
-          
+
 /**
  * Gets number of tasks that are completed from backend
  * 
@@ -183,6 +184,22 @@ const fetchNumberCompleted = (callback) => {
             callback(null, results);
         }
     })
+}
+
+/** 
+ * Gets number of incomplete tasks overall
+ * 
+ * @param {Function} callback
+ */
+const fetchNumIncompleteTasks = (callback) => {
+    const sqlQuery = 'SELECT COUNT(*) AS incomplete FROM Tasks WHERE completed = 0';
+    connection.query(sqlQuery, (error, results) => {
+        if (error) {
+            callback(error, null);
+        } else {
+            callback(null, results);
+        }
+    });
 }
 
 /**
@@ -248,14 +265,15 @@ const deleteTask = (taskId, callback) => {
  * @memberof Server
  * @param {string} code - code content of snippet
  * @param {string} language - language of the code in snippet
+ * @param {string} date - date the snippet was created
  * @param {function} callback - handles the outcome of the fetch
  * 
  * @example
  * // add snippet to database
  * addSnippet("console.log('Hello World!)", "JavaScript", callback)
  */
-const addSnippet = (code, language, callback) => {
-    const sqlQuery = `INSERT INTO Snippets (code, code_language) VALUES ('${code}', '${language}')`;
+const addSnippet = (code, language, date, callback) => {
+    const sqlQuery = `INSERT INTO Snippets (code, code_language, created_date) VALUES ('${code}', '${language}', '${date}')`;
     connection.query(sqlQuery, (error, results) => {
         if (error) {
             callback(error, null);
@@ -264,7 +282,6 @@ const addSnippet = (code, language, callback) => {
         }
     });
 };
-
 
 /**
  * Fetches snippets from the SQL database by date
@@ -294,7 +311,6 @@ const fetchSnippets = (date, callback) => {
  * @memberof Server
  */
 export const server = http.createServer((req, res) => {
-    // console.log("Running")
     const parsedUrl = new URL(req.url, `http://${req.headers.host}`);
     const pathname = parsedUrl.pathname;
     const query = parsedUrl.searchParams;
@@ -306,14 +322,10 @@ export const server = http.createServer((req, res) => {
             body += chunk.toString();
         });
         req.on('end', () => {
-            console.log('Raw body:', body);  // Log the raw body
-            const parsedBody = JSON.parse(body);
-            console.log('Parsed body:', parsedBody);  // Log the parsed body
-            const { title, due_date } = parsedBody;
-            console.log('Received title:', title);
-            console.log('Received due_date:', due_date);
-            insertTask(title, due_date, (err) => {
+            const { title, due_date, priority} = JSON.parse(body);
+            insertTask(title, due_date, priority, (err) => {
                 if (err) {
+                    console.log(err);
                     res.writeHead(500, { 'Content-Type': 'application/json' });
                     res.end(JSON.stringify({ error: 'Internal Server Error' }));
                 } else {
@@ -357,7 +369,6 @@ export const server = http.createServer((req, res) => {
     } else if (pathname === '/tasks-this-month' && req.method === 'GET') {
         const year = parseInt(query.get('year'), 10);
         const month = parseInt(query.get('month'), 10);
-        console.log('Received request for tasks this month:', year, month);
         // Ensure year and month are valid
         if (!isNaN(year) && !isNaN(month)) {
             fetchTasksDue(year, month, (err, tasks) => {
@@ -382,6 +393,16 @@ export const server = http.createServer((req, res) => {
             } else {
                 res.writeHead(200, { 'Content-Type': 'application/json' });
                 res.end(JSON.stringify(numCompleted));
+            }
+        });
+    } else if (pathname === '/num-incomplete-tasks' && req.method === 'GET') {
+        fetchNumIncompleteTasks((err, users) => {
+            if (err) {
+                res.writeHead(500, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ error: 'Internal Server Error' }));
+            } else {
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify(users));
             }
         });
     } else if (pathname === '/updated-task-completion' && req.method === 'PUT') {
@@ -424,7 +445,8 @@ export const server = http.createServer((req, res) => {
         // adds a snippet entry
         const code = query.get('code');
         const language = query.get('language');
-        addSnippet(code, language, (err, result) => {
+        const date = query.get('date');
+        addSnippet(code, language, date, (err, result) => {
             if (err) {
                 res.writeHead(500, { 'Content-Type': 'application/json' });
                 res.end(JSON.stringify({ error: 'Internal Server Error' }));
@@ -446,7 +468,6 @@ export const server = http.createServer((req, res) => {
             }
         });
     } else if (pathname === '/' && req.method === 'GET') {
-        console.log('Home page accessed');
         addStreaks((err, results) => {
             if (err) {
                 console.error('Error adding streak:', err);
@@ -462,7 +483,7 @@ export const server = http.createServer((req, res) => {
                 }
             });
         });
-    // Update the condition for serving CSS files
+        // Update the condition for serving CSS files
     } else if (pathname.endsWith('.css') && req.method === 'GET') {
         serveStaticFile(res, req.url.slice(1), 'text/css');
         // Update the condition for serving JavaScript files

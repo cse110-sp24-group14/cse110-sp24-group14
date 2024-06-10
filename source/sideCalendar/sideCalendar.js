@@ -79,7 +79,6 @@ class SideCalendar extends HTMLElement {
         styles.innerHTML = `
             :host {
                 width: 130px;
-                height: 100%;
             
                 padding: 10px 5px;
             
@@ -100,7 +99,9 @@ class SideCalendar extends HTMLElement {
 
                 border: none;
                 border-radius: 400px;
-                padding: 15px 15px;
+                padding: 15px 10px;
+
+                width: 100%;
 
                 background-color: #F6F6F6;
                 color: #234654;
@@ -147,6 +148,35 @@ class SideCalendar extends HTMLElement {
 
             #today-cell {
                 background-color: #045a7c;
+            }
+
+            @media (max-width: 768px) {
+                :host {
+                    width: 100%;
+                }
+
+                button {
+                    padding: 10px;
+                    flex: 1;
+                }
+
+                table {
+                    display: flex;
+                    flex-direction: row;
+                    overflow-x: auto;
+                    width: 100%;
+
+                    justify-content: center;
+                    gap: 5px;
+                }
+
+                td {
+                    width: 50px;
+                    flex: 1;
+                    padding: 5px;
+                }
+
+                
             }
         `;
 

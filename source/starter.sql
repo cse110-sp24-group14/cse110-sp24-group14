@@ -9,7 +9,8 @@ CREATE TABLE Tasks (
     due_date DATE,
     completed BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    priority_tag ENUM('urgent', 'medium', 'deferred') NOT NULL DEFAULT 'deferred'
 );
 
 INSERT INTO Tasks (title, due_date)
@@ -26,6 +27,7 @@ VALUES
 INSERT INTO Tasks (title, due_date, completed)
 VALUES 
 ('Buy groceries', '2024-05-22', TRUE),
+('Buy more groceries', '2024-05-23', FALSE),
 ('Task 4', '2024-05-31', TRUE),
 ('Task 5', '2024-05-31', TRUE),
 ('Task 6', '2024-05-31', TRUE);

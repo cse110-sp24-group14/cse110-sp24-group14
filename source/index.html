@@ -7,14 +7,17 @@
 
    <link rel="stylesheet" href="index.css">
    <link rel="stylesheet" href="header/header.css">
-    <link rel="stylesheet" href="snippetCreation/snippetCreation.css">
+   <link rel="stylesheet" href="snippetCreation/snippetCreation.css">
    <script src="sideCalendar/sideCalendar.js"></script>
-    <script src="snippetCreation/snippetCreation.js"></script>
+   <script src="snippetCreation/snippetCreation.js"></script>
    <script src="taskCompleted/taskCompleted.js"></script>
    <script src="snippetDisplay/snippetDisplay.js"></script>
 
    <script src="displayTasks/displayTasks.js"></script>
    <link rel="stylesheet" href="displayTasks/displayTasks.css">
+
+   <script src="displayStreak/displayStreak.js"></script>
+   <link rel="stylesheet" href="displayStreak/displayStreak.css">
 
    <!--taskbox script and stylesheet -->
    <link rel="stylesheet" href="taskBox\taskbox.css" />
@@ -26,7 +29,7 @@
 
 <body>
    <header>
-      <img src="header/assets/Logo.svg" alt="team logo" class="logo">  
+      <img src="header/assets/Logo.svg" alt="team logo" class="logo">
 
       <div class="header-content">
 
@@ -34,23 +37,22 @@
             <div class="stat">
                <img src="./header/assets/Fire.svg" alt="Streak fire">
                <div class="stat-text">
-                  <p class="header-stat" id="streak-days">31 days streak</p>
-                  <p class="stat-caption" id="streak-caption">You are on fire!</p>
+                  <p class="header-stat" id="header-streak-days"></p>
+                  <p class="stat-caption" id="header-streak-caption">You are on fire!</p>
                </div>
             </div>
 
             <div class="stat">
                <p id="check">✅</p>
                <div class="stat-text">
-                  <p class="header-stat" id="tasks-completed">20 tasks completed</p>
-                  <p class="stat-caption" id="tasks-to-go">7 tasks to go</p>
+                  <p class="header-stat" id="tasks-completed"></p>
+                  <p class="stat-caption" id="tasks-to-go"></p>
                </div>
             </div>
          </div>
 
          <div class="menu">
-            <a href="#">Support</a>
-            <a href="#">Settings</a>
+            <a href="about/about.html">About Us</a>
             <img src="header/assets/Account.svg" alt="Person icon" class="profile-icon">
          </div>
 
@@ -60,16 +62,44 @@
 
    <main>
       <side-calendar></side-calendar>
-      <article>
-         <section>
+      <section>
+
+         <div id="main-display">
+
             <div id="task-container">
-               <h1>Today's Tasks</h1>
+               <h1></h1>
                <table id="task-table"></table>
             </div>
-            <completed-statistics></completed-statistics>
-            <snippets-statistics></snippets-statistics>
-         </section>
-        
+            <div id="snippet-and-stats">
+               <div id="snippet">
+                  <h1>Snippets</h1>
+                  <ul id="snippet-container"></ul>
+                  <select id="language-select" name="language" required>
+                     <option value="">Select Language</option>
+                     <option value="JavaScript">JavaScript</option>
+                     <option value="HTML">HTML</option>
+                     <option value="CSS">CSS</option>
+                  </select>
+                  <form id="snippet-form">
+                     <div id="code-area" contenteditable="plaintext-only" class="editable-div" placeholder="Add code here"></div>
+                     <button disabled type="submit">
+                        <img src="taskBox/sendTask.png" alt="Send" />
+                        <span class="invalid-tip">Input both text AND language!</span>
+                     </button>
+                     <div id="alert"></div>
+                  </form>
+               </div>      
+
+               <completed-statistics></completed-statistics>
+               <snippets-statistics></snippets-statistics>
+
+               <div id="streak-container">
+                  <p id="streak-text">You are on a day streak!</p>
+                  <div id="streak-indicator"></div>
+               </div>
+            </div>
+         </div>
+
          <!--text box on the bottom, with the send button-->
          <div class="taskbox">
             <div class="info">
@@ -77,45 +107,37 @@
                <span class="extra-info">Add any tasks using the /task tag</span>
             </div>
             <div id="taskInput" contenteditable="true" class="editable-div" placeholder="What would you like to do today?"></div>
-            <button class="add-task" type="button" id="sendTask">
+            <button disabled class="add-task" type="button" id="sendTask">
                <img src="taskBox/sendTask.png" alt="Send" />
+               <span class="invalid-tip">No /task found!</span>
             </button>
          </div>
 
          <div id="popupForm" class="popup-form">
             <form id="dueDateForm">
-                <label for="dueDate">Due Date:</label>
-                <input type="date" id="dueDate" name="dueDate" required>
-                <button type="submit">Submit</button>
+               <label for="dueDate">Due Date:</label>
+               <input type="date" id="dueDate" name="dueDate" required>
+               <button type="submit">Submit</button>
             </form>
         </div>
+
+        <div id="priorityPopupForm" class="popup-form">
+            <form id="priorityForm">
+                <label for="priority">Priority:</label>
+                <select id="priority" name="priority" required>
+                    <option value="1">Urgent</option>
+                    <option value="2">Medium</option>
+                    <option value="3">Deferred</option>
+                </select>
+                <button type="submit">Submit</button>
+            </form>
+         </div>
       </article>
    </main>
 
-   <div id="snippet">
-      <h1>Snippets</h1>
-      <ul id="snippet-container"></ul>
-      <form id="snippet-form">
-         <div id="code-area">
-            <label for="code-input">Code:</label>
-            <textarea id="code-input" name="code" required></textarea>
-         </div>
 
-         <div id="language-area">
-            <label for="language-select">Language:</label>
-            <select id="language-select" name="language" required>
-               <option value="">Select Language</option>
-               <option value="JavaScript">JavaScript</option>
-               <option value="HTML">HTML</option>
-               <option value="CSS">CSS</option>
-            </select>
-         </div>
-
-         <button type="submit">Add Snippet</button>
-      </form>
-   </div>
-   
-   <div id="alert"></div>
+      </section>
+   </main>
 </body>
 
 </html>

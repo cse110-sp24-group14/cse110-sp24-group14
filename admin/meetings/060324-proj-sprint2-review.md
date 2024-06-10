@@ -1,4 +1,4 @@
-# Project Spring 2 Review
+# Project Sprint 2 Review
 
 Start Time: 5:30 pm
 
