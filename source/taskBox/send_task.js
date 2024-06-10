@@ -86,7 +86,7 @@ function init() {
         // reset selection input
         priorityInput.selectedIndex = 0;
 
-        // disable button again
+        // disable submission button
         taskButton.disabled = true;
     })
 
