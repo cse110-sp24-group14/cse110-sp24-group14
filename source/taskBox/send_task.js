@@ -25,7 +25,7 @@ function init() {
             // Extracted task
             const commandText = match[1];
             const titleText = match[2];
-            
+
             taskInput.innerHTML = `<span class="task-command">${commandText}</span> ${titleText.trimStart()}`;
             moveCaretToEnd(taskInput);
             taskTitle = titleText;
@@ -97,5 +97,17 @@ function init() {
         sel.removeAllRanges();
         sel.addRange(range);
     }
+
+    // "icon-info-sign" displays "extra-info" when tabbed on
+    const infoSign = document.querySelector('.icon-info-sign');
+    const infoContainer = document.querySelector('.info');
+
+    infoSign.addEventListener('focus', () => {
+        infoContainer.classList.add('focus');
+    });
+
+    infoSign.addEventListener('blur', () => {
+        infoContainer.classList.remove('focus');
+    });
 
 }

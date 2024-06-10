@@ -25,22 +25,6 @@
 
    <link rel="stylesheet" href="https://unpkg.com/@highlightjs/cdn-assets@11.7.0/styles/github.min.css" />
    <script src="https://unpkg.com/@highlightjs/cdn-assets@11.7.0/highlight.min.js"></script>
-
-   <!--"icon-info-sign" displays "extra-info" when tabbed on-->
-   <script>
-      document.addEventListener('DOMContentLoaded', () => {
-          const infoSign = document.querySelector('.icon-info-sign');
-          const infoContainer = document.querySelector('.info');
-
-          infoSign.addEventListener('focus', () => {
-              infoContainer.classList.add('focus');
-          });   
-
-          infoSign.addEventListener('blur', () => {
-              infoContainer.classList.remove('focus');
-          });
-      });
-  </script>
 </head>
 
 <body>
