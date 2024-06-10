@@ -211,26 +211,27 @@ class SideCalendar extends HTMLElement {
         // svg for next and last week button icons
         const arrowSVG = `
             <svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                <rect width="19" height="19" fill="url(#pattern0_803_73)"/>
+                <defs>
+                <pattern id="pattern0_803_73" patternContentUnits="objectBoundingBox" width="1" height="1">
+                <use xlink:href="#image0_803_73" transform="scale(0.01)"/>
+                </pattern>
+                <image id="image0_803_73" width="100" height="100" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVUAAAACXBIWXMAAAsTAAALEwEAmpwYAAAC/klEQVR4nO2du2tUQRSHr4KNiCJWIii5ZyMxhSBpBcHsHBdMIc5cAtqLnYWgxiZ/g70aiI9CULC0TmMbH2CbztJOQdyV2Q0oPqKb3XvPYff74PS5vy9z5u6dGaYoAAAAAAAAAAAAAKxodap5CWlFNK6Vmp5NU4nGtfzss+3lU4U1Zbs6JJqeiqauaOpNeXUlxCetztWDljLeOgii56viGxMp2yPDQQDJXZWaHjU/Z9CmejtI6TY6p0g73rX+LxTnVWp1pzkh+c3CwUOL5wrpQWNCBq97Dh5a/VbOCCFqLwIhah8+QtQ+cISofcgIUftgEaL2YSLEQYCCEPvQBCH2QQlC7MMRhNgHIgixD0EcFd+ydKeA4kZ5IV4vNb1CiO1/6de8dlOsru7NX15nz1fHEGImJG6V7ers72s5tCwLGS+OX7xy+E/rEQhpVsTnsl3d2GlhCCFNtYgQ38904ul/rdIhpBkZ60eXlvb/z5IpQuptUZ9Eq+Vh1q4RUteo0PT6ZKhmhpGBkHpkdEXTvYWFa/uGlYGQ8beoj60QdTciEDL2FhVfzi1eOjKKDEbIWN6g0pft3xZ7RpWBkFGFhPihtRjPjEMEQkYeGXF9/lx1oBgzzbXYCdpKWmq8XdffjpDh54x3dclAyK7mjbSJEH/HEW7WJYWWxaQ+QQd2Aq+9voQoPwzdCZEfr8J8OvEkRPrFx0VnQlIuPr87E9IbtDAWqFwJkUELYwnXl5A0GC1scvAlRNgG5E+IDFoYG+VcVkjP2Urqb7Rssdna43GEkFY4juBvtGxwYMdcQrIenZOzpi4TUAhRewkIUfvgEaL2YSNE7QNGiNqHihC1DxIhDsIThNgHJgixD0kQYh+MIMQ+DJm2TycS4kPrBxbnVWq835wQrqvoubquIl9WwoUu6e9CQvx2Qi/PFU2SL8CybgvitPK2pKJp8sVX+QIs64cXbxXSptlNbX0pIT6mfaV+m8ojw0zGr3NKPjk7rRdLliHdanzOAAAAAAAAAAAAACh+4juxXJe8XjTN+wAAAABJRU5ErkJggg=="/>
+                </defs>
+            </svg>
+        `;
+        // img for full calendar button
+        const calendarSVG = `<svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                 <rect width="19" height="19" fill="url(#pattern0_545_31)"/>
                 <defs>
                 <pattern id="pattern0_545_31" patternContentUnits="objectBoundingBox" width="1" height="1">
                 <use xlink:href="#image0_545_31" transform="scale(0.01)"/>
                 </pattern>
-                <image id="image0_545_31" width="100" height="100" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVUAAAACXBIWXMAAAsTAAALEwEAmpwYAAAC/klEQVR4nO2du2tUQRSHr4KNiCJWIii5ZyMxhSBpBcHsHBdMIc5cAtqLnYWgxiZ/g70aiI9CULC0TmMbH2CbztJOQdyV2Q0oPqKb3XvPYff74PS5vy9z5u6dGaYoAAAAAAAAAAAAAKxodap5CWlFNK6Vmp5NU4nGtfzss+3lU4U1Zbs6JJqeiqauaOpNeXUlxCetztWDljLeOgii56viGxMp2yPDQQDJXZWaHjU/Z9CmejtI6TY6p0g73rX+LxTnVWp1pzkh+c3CwUOL5wrpQWNCBq97Dh5a/VbOCCFqLwIhah8+QtQ+cISofcgIUftgEaL2YSLEQYCCEPvQBCH2QQlC7MMRhNgHIgixD0EcFd+ydKeA4kZ5IV4vNb1CiO1/6de8dlOsru7NX15nz1fHEGImJG6V7ers72s5tCwLGS+OX7xy+E/rEQhpVsTnsl3d2GlhCCFNtYgQ38904ul/rdIhpBkZ60eXlvb/z5IpQuptUZ9Eq+Vh1q4RUteo0PT6ZKhmhpGBkHpkdEXTvYWFa/uGlYGQ8beoj60QdTciEDL2FhVfzi1eOjKKDEbIWN6g0pft3xZ7RpWBkFGFhPihtRjPjEMEQkYeGXF9/lx1oBgzzbXYCdpKWmq8XdffjpDh54x3dclAyK7mjbSJEH/HEW7WJYWWxaQ+QQd2Aq+9voQoPwzdCZEfr8J8OvEkRPrFx0VnQlIuPr87E9IbtDAWqFwJkUELYwnXl5A0GC1scvAlRNgG5E+IDFoYG+VcVkjP2Urqb7Rssdna43GEkFY4juBvtGxwYMdcQrIenZOzpi4TUAhRewkIUfvgEaL2YSNE7QNGiNqHihC1DxIhDsIThNgHJgixD0kQYh+MIMQ+DJm2TycS4kPrBxbnVWq835wQrqvoubquIl9WwoUu6e9CQvx2Qi/PFU2SL8CybgvitPK2pKJp8sVX+QIs64cXbxXSptlNbX0pIT6mfaV+m8ojw0zGr3NKPjk7rRdLliHdanzOAAAAAAAAAAAAACh+4juxXJe8XjTN+wAAAABJRU5ErkJggg=="/>
+                <image id="image0_545_31" width="100" height="100" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAATCAYAAAByUDbMAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAEeSURBVHgB7ZK9TgJBEMf/c3t3sTIWxpLoXSx8Au30IrkEbQSx9BHs7GxITHwBXsDEUgs7Cwvt6AklnwkVFQkNcBzDXMH3XbgQCgr+2ezOzu78ZiYZIERW8iGBXE5DhBLXGSvMvxRw7N6fk8YNu1C8RGiizK2htMppMn22+EYTyNXdgTL0JxBfiPsG4D8GaiEBJ7I7Yv7IWfL73lv9/7sdvOnjT8pUL3I8T/nkiOUgWilJmJICOmK/zrdJOMQ6IthjU8MGpS/ce8R4REwNCR8UBWPGoPL79YmYstzs++x9o23uYNsEk5kxbTd9FCcw+Edgc9Y3nbMhVYVmgFXTdrPd1Tjak8mUeGotwXxvkFemvi/AWJUJKFhl3/Py2HqNABpcPbpaByT7AAAAAElFTkSuQmCC"/>
                 </defs>
             </svg>
-        `
-        // img for full calendar button
-        const calendarSVG = `<svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-        <rect width="19" height="19" fill="url(#pattern0_545_31)"/>
-        <defs>
-        <pattern id="pattern0_545_31" patternContentUnits="objectBoundingBox" width="1" height="1">
-        <use xlink:href="#image0_545_31" transform="scale(0.01)"/>
-        </pattern>
-        <image id="image0_545_31" width="100" height="100" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAATCAYAAAByUDbMAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAEeSURBVHgB7ZK9TgJBEMf/c3t3sTIWxpLoXSx8Au30IrkEbQSx9BHs7GxITHwBXsDEUgs7Cwvt6AklnwkVFQkNcBzDXMH3XbgQCgr+2ezOzu78ZiYZIERW8iGBXE5DhBLXGSvMvxRw7N6fk8YNu1C8RGiizK2htMppMn22+EYTyNXdgTL0JxBfiPsG4D8GaiEBJ7I7Yv7IWfL73lv9/7sdvOnjT8pUL3I8T/nkiOUgWilJmJICOmK/zrdJOMQ6IthjU8MGpS/ce8R4REwNCR8UBWPGoPL79YmYstzs++x9o23uYNsEk5kxbTd9FCcw+Edgc9Y3nbMhVYVmgFXTdrPd1Tjak8mUeGotwXxvkFemvi/AWJUJKFhl3/Py2HqNABpcPbpaByT7AAAAAElFTkSuQmCC"/>
-        </defs>
-        </svg>`;
-            
+        `;
+
         // add full calendar button
         fullCalendarButton.innerHTML = calendarSVG;
         fullCalendarButton.innerHTML += "<p>Calender</p>";
@@ -268,7 +269,7 @@ class SideCalendar extends HTMLElement {
         });
 
         this.shadowRoot.appendChild(nextWeekButton);
-        
+
         const urlParams = new URLSearchParams(window.location.search);
         if (urlParams.get('date')) {
             const date = new Date(urlParams.get('date'));
@@ -276,7 +277,7 @@ class SideCalendar extends HTMLElement {
         } else {
             this.setGlobalDate(new Date());
         }
-        
+
     }
 
     /**
