@@ -79,7 +79,6 @@ const addStreaks = (callback) => {
     });
 };
 
-
 /**
  * Fetch all the tasks of for a specified date
  * 
@@ -121,7 +120,6 @@ const fetchNumSnippets = (callback) => {
     });
 };
 
-
 /**
  * Gets all dates of site visits
  * 
@@ -161,7 +159,7 @@ const fetchTasksDue = (year, month, callback) => {
         }
     });
 };
-          
+
 /**
  * Gets number of tasks that are completed from backend
  * 
@@ -186,6 +184,22 @@ const fetchNumberCompleted = (callback) => {
             callback(null, results);
         }
     })
+}
+
+/** 
+ * Gets number of incomplete tasks overall
+ * 
+ * @param {Function} callback
+ */
+const fetchNumIncompleteTasks = (callback) => {
+    const sqlQuery = 'SELECT COUNT(*) AS incomplete FROM Tasks WHERE completed = 0';
+    connection.query(sqlQuery, (error, results) => {
+        if (error) {
+            callback(error, null);
+        } else {
+            callback(null, results);
+        }
+    });
 }
 
 /**
@@ -268,7 +282,6 @@ const addSnippet = (code, language, date, callback) => {
         }
     });
 };
-
 
 /**
  * Fetches snippets from the SQL database by date
@@ -382,6 +395,16 @@ export const server = http.createServer((req, res) => {
                 res.end(JSON.stringify(numCompleted));
             }
         });
+    } else if (pathname === '/num-incomplete-tasks' && req.method === 'GET') {
+        fetchNumIncompleteTasks((err, users) => {
+            if (err) {
+                res.writeHead(500, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ error: 'Internal Server Error' }));
+            } else {
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify(users));
+            }
+        });
     } else if (pathname === '/updated-task-completion' && req.method === 'PUT') {
         // updates the completed state of task
         const taskId = query.get('taskId');
@@ -459,6 +482,16 @@ export const server = http.createServer((req, res) => {
                     res.end(data);
                 }
             });
+        });
+    } else if (pathname === '/fullCalendar/index.html' && req.method === 'GET') {
+        fs.readFile(path.join(__dirname, 'fullCalendar', 'index.html'), (err, data) => {
+            if (err) {
+                res.writeHead(500, { 'Content-Type': 'text/html' });
+                res.end('<h1>Internal Server Error</h1>');
+            } else {
+                res.writeHead(200, { 'Content-Type': 'text/html' });
+                res.end(data);
+            }
         });
     // Update the condition for serving CSS files
     } else if (pathname.endsWith('.css') && req.method === 'GET') {

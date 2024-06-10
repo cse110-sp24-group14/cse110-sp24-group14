@@ -5,7 +5,7 @@ USE prod;
 
 CREATE TABLE Tasks (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    title VARCHAR(255) NOT NULL,
+    title LONGTEXT NOT NULL,
     due_date DATE,
     completed BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -27,6 +27,7 @@ VALUES
 INSERT INTO Tasks (title, due_date, completed)
 VALUES 
 ('Buy groceries', '2024-05-22', TRUE),
+('Buy more groceries', '2024-05-23', FALSE),
 ('Task 4', '2024-05-31', TRUE),
 ('Task 5', '2024-05-31', TRUE),
 ('Task 6', '2024-05-31', TRUE);

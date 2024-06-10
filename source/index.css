@@ -116,3 +116,69 @@ button:disabled:hover .invalid-tip {
     opacity: 1;
     visibility: visible;
 }
+
+@media (max-width: 768px) {
+    main {
+        flex-direction: column;
+    }
+
+    side-calendar {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        padding: 10px 0px;
+    }
+
+    #main-display {
+        display: flex;
+        flex-direction: column;
+        padding: 10px;
+        gap: 20px;
+    }
+
+    #snippet {
+        display: none;
+    }
+
+    #snippet-and-stats {
+        grid-template-rows: repeat(3, auto);
+        grid-template-columns: 1fr 1fr;
+        grid-template-areas:
+            "completed-statistics streak-container"
+            "snippets-statistics streak-container"
+            "snippets-statistics streak-container";
+        grid-gap: 10px;
+    }
+
+    completed-statistics {
+        grid-area: completed-statistics;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+    }
+
+    snippets-statistics {
+        grid-area: snippets-statistics;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+    }
+
+    #streak-container {
+        grid-area: streak-container;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+
+    }
+
+    .taskbox {
+        width: 100%;
+    }
+
+    section {
+        padding: 0;
+    }
+}
