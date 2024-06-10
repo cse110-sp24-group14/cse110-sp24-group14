@@ -40,9 +40,6 @@ document.addEventListener("DOMContentLoaded", async function () {
             let curr_date = streaks[i];
             let prev_date = streaks[i - 1];
 
-            console.log(curr_date);
-            console.log(prev_date);
-
             let diff = curr_date - prev_date;
 
             let diff_in_hours = diff / (1000 * 60 * 60);

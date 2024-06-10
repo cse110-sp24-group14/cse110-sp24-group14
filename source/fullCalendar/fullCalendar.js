@@ -318,7 +318,7 @@ class FullCalendar extends HTMLElement {
                     dayOfWeek.addEventListener('click', ()=> {
                         const dateStr = dayOfWeek.id;
                         console.log('Date cell clicked:', dateStr); // Log the clicked date
-                        window.location.href = `/?date=${dateStr}`;
+                        window.location.href = `/index.html?date=${dateStr}`;
                     });
 
                     date++;

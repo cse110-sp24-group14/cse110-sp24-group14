@@ -236,7 +236,7 @@ class SideCalendar extends HTMLElement {
 
         // add full calendar button
         fullCalendarButton.innerHTML = calendarSVG;
-        fullCalendarButton.innerHTML += "<p>Calender</p>";
+        fullCalendarButton.innerHTML += "<p>Calendar</p>";
         fullCalendarButton.addEventListener("click", () => {
             const year = this.globalDate.getFullYear();
             const month = this.globalDate.getMonth() + 1; // JS months are 0-based
