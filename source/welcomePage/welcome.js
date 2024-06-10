@@ -32,23 +32,23 @@ document.addEventListener("DOMContentLoaded", async function () {
             * 60 seconds = 1 minute
             * 60 minutes = 1 hour
             */
-        streak_count = 1;
+        let streak_count = 1;
         for (let i = streaks.length - 1; i > 1; i--) {
-        let curr_date = streaks[i];
-        let prev_date = streaks[i - 1];
+            let curr_date = streaks[i];
+            let prev_date = streaks[i - 1];
 
-        console.log(curr_date);
-        console.log(prev_date);
+            console.log(curr_date);
+            console.log(prev_date);
 
-        let diff = curr_date - prev_date;
+            let diff = curr_date - prev_date;
 
-        let diff_in_hours = diff / (1000 * 60 * 60);
+            let diff_in_hours = diff / (1000 * 60 * 60);
 
-        if (diff_in_hours <= 24) {
-            streak_count++;
-        } else {
-            break;
-        }
+            if (diff_in_hours <= 24) {
+                streak_count++;
+            } else {
+                break;
+            }
         }
 
         document.querySelector(".to-do .value").innerHTML =
