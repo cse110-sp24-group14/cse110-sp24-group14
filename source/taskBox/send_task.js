@@ -15,9 +15,7 @@ function init() {
     const taskInput = document.getElementById('taskInput');
     const closeButton = document.getElementById('closeButton');
     const popupForm = document.getElementById('popupForm');
-    const priorityPopupForm = document.getElementById('priorityPopupForm');
     const dueDateForm = document.getElementById('dueDateForm');
-    const priorityForm = document.getElementById('priorityForm');
     const sidebar = document.querySelector("side-calendar");
     const status = document.getElementById('taskStatus');
 
