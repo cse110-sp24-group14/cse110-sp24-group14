@@ -18,19 +18,22 @@ document.addEventListener("DOMContentLoaded", async function () {
         let num_snippets = await response4.json();
 
         /**
-             * streak calculation
+            * streak count
+            * example query to streak --> stored in streaks:
                 ('2024-05-20')
                 ('2024-05-21')
                 ('2024-05-22')
                 ('2024-05-24')
                 ('2024-05-25')
+                ('2024-06-09')
             
-            * start from the end of the visits list dates (most recent date)
-            * new Date() create a date object --> for example, May 25, 2024
-            * subtracting 2 date objects give the difference in milliseconds
-            * 1000 miliseconds = 1 second
-            * 60 seconds = 1 minute
-            * 60 minutes = 1 hour
+            * Procedure:
+            *   start from the end of the streaks list dates (most recent date)
+            *   new Date() create a date object --> for example, May 25, 2024
+            *   subtracting 2 date objects give the difference in milliseconds
+            *   1000 miliseconds = 1 second
+            *   60 seconds = 1 minute
+            *   60 minutes = 1 hour
             */
         let streak_count = 1;
         for (let i = streaks.length - 1; i > 1; i--) {
