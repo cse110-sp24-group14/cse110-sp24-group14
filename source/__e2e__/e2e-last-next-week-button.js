@@ -5,8 +5,7 @@ import puppeteer from 'puppeteer';
  * 
  * 1. FOLLOW THE STEPS TO START THE SERVER
  * 2. CHANGE THE FILE NAME TO [original-file-name-here].test.stat.js
- * 3. MAKE SURE THERE ARE INCOMPLETE TASKS TO MARK COMPLETE
- * 4. npm run test
+ * 3. npm run test
  *  
  */
 
