@@ -66,23 +66,28 @@ describe('End to end test to clicking and scrolling to select dates in sidebar c
         setTimeout(async () => {
             await page.goto('http://localhost:3000');
 
+            await page.waitForSelector('side-calendar');
+
             const sideCalendar = await page.$('side-calendar');
             const sideCalendarBound = await sideCalendar.boundingBox();
 
             // move to the center of the side calendar
             await page.mouse.move(
                 sideCalendarBound.x + sideCalendarBound.width / 2,
-                sideCalendarBound.y + sideCalendarBound.height / 2
+                sideCalendarBound.y + sideCalendarBound.height / 4
             )
 
             // gets cell content before selected date
             let prevSelectDate = await page.$eval('side-calendar', async (items) => {
                 let cells = items.shadowRoot.querySelectorAll('td')
+                
                 return cells[2].innerHTML
             })
 
             // scrolls to select previous date
             await page.mouse.wheel({ deltaY: -1 });
+
+            await page.waitForSelector('side-calendar');
 
             // gets cell content of selected
             let selectDate = await page.$eval('side-calendar', async (items) => {
