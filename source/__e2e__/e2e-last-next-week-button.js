@@ -55,8 +55,6 @@ describe('End to end test for last and next week buttons to scroll in sidebar ca
 
             // sets the old selected date back 7 days
             dateFormatOldSelected.setDate(dateFormatOldSelected.getDate() - 7);
-
-            console.log(dateFormatOldSelected.toDateString(), dateFormatNewSelected.toDateString());
             
             try {
                 // rewinded old date should be equal to new selected date
