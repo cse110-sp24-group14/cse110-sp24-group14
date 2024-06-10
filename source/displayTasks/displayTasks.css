@@ -73,6 +73,10 @@ h1 {
     padding: 10px 10px;
 }
 
+.task > span {
+    word-break: break-word;
+}
+
 .row-image {
     margin: 2px;
 }
