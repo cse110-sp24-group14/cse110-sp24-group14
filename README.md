@@ -35,6 +35,13 @@ bash db-init.sh <container name>
 node server.js
 ```
 
+Deleting the database:
+
+```
+
+bash db-remove.sh <container name>
+```
+
 ## CI Pipeline
 
 We have a continuous integration pipeline that runs via GitHub actions in our `staging` and `main branches` we have a eslint that enforces linting and various tests with sqlite, puppeteer, and jest. We also utilize JSDocs, which builds all of our documentation to [https://cse110-sp24-group14.github.io/cse110-sp24-group14/](https://cse110-sp24-group14.github.io/cse110-sp24-group14/). 
