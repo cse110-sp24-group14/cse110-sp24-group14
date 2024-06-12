@@ -49,7 +49,6 @@ node server.js
 Deleting the database
 
 ```
-
 bash db-remove.sh <container name>
 ```
 
