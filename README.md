@@ -1,5 +1,9 @@
 # Team 14
 
+[Private video](https://youtu.be/KRZFOjeSvd4)
+
+[Public video](https://youtu.be/m8A1SdFYKyE)
+
 ## About This Project
 
 We are Team 14, Bozosort. We are striving to create the best developer-focused journal, primarily catered towards students like us. Among our features we have an agenda, code snippets, and more. Make sure to visit out website everyday and try to get the highest streak!
