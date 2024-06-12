@@ -15,27 +15,38 @@ Dependencies:
 - Node
 - Docker
 
+Clone repository
+
 ```
 git clone https://github.com/cse110-sp24-group14/cse110-sp24-group14.git
 ```
+
+Move into source code folder
 
 ```
 cd cse110-sp24-group14/source
 ```
 
+Install node dependecies
+
 ```
 npm install
 ```
+
+Initialize database 
 
 ```
 bash db-init.sh <container name>
 ```
 
+Start localhost
+
 ```
 node server.js
 ```
+<hr>
 
-Deleting the database:
+Deleting the database
 
 ```
 
