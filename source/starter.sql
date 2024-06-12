@@ -21,6 +21,7 @@ VALUES
 ('Plan team meeting', '2024-05-31'),
 ('Task 1', '2024-05-31'),
 ('Task 2', '2024-05-31'),
+('Code meeting', '2024-06-11'),
 ('Task 3', '2024-05-31');
 
 
@@ -30,7 +31,16 @@ VALUES
 ('Buy more groceries', '2024-05-23', FALSE),
 ('Task 4', '2024-05-31', TRUE),
 ('Task 5', '2024-05-31', TRUE),
+('Task 6', '2024-05-31', TRUE),
+('Task 6', '2024-05-31', TRUE),
+('Task 6', '2024-05-31', TRUE),
+('Task 6', '2024-05-31', TRUE),
+('Task 6', '2024-05-31', TRUE),
+('Task 6', '2024-05-31', TRUE),
+('Task 6', '2024-05-31', TRUE),
+('Task 6', '2024-05-31', TRUE),
 ('Task 6', '2024-05-31', TRUE);
+
 
 
 CREATE TABLE Tags (
@@ -73,6 +83,8 @@ VALUES
 -- Task 4: "Plan team meeting" is tagged with "Work"
 (4, 3); -- Work
 
+
+-- Add a new comment
 
 CREATE TABLE SiteVisits (
     visit_date DATE NOT NULL,
